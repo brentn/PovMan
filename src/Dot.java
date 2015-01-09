@@ -1,14 +1,32 @@
+import java.awt.*;
+
 /**
  * Created by brent on 08/01/15.
  */
-public class Dot {
-    Position pos;
-    private boolean consumed = false;
+public class Dot extends Consumable implements IModel {
+    private static int DEFAULT_POINTS=100;
+    private static int HEIGHT = 0;
+    private Point pos;
+    private ImageModel model;
 
-    public Dot(Position pos) {
+    public Dot(Point pos) {
+        super(DEFAULT_POINTS);
         this.pos = pos;
+        createDotModel();
     }
     public Dot(int x, int y) {
-        this.pos = new Position(x, y);
+        super(DEFAULT_POINTS);
+        this.pos = new Point(x, y);
+        createDotModel();
+    }
+
+    private void createDotModel() {
+        Position_3D pos3d = new Position_3D(pos, HEIGHT);
+        model = new ImageModel(pos3d, null);
+    }
+
+    @Override
+    public Model getModel() {
+        return model;
     }
 }

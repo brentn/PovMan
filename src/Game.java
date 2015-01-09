@@ -1,31 +1,40 @@
+import java.awt.*;
+
 /**
  * Created by brent on 08/01/15.
  */
 public class Game {
-    Grid grid;
-    Man man;
-    int level;
+    private static Position_3D CLASSIC_CAMERA_POS = new Position_3D(12, 12, 40);
+    private static Position_3D CLASSIC_CAMERA_TARGET = new Position_3D(12, 12, 0);
+
+    private Maze maze;
+    private Camera camera = new Camera(CLASSIC_CAMERA_POS, CLASSIC_CAMERA_TARGET);
+    private int level;
+    private Canvas screen;
 
     public Game() {
         level = 1;
-        grid = createGrid(level);
-        man = new Man();
+        maze = createMaze(level);
     }
 
     public void play() {
-        grid.draw(man);
+        camera.capture(maze);
     }
 
-    private Grid  createGrid(int level) {
-        Position top_left = new Position(1,1);
-        Position top_right = new Position(24, 1);
-        Position bottom_left = new Position(1, 24);
-        Position bottom_right = new Position(24, 24);
-        Grid result = new Grid();
+    private Maze createMaze(int level) {
+        Point top_left = new Point(1,1);
+        Point top_right = new Point(24, 1);
+        Point bottom_left = new Point(1, 24);
+        Point bottom_right = new Point(24, 24);
+        Maze result = new Maze();
         result.addWall(top_left, top_right);
         result.addWall(top_right, bottom_right);
         result.addWall(bottom_right, bottom_left);
         result.addWall(bottom_left, top_left);
+        result.addDot(2,2);
+        result.addDot(2, 23);
+        result.addDot(23, 2);
+        result.addDot(23, 23);
         return result;
     }
 }
