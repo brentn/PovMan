@@ -19,7 +19,9 @@ public class Maze {
     private int doubler;
     private Man man;
     private Blinky blinky;
-    private int modeTimer;
+    private long modeTimer;
+    private Timer waveTimer = new Timer();
+    private Iterator<Wave> currentWave;
 
     public Maze(int x, int y) {
         this.size = new Point(x, y);
@@ -27,6 +29,7 @@ public class Maze {
         dots = new HashSet<Dot>();
         ghosts = new HashSet<Ghost>();
         waves = new ArrayBlockingQueue<Wave>(20);
+        currentWave = waves.iterator();
         man = new Man(start_position, start_direction);
         doubler=1;
     }
@@ -104,6 +107,10 @@ public class Maze {
     }
 
     private void resetGhosts() {
+        currentWave = waves.iterator();
+        waveTimer.cancel();
+        waveTimer = new Timer();
+        getNextWave();
         for (Ghost ghost : ghosts) {
             ghost.reset();
         }
@@ -116,18 +123,25 @@ public class Maze {
     }
 
     public Collection<Wall> getWalls() {return walls;}
+
     public Collection<Dot> getDots() {return dots;}
+
     private void getNextWave() {
-        Wave wave = waves.remove();
+        if (! currentWave.hasNext()) return;
+        Wave wave = currentWave.next();
         for (Ghost ghost : ghosts) {
             ghost.setMode(wave.mode);
-            modeTimer = wave.duration;
+            waveTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    getNextWave();
+                }
+            }, wave.duration*1000);
         }
     }
 
     public void run() {
         resetGhosts();
-        getNextWave();
         if (!man.isAlive()) { man.recessutate();}
         while (man.isAlive()) {
             while (man.isAlive()) {

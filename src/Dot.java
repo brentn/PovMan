@@ -23,7 +23,7 @@ public class Dot extends Consumable implements IModel {
     public Point getPos() { return pos; }
 
     private void createDotModel() {
-        Position_3D pos3d = new Position_3D(pos, HEIGHT);
+        Point3D pos3d = new Point3D(pos, HEIGHT);
         model = new ImageModel(pos3d, null);
     }
 

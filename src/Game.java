@@ -4,17 +4,19 @@ import java.awt.*;
  * Created by brent on 08/01/15.
  */
 public class Game {
-    private static Position_3D CLASSIC_CAMERA_POS = new Position_3D(12, 12, 40);
-    private static Position_3D CLASSIC_CAMERA_TARGET = new Position_3D(12, 12, 0);
+    private static Point3D CLASSIC_CAMERA_POS = new Point3D(12, 12, 40);
+    private static Point3D CLASSIC_CAMERA_TARGET = new Point3D(12, 12, 0);
 
     private Maze maze;
-    private Camera camera = new Camera(CLASSIC_CAMERA_POS, CLASSIC_CAMERA_TARGET);
+    private Camera camera;
     private int level;
     private Canvas screen;
 
     public Game() {
         level = 1;
         createMaze(level);
+        camera = new Camera(CLASSIC_CAMERA_POS, CLASSIC_CAMERA_TARGET);
+        camera.capture(maze);
         maze.run();
     }
 

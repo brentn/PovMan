@@ -7,6 +7,7 @@ import java.util.Set;
 public abstract class Ghost extends Consumable implements IModel {
 
     public static enum Mode {CHASE, SCATTER, FRIGHTENED}
+    public static final int FRIGHTENED_SPEED = 1;
     private static final int POINTS = 200;
 
     private Point home;
@@ -21,6 +22,7 @@ public abstract class Ghost extends Consumable implements IModel {
     public Ghost(Point home) {
         super(POINTS);
         this.home = home;
+        this.direction = Maze.Direction.LEFT;
         createGhostModel();
     }
 
@@ -53,7 +55,12 @@ public abstract class Ghost extends Consumable implements IModel {
                 model.reorient(direction);
             }
         }
-        model.move(speed, direction);
+        if (mode==Mode.FRIGHTENED) {
+            model.move(FRIGHTENED_SPEED, direction);
+        } else {
+            model.move(speed, direction);
+        }
+        // check if ghost and man are touching
         if (maze.manAt(model.getTile())) {
             if (mode==Mode.FRIGHTENED) {
                 maze.killGhost(this.consume());

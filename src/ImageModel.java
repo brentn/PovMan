@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by brent on 09/01/15.
@@ -80,9 +81,7 @@ public class ImageModel extends Model {
     }
 
     @Override
-    public Canvas drawAsViewedBy(Camera camera) {
+    public void drawAsViewedBy(Camera camera) {
         //TODO:
-        Canvas canvas = new Canvas();
-        return canvas;
     }
 }

@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by brent on 08/01/15.
@@ -39,10 +38,10 @@ public class Wall implements IModel {
 
     private void createWallModel(){
         model = new WireframeModel();
-        model.addVertex(new Position_3D(start, 0));
-        model.addVertex(new Position_3D(end, 0));
-        model.addVertex(new Position_3D(end, WALL_HEIGHT));
-        model.addVertex(new Position_3D(start, WALL_HEIGHT));
+        model.addVertex(new Point3D(start, 0));
+        model.addVertex(new Point3D(end, 0));
+        model.addVertex(new Point3D(end, WALL_HEIGHT));
+        model.addVertex(new Point3D(start, WALL_HEIGHT));
         model.addEdge(new Edge(0, 1));
         model.addEdge(new Edge(1, 2));
         model.addEdge(new Edge(2, 3));
