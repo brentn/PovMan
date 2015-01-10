@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Created by brent on 08/01/15.
@@ -20,6 +21,21 @@ public class Wall implements IModel {
         this.end = new Point(endx, endy);
         createWallModel();
     }
+
+    public boolean contains(Point pos) {
+        if (isVertical()) {
+            if (pos.x != start.x) return false;
+            if ((pos.y > start.y) && (pos.y > end.y)) return false;
+            if ((pos.y < start.y) && (pos.y < end.y)) return false;
+        }  else {
+            if (pos.y != start.y) return false;
+            if ((pos.x > start.x) && (pos.x > end.x)) return false;
+            if ((pos.x < start.x) && (pos.x < end.x)) return false;
+        }
+        return true;
+    }
+
+    private boolean isVertical() { return start.x == end.x; }
 
     private void createWallModel(){
         model = new WireframeModel();

@@ -13,13 +13,13 @@ public class Camera {
         this.target = target;
     }
 
-    public Image capture(Maze maze) {
-        Image result = new Image();
+    public Canvas capture(Maze maze) {
+        Canvas canvas = new Canvas();
         for (Wall wall : maze.getWalls()) {
-            if (isVisible(wall)) {
-
+            if (wall.getModel().isVisibleFrom(this)) {
+                wall.getModel().drawAsViewedBy(this);
             }
         }
-        return result;
+        return canvas;
     }
 }

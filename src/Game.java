@@ -15,26 +15,24 @@ public class Game {
     public Game() {
         level = 1;
         maze = createMaze(level);
-    }
-
-    public void play() {
-        camera.capture(maze);
+        maze.run();
     }
 
     private Maze createMaze(int level) {
-        Point top_left = new Point(1,1);
-        Point top_right = new Point(24, 1);
-        Point bottom_left = new Point(1, 24);
-        Point bottom_right = new Point(24, 24);
+        Point top_left = new Point(0,1);
+        Point top_right = new Point(27, 1);
+        Point bottom_left = new Point(0, 34);
+        Point bottom_right = new Point(27, 34);
         Maze result = new Maze();
         result.addWall(top_left, top_right);
         result.addWall(top_right, bottom_right);
         result.addWall(bottom_right, bottom_left);
         result.addWall(bottom_left, top_left);
-        result.addDot(2,2);
-        result.addDot(2, 23);
-        result.addDot(23, 2);
-        result.addDot(23, 23);
+        result.addDot(1,2);
+        result.addDot(1, 33);
+        result.addDot(26, 2);
+        result.addDot(26, 33);
+        result.setStartPosition(new Point(13, 29), Man.Direction.RIGHT);
         return result;
     }
 }

@@ -13,8 +13,15 @@ public class ImageModel extends Model {
     }
 
     @Override
-    public Image drawFrom(Position_3D pos) {
+    public boolean isVisibleFrom(Camera camera) {
         //TODO:
-        return null;
+        return true;
+    }
+
+    @Override
+    public Canvas drawAsViewedBy(Camera camera) {
+        //TODO:
+        Canvas canvas = new Canvas();
+        return canvas;
     }
 }
