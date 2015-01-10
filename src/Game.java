@@ -14,25 +14,40 @@ public class Game {
 
     public Game() {
         level = 1;
-        maze = createMaze(level);
+        createMaze(level);
         maze.run();
     }
 
-    private Maze createMaze(int level) {
+    private void createMaze(int level) {
+        maze = new Maze(27, 35);
         Point top_left = new Point(0,1);
         Point top_right = new Point(27, 1);
         Point bottom_left = new Point(0, 34);
         Point bottom_right = new Point(27, 34);
-        Maze result = new Maze();
-        result.addWall(top_left, top_right);
-        result.addWall(top_right, bottom_right);
-        result.addWall(bottom_right, bottom_left);
-        result.addWall(bottom_left, top_left);
-        result.addDot(1,2);
-        result.addDot(1, 33);
-        result.addDot(26, 2);
-        result.addDot(26, 33);
-        result.setStartPosition(new Point(13, 29), Man.Direction.RIGHT);
-        return result;
+        maze.addWall(top_left, top_right);
+        maze.addWall(top_right, bottom_right);
+        maze.addWall(bottom_right, bottom_left);
+        maze.addWall(bottom_left, top_left);
+        maze.addDot(1, 2);
+        maze.addDot(1, 33);
+        maze.addDot(26, 2);
+        maze.addDot(26, 33);
+        maze.addGhosts(new Point(13, 13));
+        maze.setStartPosition(new Point(13, 29), Maze.Direction.RIGHT);
+        maze.addWave(7, Ghost.Mode.SCATTER);
+        maze.addWave(20, Ghost.Mode.CHASE);
+        maze.addWave(7, Ghost.Mode.SCATTER);
+        maze.addWave(20, Ghost.Mode.CHASE);
+        maze.addWave(5, Ghost.Mode.SCATTER);
+        maze.addWave(20, Ghost.Mode.CHASE);
+        maze.addWave(5, Ghost.Mode.SCATTER);
+        maze.addWave(20, Ghost.Mode.CHASE);
     }
+
+    public static void main(String [ ] args)
+    {
+        Game game = new Game();
+    }
+
 }
+
