@@ -21,69 +21,48 @@ public class Game {
 
     private void createMaze(int level) {
         maze = new Maze(27, 35);
-        maze.setStartPosition(new Point(13, 29), Maze.Direction.RIGHT);
-        maze.addWall(new Point(0, 3), new Point(14, 3));
-        maze.addWall(new Point(14, 3), new Point(14, 7));
-        maze.addWall(new Point(14, 7), new Point(15, 7));
-        maze.addWall(new Point(15, 7), new Point(15, 3));
-        maze.addWall(new Point(15, 3), new Point(28, 3));
-        maze.addWall(new Point(0, 3), new Point(0, 12));
-        maze.addWall(new Point(28, 3), new Point(28, 12));
-        maze.addWall(new Point(0, 12), new Point(5, 12));
-        maze.addWall(new Point(5, 12), new Point(5, 16));
-        maze.addWall(new Point(5, 16), new Point(0, 16));
-        maze.addWall(new Point(28, 12), new Point(23, 12));
-        maze.addWall(new Point(23, 12), new Point(23, 16));
-        maze.addWall(new Point(23, 16), new Point(28, 16));
+        maze.setStartPosition(new Point(14, 25), Maze.Direction.RIGHT);
 
-        maze.addWall(new Point(0, 16), new Point(0, 18));
-        maze.addWall(new Point(28, 16), new Point(28, 18));
+        //temporary walls
+        maze.addWall(new Point(5, 16), new Point(5, 18));
+        maze.addWall(new Point(22, 16), new Point(22, 18));
 
-        maze.addWall(new Point(0, 18), new Point(5, 18));
-        maze.addWall(new Point(28, 18), new Point(23, 18));
-        maze.addWall(new Point(5, 18), new Point(5, 22));
-        maze.addWall(new Point(23, 18), new Point(23, 22));
-        maze.addWall(new Point(5, 22), new Point(0, 22));
-        maze.addWall(new Point(23, 22), new Point(28, 22));
-        maze.addWall(new Point(0, 22), new Point(0, 27));
-        maze.addWall(new Point(28, 22), new Point(28, 27));
-        maze.addWall(new Point(0, 27), new Point(3, 27));
-        maze.addWall(new Point(28, 27), new Point(26, 27));
-        maze.addWall(new Point(3, 27), new Point(3, 28));
-        maze.addWall(new Point(26, 27), new Point(26, 28));
-        maze.addWall(new Point(3, 28), new Point(0, 28));
-        maze.addWall(new Point(27, 28), new Point(28, 28));
-        maze.addWall(new Point(0, 28), new Point(0, 33));
-        maze.addWall(new Point(28, 28), new Point(28, 33));
-        maze.addWall(new Point(0, 33), new Point(28, 33));
+        //outer walls
+        maze.addWalls(Wall.U(new Point(0, 12), new Point(27, 3)));
+        maze.addWalls(Wall.U(new Point(13, 3), new Point(14, 7)));
+        maze.addWalls(Wall.sidewaysU(new Point(0, 12), new Point(5, 16)));
+        maze.addWalls(Wall.sidewaysU(new Point(27, 12), new Point(22, 16)));
+        maze.addWalls(Wall.sidewaysU(new Point(0, 18), new Point(5, 22)));
+        maze.addWalls(Wall.sidewaysU(new Point(27, 18), new Point(22, 22)));
+        maze.addWalls(Wall.U(new Point(0, 22), new Point(27, 33)));
+        maze.addWalls(Wall.sidewaysU(new Point(0, 27), new Point(2, 28)));
+        maze.addWalls(Wall.sidewaysU(new Point(27, 27), new Point(25, 28)));
 
-        maze.addWall(new Point(7, 9), new Point(8, 9));
-        maze.addWall(new Point(8, 9), new Point(8, 12));
-        maze.addWall(new Point(8, 12), new Point(12, 12));
-        maze.addWall(new Point(12, 12), new Point(12, 13));
-        maze.addWall(new Point(12, 13), new Point(8, 13));
-        maze.addWall(new Point(8, 13), new Point(8, 16));
-        maze.addWall(new Point(8, 16), new Point(7, 16));
-        maze.addWall(new Point(7, 16), new Point(7, 9));
-
-        maze.addWall(new Point(21, 9), new Point(20, 9));
-        maze.addWall(new Point(20, 9), new Point(20, 12));
-        maze.addWall(new Point(20, 12), new Point(17, 12));
-        maze.addWall(new Point(17, 12), new Point(17, 13));
-        maze.addWall(new Point(17, 13), new Point(20, 13));
-        maze.addWall(new Point(20, 13), new Point(20, 16));
-        maze.addWall(new Point(20, 16), new Point(21, 16));
-        maze.addWall(new Point(21, 16), new Point(21, 9));
-
-
-        maze.addWall(new Point(11, 9), new Point(18, 9));
-        maze.addWall(new Point(11, 9), new Point(11, 10));
-        maze.addWall(new Point(18, 9), new Point(18, 10));
-        maze.addWall(new Point(11, 10), new Point(14, 10));
-        maze.addWall(new Point(18, 10), new Point(15, 10));
-        maze.addWall(new Point(14, 10), new Point(14, 14));
-        maze.addWall(new Point(15, 10), new Point(15, 14));
-        maze.addWall(new Point(14, 14), new Point(15, 14));
+        //inner blocks
+        maze.addWalls(Wall.square(new Point(2, 5), new Point(5, 7)));
+        maze.addWalls(Wall.square(new Point(7, 5), new Point(11, 7)));
+        maze.addWalls(Wall.square(new Point(16, 5), new Point(20, 7)));
+        maze.addWalls(Wall.square(new Point(22, 5), new Point(25, 7)));
+        maze.addWalls(Wall.square(new Point(2, 9), new Point(5, 10)));
+        maze.addWalls(Wall.sidewaysT(new Point(7, 16), new Point(8, 9), new Point(11 ,12)));
+        maze.addWalls(Wall.sidewaysT(new Point(20, 9), new Point(19, 16), new Point(15, 12)));
+        maze.addWalls(Wall.T(new Point(10, 9), new Point(17, 10), new Point(14, 12)));
+        maze.addWalls(Wall.square(new Point(22, 9), new Point(25, 10)));
+        //ghost house
+        maze.addWalls(Wall.square(new Point(10, 15), new Point(17, 19)));
+        //lower half
+        maze.addWalls(Wall.square(new Point(7, 18), new Point(8, 22)));
+        maze.addWalls(Wall.square(new Point(19, 18), new Point(20, 22)));
+        maze.addWalls(Wall.T(new Point(10, 21), new Point(17, 22), new Point(14, 24)));
+        maze.addWalls(Wall.square(new Point(2, 24), new Point(5, 25)));
+        maze.addWalls(Wall.square(new Point(4, 25), new Point(5, 28)));
+        maze.addWalls(Wall.square(new Point(7, 24), new Point(11, 25)));
+        maze.addWalls(Wall.square(new Point(16, 24), new Point(20, 25)));
+        maze.addWalls(Wall.square(new Point(22, 24), new Point(25, 25)));
+        maze.addWalls(Wall.square(new Point(22, 25), new Point(23, 28)));
+        maze.addWalls(Wall.T(new Point(10, 27), new Point(17, 28), new Point(14, 31)));
+        maze.addWalls(Wall.T(new Point(11, 31), new Point(2, 30), new Point(8, 27)));
+        maze.addWalls(Wall.T(new Point(25, 31), new Point(17, 30), new Point(20, 27)));
 
 
         maze.addDot(1, 2);

@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4f52456d-eadf-4a2d-bcbc-636667604844" name="Default" comment="First glimpses of walls&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Blinky.java" afterPath="$PROJECT_DIR$/src/Blinky.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Camera.java" afterPath="$PROJECT_DIR$/src/Camera.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Clyde.java" afterPath="$PROJECT_DIR$/src/Clyde.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Consumable.java" afterPath="$PROJECT_DIR$/src/Consumable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Dot.java" afterPath="$PROJECT_DIR$/src/Dot.java" />
+    <list default="true" id="4f52456d-eadf-4a2d-bcbc-636667604844" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Game.java" afterPath="$PROJECT_DIR$/src/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Ghost.java" afterPath="$PROJECT_DIR$/src/Ghost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ImageModel.java" afterPath="$PROJECT_DIR$/src/ImageModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Man.java" afterPath="$PROJECT_DIR$/src/Man.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Maze.java" afterPath="$PROJECT_DIR$/src/Maze.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/WireframeModel.java" afterPath="$PROJECT_DIR$/src/WireframeModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Wall.java" afterPath="$PROJECT_DIR$/src/Wall.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PovMan.iws" />
@@ -108,10 +100,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Game.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="51" selection-start="3198" selection-end="3198" vertical-scroll-proportion="0.0" vertical-offset="1153" max-vertical-offset="2088">
+            <state line="33" column="40" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.3671875" vertical-offset="500" max-vertical-offset="1710">
               <folding />
             </state>
           </provider>
@@ -120,8 +112,17 @@
       <file leaf-file-name="Wall.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Wall.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="37" selection-start="136" selection-end="136" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1098">
-              <folding />
+            <state line="94" column="5" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="2070">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1632#1633#0" expanded="true" />
+                <element signature="e#1660#1661#0" expanded="true" />
+                <element signature="e#1798#1804#0" expanded="true" />
+                <element signature="e#2134#2140#0" expanded="true" />
+                <element signature="e#2429#2435#0" expanded="true" />
+                <element signature="e#2725#2731#0" expanded="true" />
+                <element signature="e#3282#3288#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -147,10 +148,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ghost.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Ghost.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Ghost.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="0" selection-start="1443" selection-end="1443" vertical-scroll-proportion="0.3319672" vertical-offset="909" max-vertical-offset="2358">
+            <state line="55" column="0" selection-start="1443" selection-end="1443" vertical-scroll-proportion="-16.2" vertical-offset="585" max-vertical-offset="2358">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#759#760#0" expanded="true" />
@@ -172,17 +173,17 @@
       <file leaf-file-name="Maze.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Maze.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="145" column="31" selection-start="3986" selection-end="3986" vertical-scroll-proportion="-2.16" vertical-offset="2466" max-vertical-offset="2988">
+            <state line="53" column="32" selection-start="1522" selection-end="1522" vertical-scroll-proportion="-4.32" vertical-offset="846" max-vertical-offset="3042">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2101#2102#0" expanded="true" />
-                <element signature="e#2115#2116#0" expanded="true" />
+                <element signature="e#2195#2196#0" expanded="true" />
+                <element signature="e#2209#2210#0" expanded="true" />
                 <element signature="method#getBlinky#0;class#Maze#0" expanded="true" />
-                <element signature="e#2524#2535#0" expanded="true" />
+                <element signature="e#2618#2629#0" expanded="true" />
                 <element signature="method#getWalls#0;class#Maze#0" expanded="true" />
                 <element signature="method#getDots#0;class#Maze#0" expanded="true" />
-                <element signature="e#3383#3384#0" expanded="true" />
-                <element signature="e#3400#3401#0" expanded="true" />
+                <element signature="e#3477#3478#0" expanded="true" />
+                <element signature="e#3494#3495#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -222,16 +223,16 @@
         <option value="$PROJECT_DIR$/src/Pinky.java" />
         <option value="$PROJECT_DIR$/src/Point3D.java" />
         <option value="$PROJECT_DIR$/src/Edge.java" />
-        <option value="$PROJECT_DIR$/src/Wall.java" />
         <option value="$PROJECT_DIR$/src/WireframeModel.java" />
         <option value="$PROJECT_DIR$/src/Dot.java" />
         <option value="$PROJECT_DIR$/src/Ghost.java" />
         <option value="$PROJECT_DIR$/src/Model.java" />
-        <option value="$PROJECT_DIR$/src/Maze.java" />
         <option value="$PROJECT_DIR$/src/Consumable.java" />
         <option value="$PROJECT_DIR$/src/ImageModel.java" />
         <option value="$PROJECT_DIR$/src/Man.java" />
         <option value="$PROJECT_DIR$/src/Camera.java" />
+        <option value="$PROJECT_DIR$/src/Maze.java" />
+        <option value="$PROJECT_DIR$/src/Wall.java" />
         <option value="$PROJECT_DIR$/src/Game.java" />
       </list>
     </option>
@@ -321,7 +322,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="SearchEverywhereHistory" value="sup" />
+    <property name="SearchEverywhereHistory" value="&#10;sup" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="recentsLimit" value="5" />
@@ -661,7 +662,11 @@
       <created>1420926354423</created>
       <updated>1420926354423</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="First glimplses of everything">
+      <created>1421065321497</created>
+      <updated>1421065321497</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -669,7 +674,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903227" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903227" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -732,7 +737,8 @@
     </option>
     <MESSAGE value="Building classes&#10;" />
     <MESSAGE value="First glimpses of walls" />
-    <option name="LAST_COMMIT_MESSAGE" value="First glimpses of walls" />
+    <MESSAGE value="First glimplses of everything" />
+    <option name="LAST_COMMIT_MESSAGE" value="First glimplses of everything" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -759,7 +765,16 @@
     <entry file="file://$PROJECT_DIR$/src/Wall.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="37" selection-start="136" selection-end="136" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1098">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1632#1633#0" expanded="true" />
+            <element signature="e#1660#1661#0" expanded="true" />
+            <element signature="e#1798#1804#0" expanded="true" />
+            <element signature="e#2134#2140#0" expanded="true" />
+            <element signature="e#2429#2435#0" expanded="true" />
+            <element signature="e#2725#2731#0" expanded="true" />
+            <element signature="e#3282#3288#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -787,7 +802,16 @@
     <entry file="file://$PROJECT_DIR$/src/Wall.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="36" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1098">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1632#1633#0" expanded="true" />
+            <element signature="e#1660#1661#0" expanded="true" />
+            <element signature="e#1798#1804#0" expanded="true" />
+            <element signature="e#2134#2140#0" expanded="true" />
+            <element signature="e#2429#2435#0" expanded="true" />
+            <element signature="e#2725#2731#0" expanded="true" />
+            <element signature="e#3282#3288#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -803,14 +827,14 @@
         <state line="32" column="0" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="738">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2101#2102#0" expanded="true" />
-            <element signature="e#2115#2116#0" expanded="true" />
+            <element signature="e#2195#2196#0" expanded="true" />
+            <element signature="e#2209#2210#0" expanded="true" />
             <element signature="method#getBlinky#0;class#Maze#0" expanded="true" />
-            <element signature="e#2524#2535#0" expanded="true" />
+            <element signature="e#2618#2629#0" expanded="true" />
             <element signature="method#getWalls#0;class#Maze#0" expanded="true" />
             <element signature="method#getDots#0;class#Maze#0" expanded="true" />
-            <element signature="e#3383#3384#0" expanded="true" />
-            <element signature="e#3400#3401#0" expanded="true" />
+            <element signature="e#3477#3478#0" expanded="true" />
+            <element signature="e#3494#3495#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -841,7 +865,16 @@
     <entry file="file://$PROJECT_DIR$/src/Wall.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="44" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="396">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1632#1633#0" expanded="true" />
+            <element signature="e#1660#1661#0" expanded="true" />
+            <element signature="e#1798#1804#0" expanded="true" />
+            <element signature="e#2134#2140#0" expanded="true" />
+            <element signature="e#2429#2435#0" expanded="true" />
+            <element signature="e#2725#2731#0" expanded="true" />
+            <element signature="e#3282#3288#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -896,13 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Wall.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="37" selection-start="136" selection-end="136" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1062">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/WireframeModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="0" selection-start="57" selection-end="57" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1692">
@@ -931,13 +957,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ImageModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="25" selection-start="830" selection-end="830" vertical-scroll-proportion="0.0" vertical-offset="464" max-vertical-offset="2160">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Man.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="41" column="39" selection-start="1037" selection-end="1037" vertical-scroll-proportion="-28.8" vertical-offset="0" max-vertical-offset="2232">
@@ -955,23 +974,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Maze.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="31" selection-start="3986" selection-end="3986" vertical-scroll-proportion="-2.16" vertical-offset="2466" max-vertical-offset="2988">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2101#2102#0" expanded="true" />
-            <element signature="e#2115#2116#0" expanded="true" />
-            <element signature="method#getBlinky#0;class#Maze#0" expanded="true" />
-            <element signature="e#2524#2535#0" expanded="true" />
-            <element signature="method#getWalls#0;class#Maze#0" expanded="true" />
-            <element signature="method#getDots#0;class#Maze#0" expanded="true" />
-            <element signature="e#3383#3384#0" expanded="true" />
-            <element signature="e#3400#3401#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Camera.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="75" column="18" selection-start="2429" selection-end="2429" vertical-scroll-proportion="0.0" vertical-offset="1169" max-vertical-offset="1962">
@@ -979,21 +981,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="51" selection-start="3198" selection-end="3198" vertical-scroll-proportion="0.0" vertical-offset="1153" max-vertical-offset="2088">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Ghost.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1443" selection-end="1443" vertical-scroll-proportion="0.3319672" vertical-offset="909" max-vertical-offset="2358">
+        <state line="55" column="0" selection-start="1443" selection-end="1443" vertical-scroll-proportion="-16.2" vertical-offset="585" max-vertical-offset="2358">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#759#760#0" expanded="true" />
             <element signature="e#775#776#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Wall.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="5" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="2070">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1632#1633#0" expanded="true" />
+            <element signature="e#1660#1661#0" expanded="true" />
+            <element signature="e#1798#1804#0" expanded="true" />
+            <element signature="e#2134#2140#0" expanded="true" />
+            <element signature="e#2429#2435#0" expanded="true" />
+            <element signature="e#2725#2731#0" expanded="true" />
+            <element signature="e#3282#3288#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ImageModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="25" selection-start="830" selection-end="830" vertical-scroll-proportion="0.0" vertical-offset="464" max-vertical-offset="2160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Maze.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="32" selection-start="1522" selection-end="1522" vertical-scroll-proportion="-4.32" vertical-offset="846" max-vertical-offset="3042">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2195#2196#0" expanded="true" />
+            <element signature="e#2209#2210#0" expanded="true" />
+            <element signature="method#getBlinky#0;class#Maze#0" expanded="true" />
+            <element signature="e#2618#2629#0" expanded="true" />
+            <element signature="method#getWalls#0;class#Maze#0" expanded="true" />
+            <element signature="method#getDots#0;class#Maze#0" expanded="true" />
+            <element signature="e#3477#3478#0" expanded="true" />
+            <element signature="e#3494#3495#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="40" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.3671875" vertical-offset="500" max-vertical-offset="1710">
+          <folding />
         </state>
       </provider>
     </entry>

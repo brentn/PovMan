@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by brent on 08/01/15.
@@ -51,5 +53,57 @@ public class Wall implements IModel {
     @Override
     public Model getModel() {
         return model;
+    }
+
+    //Static helper routines
+    public static Collection<Wall> square(Point a, Point b) {
+        Collection<Wall> walls = new HashSet<Wall>();
+        walls.add(new Wall(a.x, a.y, b.x, a.y));
+        walls.add(new Wall(b.x, a.y, b.x, b.y));
+        walls.add(new Wall(b.x, b.y, a.x, b.y));
+        walls.add(new Wall(a.x, b.y, a.x, a.y));
+        return walls;
+    }
+
+    public static Collection<Wall> U(Point a, Point b) {
+        Collection<Wall> walls = new HashSet<Wall>();
+        walls.add(new Wall(a.x, a.y, a.x, b.y));
+        walls.add(new Wall(a.x, b.y, b.x, b.y));
+        walls.add(new Wall(b.x, b.y, b.x, a.y));
+        return walls;
+    }
+
+    public static Collection<Wall> sidewaysU(Point a, Point b) {
+        Collection<Wall> walls = new HashSet<Wall>();
+        walls.add(new Wall(a.x, a.y, b.x, a.y));
+        walls.add(new Wall(b.x, a.y, b.x, b.y));
+        walls.add(new Wall(b.x, b.y, a.x, b.y));
+        return walls;
+    }
+
+    public static Collection<Wall> T(Point a, Point b, Point c) {
+        Collection<Wall> walls = new HashSet<Wall>();
+        walls.add(new Wall(a.x, a.y, b.x, a.y));
+        walls.add(new Wall(b.x, a.y, b.x, b.y));
+        walls.add(new Wall(b.x, b.y, c.x, b.y));
+        walls.add(new Wall(c.x, b.y, c.x, c.y));
+        walls.add(new Wall(c.x, c.y, c.x-1, c.y));
+        walls.add(new Wall(c.x-1, c.y, c.x-1, b.y));
+        walls.add(new Wall(c.x-1, b.y, a.x, b.y));
+        walls.add(new Wall(a.x, b.y, a.x, a.y));
+        return walls;
+    }
+
+    public static Collection<Wall> sidewaysT(Point a, Point b, Point c) {
+        Collection<Wall> walls = new HashSet<Wall>();
+        walls.add(new Wall(a.x, a.y, a.x, b.y));
+        walls.add(new Wall(a.x, b.y, b.x, b.y));
+        walls.add(new Wall(b.x, b.y, b.x, c.y));
+        walls.add(new Wall(b.x, c.y, c.x, c.y));
+        walls.add(new Wall(c.x, c.y, c.x, c.y+1));
+        walls.add(new Wall(c.x, c.y+1, b.x, c.y+1));
+        walls.add(new Wall(b.x, c.y+1, b.x, a.y));
+        walls.add(new Wall(b.x, a.y, a.x, a.y));
+        return walls;
     }
 }

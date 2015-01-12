@@ -50,6 +50,9 @@ public class Maze {
     public void addWall(Point start, Point end) {
         walls.add(new Wall(start, end));
     }
+    public void addWalls(Collection<Wall> new_walls) {
+        walls.addAll(new_walls);
+    }
     public void addDot(Dot dot) {
         dots.add(dot);
     }
