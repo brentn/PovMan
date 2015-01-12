@@ -7,15 +7,24 @@ import java.awt.image.BufferedImage;
 public class ImageModel extends Model {
     private Point tile;
     private Point offset;
+    private Point3D size;
     private Image image;
 
     public ImageModel(Point tile, Image image) {
         this.tile = tile;
-        this.offset = new Point(0, 0);
+        this.offset = new Point(50, 50); //percentage of tile
         this.image = image;
+        this.size = new Point3D(100,100,100); //percentage of tile
     }
 
-    public Point getTile() {
+    public ImageModel(Point tile, Image image, Point3D size) {
+        this.tile = tile;
+        this.offset = new Point(50, 50); //percentage of tile
+        this.image = image;
+        this.size = size; //percentage of tile
+    }
+
+    public Point getPos() {
         return tile;
     }
 
@@ -25,8 +34,8 @@ public class ImageModel extends Model {
     }
 
     public void move(int speed, Maze.Direction direction) {
-        int x = tile.x;
-        int y = tile.y;
+        int x = offset.x;
+        int y = offset.y;
         switch (direction) {
             case RIGHT: x += speed;
                 if (x >=100) {
@@ -34,22 +43,22 @@ public class ImageModel extends Model {
                     x-=100;
                 }
                 break;
-            case LEFT: x -= speed;
+            case LEFT:  x -= speed;
                 if (x <=0) {
                     tile.setLocation(tile.x-1, tile.y);
-                    x+=100;
+                    x +=100;
                 }
                 break;
             case UP: y -= speed;
-                if (y <= 0) {
+                if (y <=0) {
                     tile.setLocation(tile.x, tile.y-1);
-                    y+=100;
+                    y +=100;
                 }
                 break;
             case DOWN: y += speed;
                 if (y >=100) {
                     tile.setLocation(tile.x, tile.y+1);
-                    y-=100;
+                    y -=100;
                 }
                 break;
         }
@@ -82,6 +91,27 @@ public class ImageModel extends Model {
 
     @Override
     public void drawAsViewedBy(Camera camera) {
-        //TODO:
+        Graphics screen = camera.image.getGraphics();
+        float cameraDistance=10;
+        int x = tile.x*100 - camera.target.x*100  + offset.x;
+        int y = tile.y*100 - camera.target.y*100 + offset.y;
+        int z = camera.target.z*100 + size.z;
+        // compute orthographic projection
+        float x1 = camera.cosT*x + camera.sinT*y;
+        float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;
+
+        // the 0.5 is to round off when converting to int
+        Point point = new Point(
+                (int)(x1/cameraDistance + 0.5),
+                (int)(y1/cameraDistance + 0.5)
+        );
+        // draw 2d image
+        if (image==null) {
+        screen.setColor(Color.white);
+        screen.fillOval(camera.getSize().width/2 + point.x,
+                camera.getSize().height/2 - point.y,
+                (int)(size.x/cameraDistance),
+                (int)(size.y/cameraDistance));
+        }
     }
 }

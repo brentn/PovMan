@@ -13,4 +13,6 @@ public class Consumable {
         consumed=true;
         return points;
     }
+
+    public boolean hasBeenConsumed() { return consumed; }
 }

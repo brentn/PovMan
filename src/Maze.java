@@ -14,8 +14,6 @@ public class Maze {
     private Collection<Dot> dots;
     private Collection<Ghost> ghosts;
     private Queue<Wave> waves;
-    private Point start_position = new Point(0,0);
-    private Direction start_direction = Direction.RIGHT;
     private int doubler;
     private Man man;
     private Blinky blinky;
@@ -30,7 +28,7 @@ public class Maze {
         ghosts = new HashSet<Ghost>();
         waves = new ArrayBlockingQueue<Wave>(20);
         currentWave = waves.iterator();
-        man = new Man(start_position, start_direction);
+        man = new Man(new Point((int)(x/2), (int)(y/2)), Direction.RIGHT);
         doubler=1;
     }
 
@@ -63,8 +61,7 @@ public class Maze {
     }
 
     public void setStartPosition(Point pos, Direction dir) {
-        start_position = pos;
-        start_direction = dir;
+        man.setStartPosition(pos, dir);
     }
 
     public Dot dotAt(Point pos) {
@@ -126,6 +123,8 @@ public class Maze {
 
     public Collection<Dot> getDots() {return dots;}
 
+    public Collection<Ghost> getGhosts() { return ghosts; }
+
     private void getNextWave() {
         if (! currentWave.hasNext()) return;
         Wave wave = currentWave.next();
@@ -140,13 +139,14 @@ public class Maze {
         }
     }
 
-    public void run() {
+    public void run(Camera camera) {
         resetGhosts();
         if (!man.isAlive()) { man.recessutate();}
         while (man.isAlive()) {
             while (man.isAlive()) {
                 man.move(this);
                 moveGhosts();
+                camera.capture(this);
             }
             resetGhosts();
             man.recessutate();

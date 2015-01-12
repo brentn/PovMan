@@ -5,7 +5,7 @@ import java.util.Random;
  * Created by brent on 08/01/15.
  */
 
-public class Man {
+public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
     private static final int SPEED=5;
@@ -13,10 +13,10 @@ public class Man {
     private boolean alive=false;
     private long points=0;
     private int lives;
+    private ImageModel model;
     private Point initial_tile;
     private Maze.Direction initial_direction;
 
-    private Point tile;
     private Point offset; //by % within the tile
     private Maze.Direction direction;
 
@@ -24,16 +24,23 @@ public class Man {
         this.lives=INITIAL_LIVES;
         this.initial_tile=start;
         this.initial_direction = dir;
+        this.direction=dir;
+        createManModel();
     }
 
     public void addPoints(int points) {
         this.points += points;
     }
 
+    public void setStartPosition(Point pos, Maze.Direction dir) {
+        this.initial_tile = pos;
+        this.initial_direction = dir;
+    }
+
     public void move(Maze maze) {
         if (canMoveForward(maze)) {
-            move();
-            eat(maze.dotAt(tile));
+            model.move(SPEED, direction);
+            eat(maze.dotAt(model.getPos()));
         } else {
             offset.setLocation(50, 50); //reorient to the tile center
             direction = Maze.Direction.values()[new Random().nextInt(4)]; //pick a random direction
@@ -41,6 +48,7 @@ public class Man {
     }
 
     public Point getTileAhead(int distance) {
+        Point tile = model.getPos();
         if (distance==0) return tile;
         switch (direction) {
             case LEFT: return new Point(tile.x-distance, tile.y);
@@ -54,6 +62,7 @@ public class Man {
     public Maze.Direction getDirection() { return direction; }
 
     private boolean canMoveForward(Maze maze) {
+        Point tile = model.getPos();
         switch (direction) {
             case RIGHT:
                 if (offset.x+SPEED < 50) return true;
@@ -75,38 +84,6 @@ public class Man {
         return true;
     }
 
-    private void move() {
-        int x = offset.x;
-        int y = offset.y;
-        switch (direction) {
-            case RIGHT: x += SPEED;
-                if (x >=100) {
-                    tile.setLocation(tile.x+1, tile.y);
-                    x-=100;
-                }
-                break;
-            case LEFT:  x -= SPEED;
-                if (x <=0) {
-                    tile.setLocation(tile.x-1, tile.y);
-                    x +=100;
-                }
-                break;
-            case UP: y -= SPEED;
-                if (y <=0) {
-                    tile.setLocation(tile.x, tile.y-1);
-                    y +=100;
-                }
-                break;
-            case DOWN: y += SPEED;
-                if (y >=100) {
-                    tile.setLocation(tile.x, tile.y+1);
-                    y -=100;
-                }
-                break;
-        }
-        offset.setLocation(x, y);
-    }
-
     public void eat(Consumable item) {
         if (item==null) return;
         points += item.consume();
@@ -118,7 +95,7 @@ public class Man {
 
     public void recessutate() {
         if (! alive) {
-            tile = initial_tile;
+            model.setPos(initial_tile);
             offset = new Point(50,50);
             direction = initial_direction;
             if (lives > 0) {
@@ -133,5 +110,12 @@ public class Man {
         return alive;
     }
 
+    private void createManModel() {
+        model = new ImageModel(initial_tile, null, new Point3D(120,120,120));
+    }
 
+    @Override
+    public Model getModel() {
+        return model;
+    }
 }

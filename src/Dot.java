@@ -24,7 +24,7 @@ public class Dot extends Consumable implements IModel {
 
     private void createDotModel() {
         Point3D pos3d = new Point3D(pos, HEIGHT);
-        model = new ImageModel(pos3d, null);
+        model = new ImageModel(pos3d, null, new Point3D(25,25,25));
     }
 
     @Override

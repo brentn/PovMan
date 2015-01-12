@@ -12,14 +12,14 @@ public class Clyde extends Ghost {
     }
 
     public Point getPos() {
-        return model.getTile();
+        return model.getPos();
     }
 
     @Override
     protected void updateChaseTarget(Maze maze) {
         Point manPos = maze.getMan().getTileAhead(0);
-        double a = manPos.x-model.getTile().x;
-        double b = manPos.y-model.getTile().y;
+        double a = manPos.x-model.getPos().x;
+        double b = manPos.y-model.getPos().y;
         double distance = Math.sqrt(a*a+b*b);
         if (distance > 8) {
             chase_target = manPos;

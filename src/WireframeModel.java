@@ -1,7 +1,4 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by brent on 09/01/15.
@@ -40,31 +37,32 @@ public class WireframeModel  extends Model {
     @Override
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
-        float scaleFactor=50f;
+        float cameraDistance=10;
         float distToWall = getDistanceToCenterOfWall(camera.pos);
         Point[] points = new Point[ vertices.length ];
         for (int j=0; j<vertices.length; j++) {
-            int x0 = vertices[j].x;
-            int y0 = vertices[j].y;
-            int z0 = vertices[j].z;
+            int x0 = vertices[j].x*100 - camera.target.x*100;
+            int y0 = vertices[j].y*100 - camera.target.y*100;
+            int z0 = vertices[j].z*100 + camera.target.z*100;
             // compute orthographic projection
-            float x1 = camera.cosT*x0 + camera.sinT*z0;
-            float y1 = -camera.sinTsinP*x0 + camera.cosP*y0 + camera.cosTsinP*z0;
+            float x1 = camera.cosT*x0 + camera.sinT*y0;
+            float y1 = -camera.sinTsinP*x0 + camera.cosP*z0 + camera.cosTsinP*y0;
+            float z1 = camera.cosTcosP*y0 - camera.sinTcosP*x0 - camera.sinP*z0;
             // calculate perspective
-            float z1 = camera.cosTcosP*z0 - camera.sinTcosP*x0 - camera.sinP*y0;
-            x1 = x1*camera.DIST_TO_VIEWPORT/(z1+distToWall);// - camera.target.x;
-            y1 = y1*camera.DIST_TO_VIEWPORT/(z1+distToWall);// - camera.target.y;
+            //x1 = x1*3f/(z1+3f+1.5f);
+            //y1 = y1*3f/(z1+3f+1.5f);
 
             // the 0.5 is to round off when converting to int
             points[j] = new Point(
-                    (int)(camera.getSize().width/2 + scaleFactor*x1 + 0.5),
-                    (int)(camera.getSize().height/2 - scaleFactor*y1 + 0.5)
+                    (int)(camera.getSize().width/2 +  x1/cameraDistance  + 0.5),
+                    (int)(camera.getSize().height/2 - y1/cameraDistance + 0.5)
             );
         }
 
         // draw 2d image
         screen.setColor(Color.BLUE);
         for (int  j = 0; j < edges.length; ++j ) {
+//            System.out.println(points[edges[j].start] + "-" + points[edges[j].end]);
             screen.drawLine(
                     points[edges[j].start].x, points[edges[j].start].y,
                     points[edges[j].end].x, points[edges[j].end].y
@@ -82,9 +80,9 @@ public class WireframeModel  extends Model {
             z+=point.z;
         }
         Point3D center = new Point3D(x/n, y/n, z/n);
-        dx = origin.x-center.x;
-        dy = origin.y-center.y;
-        dz = origin.z-center.z;
+        dx = 1*(origin.x-center.x);
+        dy = 1*(origin.y-center.y);
+        dz = 1*(origin.z-center.z);
         return (float)Math.sqrt(dx*dx + dy*dy + dz*dz);
     }
 }

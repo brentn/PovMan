@@ -30,20 +30,40 @@ public class Camera extends JFrame {
     public void capture(Maze maze) {
         //TODO:sort all objects from far to near
         //TODO:eliminate models outside field of view
-        image = new BufferedImage(400, 500, BufferedImage.TYPE_INT_ARGB);
-        image.createGraphics();
-        image.getGraphics().setColor(Color.BLACK);
-        image.getGraphics().fillRect(0,0,400,500);
-        viewport.updateImage(image);
-        viewport.paintComponent(image.getGraphics());
+        this.image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        this.image.createGraphics();
+        Graphics screen = image.getGraphics();
+        viewport.paintComponent(screen);
+        screen.setColor(Color.black);
+        screen.fillRect(0, 0, this.getWidth(), this.getHeight());
         //Draw walls
         for (Wall wall : maze.getWalls()) {
             wall.getModel().drawAsViewedBy(this);
         }
-        viewport.updateImage(image);
         //Draw dots
+        for (Dot dot : maze.getDots()) {
+            if (! dot.hasBeenConsumed()) {
+                dot.getModel().drawAsViewedBy(this);
+            }
+        }
+        viewport.updateImage(image);
+        viewport.repaint(0,0,400,500);
         //Draw ghosts
+        for (Ghost ghost : maze.getGhosts()) {
+            if (ghost.isAlive()) {
+                ghost.getModel().drawAsViewedBy(this);
+            }
+        }
         //Draw man
+        Man man = maze.getMan();
+        if (man.isAlive()) {
+            man.getModel().drawAsViewedBy(this);
+        }
+    }
+
+    public void update() {
+        theta+=.012;
+        calculateProjectionCoefficinets();
     }
 
     private void calculateCameraAngle(Point3D pos, Point3D target) {
@@ -52,7 +72,9 @@ public class Camera extends JFrame {
         double z = target.z-pos.z;
         double r = Math.sqrt(x*x + y*y + z*z);
         theta = (x==0?0:Math.atan(y/x));
-        phi = (r==0?180:Math.acos(z/r));
+        phi = (r==0?0:(Math.PI/2)-Math.acos(z/r));
+        theta = .1;
+        phi = -2;
     }
 
     private void calculateProjectionCoefficinets() {

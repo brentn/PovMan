@@ -12,7 +12,7 @@ public class Blinky extends Ghost {
     }
 
     public Point getPos() {
-        return model.getTile();
+        return model.getPos();
     }
 
     @Override

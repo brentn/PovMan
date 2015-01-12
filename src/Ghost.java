@@ -26,6 +26,8 @@ public abstract class Ghost extends Consumable implements IModel {
         createGhostModel();
     }
 
+    public boolean isAlive() { return alive; }
+
     public void setMode(Mode mode) {
         if (this.mode==mode) return;
         this.mode=mode;
@@ -45,7 +47,7 @@ public abstract class Ghost extends Consumable implements IModel {
 
     public void move(Maze maze) {
         if (model.pastCenterOfTile(direction)) {
-            Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+            Set<Maze.Direction> exits = maze.getExitsFrom(model.getPos());
             exits.remove(reverse());
             if (exits.size() > 1) {
                 updateChaseTarget(maze);
@@ -61,7 +63,7 @@ public abstract class Ghost extends Consumable implements IModel {
             model.move(speed, direction);
         }
         // check if ghost and man are touching
-        if (maze.manAt(model.getTile())) {
+        if (maze.manAt(model.getPos())) {
             if (mode==Mode.FRIGHTENED) {
                 maze.killGhost(this.consume());
             } else {
@@ -74,8 +76,8 @@ public abstract class Ghost extends Consumable implements IModel {
 
     private void chooseBestRoute(Set<Maze.Direction> exits) {
         double shortestDistance = 10000;
-        int x = model.getTile().x;
-        int y = model.getTile().y;
+        int x = model.getPos().x;
+        int y = model.getPos().y;
         for (Maze.Direction exit : exits) {
             Point tile=null;
             switch (exit) {
@@ -115,7 +117,7 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     private void createGhostModel() {
-        model = new ImageModel(home, null); //TODO:
+        model = new ImageModel(home, null, new Point3D(80, 80, 100));
     }
 
     @Override
