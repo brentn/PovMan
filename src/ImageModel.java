@@ -101,14 +101,13 @@ public class ImageModel extends Model {
     @Override
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
-        int x = tile.x*100 + offset.x - 50 - camera.target.x;
-        int y = tile.y*100 + offset.y - 50 - camera.target.y;
+        int x = tile.x*100 + offset.x - camera.target.x;
+        int y = tile.y*100 + offset.y - camera.target.y;
         int z = camera.target.z*100 - size.z;
         // compute orthographic projection
         float x1 = camera.cosT*x + camera.sinT*y;
         float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;
-        float dx = camera.cosT*(x+size.x) + camera.sinT*(y+size.y) - x1;
-        int width = (int)(dx/camera.DISTANCE+.5);
+        int width = (int)(size.x/camera.DISTANCE+.5);
 
         // the 0.5 is to round off when converting to int
         Point point = new Point(

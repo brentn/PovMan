@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by brent on 08/01/15.
@@ -8,9 +9,10 @@ import java.util.Random;
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=5;
+    private static final int SPEED=10;
 
     private boolean alive=false;
+    private boolean undecided;
     private long points=0;
     private int lives;
     private ImageModel model;
@@ -37,12 +39,21 @@ public class Man implements IModel {
     }
 
     public void move(Maze maze) {
-        if (canMoveForward(maze)) {
-            model.move(SPEED, direction);
-            eat(maze.dotAt(model.getTile()));
+        if (undecided && model.pastCenterOfTile(direction)) {
+            Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+            Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
+            exitarray = exits.toArray(exitarray);
+            if (exits.size()>1) {
+                int choice = new Random().nextInt(exits.size());
+                direction = exitarray[choice];
+            } else {
+                direction=exits.iterator().next();
+            }
+            System.out.println(Maze.Direction.values()[direction.ordinal()]);
+            model.reorient(direction);
+            undecided=false;
         } else {
-            model.setOffset(50, 50); //reorient to the tile center
-            direction = Maze.Direction.values()[new Random().nextInt(4)]; //pick a random direction
+            undecided=true;
         }
     }
 
@@ -106,6 +117,7 @@ public class Man implements IModel {
                 lives --;
                 alive = true;
             }
+            undecided=false;
             //TODO: insert pause
         }
     }

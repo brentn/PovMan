@@ -40,8 +40,9 @@ public class WireframeModel  extends Model {
         float distToWall = getDistanceToCenterOfWall(camera.pos);
         Point[] points = new Point[ vertices.length ];
         for (int j=0; j<vertices.length; j++) {
-            int x0 = vertices[j].x*100 - camera.target.x;
-            int y0 = vertices[j].y*100 - camera.target.y;
+            // the +50 is to center the wall in the tile
+            int x0 = vertices[j].x*100 +50 - camera.target.x;
+            int y0 = vertices[j].y*100 +50 - camera.target.y;
             int z0 = vertices[j].z*100 + camera.target.z;
             // compute orthographic projection
             float x1 = camera.cosT*x0 + camera.sinT*y0;

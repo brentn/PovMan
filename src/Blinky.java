@@ -8,7 +8,7 @@ public class Blinky extends Ghost {
     public Blinky(Point home) {
         super(home);
         scatter_target = new Point(27, 1);
-        speed=3;
+        speed=8;
     }
 
     public Point getPos() {

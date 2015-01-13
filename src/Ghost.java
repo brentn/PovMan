@@ -12,6 +12,7 @@ public abstract class Ghost extends Consumable implements IModel {
 
     private Point home;
     protected int speed;
+    protected boolean undecided;
     protected Maze.Direction direction;
     protected boolean alive=false;
     protected Point chase_target;
@@ -37,6 +38,7 @@ public abstract class Ghost extends Consumable implements IModel {
 
     public void reset() {
         model.setTile(home);
+        undecided=true;
         alive=true;
     }
 
@@ -47,17 +49,19 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     public void move(Maze maze) {
-        if (model.pastCenterOfTile(direction)) {
+        if (undecided && model.pastCenterOfTile(direction)) {
             Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
             exits.remove(reverse());
             if (exits.size() > 1) {
-                System.out.println("CHOICE of "+exits.size());
                 updateChaseTarget(maze);
                 chooseBestRoute(exits);
             } else { //only 1 exit
                 direction=exits.iterator().next();
                 model.reorient(direction);
             }
+            undecided=false;
+        } else {
+            undecided=true;
         }
         if (mode==Mode.FRIGHTENED) {
             model.move(FRIGHTENED_SPEED, direction);
