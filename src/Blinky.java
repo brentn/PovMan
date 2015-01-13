@@ -7,12 +7,12 @@ public class Blinky extends Ghost {
 
     public Blinky(Point home) {
         super(home);
-        scatter_target = new Point(23, 0);
+        scatter_target = new Point(27, 1);
         speed=3;
     }
 
     public Point getPos() {
-        return model.getPos();
+        return model.getTile();
     }
 
     @Override

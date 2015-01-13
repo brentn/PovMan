@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * Created by brent on 08/01/15.
  */
 public class Camera extends JFrame {
-    public static final float DIST_TO_VIEWPORT=3;
+    public static final float DISTANCE=5;
 
     public Point3D pos, target;
     private double theta, phi;
@@ -23,7 +23,41 @@ public class Camera extends JFrame {
         this.add(viewport);
         this.pos = pos;
         this.target = target;
-        calculateCameraAngle(pos, target);
+        calculateCameraAngle(pos);
+        calculateProjectionCoefficinets();
+    }
+
+    public void follow(Man man) {
+        target = new Point3D(man.getPos(), 1);
+        double trail = 0;
+        switch (man.getDirection()) {
+            case LEFT:  trail = (3*Math.PI/2);
+                break;
+            case RIGHT: trail = (Math.PI/2);
+                break;
+            case UP: trail = 0;
+                break;
+            case DOWN: trail = (Math.PI);
+                break;
+        }
+        double amount = Math.abs(theta-trail);
+        if (amount >= Math.PI) amount-=Math.PI;
+        amount = amount/20;
+        if (theta>trail) {
+            if ((theta-trail)<Math.PI) {
+                theta -= amount;
+            } else {
+                theta += amount;
+            }
+        } else {
+            if ((trail-theta)<Math.PI) {
+                theta += amount;
+            } else {
+                theta -= amount;
+            }
+        }
+        while (theta<0) {theta+=2*Math.PI;}
+        while (theta>(2*Math.PI)) {theta-=2*Math.PI;}
         calculateProjectionCoefficinets();
     }
 
@@ -61,20 +95,15 @@ public class Camera extends JFrame {
         }
     }
 
-    public void update() {
-        theta+=.012;
-        calculateProjectionCoefficinets();
-    }
-
-    private void calculateCameraAngle(Point3D pos, Point3D target) {
-        double x = target.x-pos.x;
-        double y = target.y-pos.y;
-        double z = target.z-pos.z;
+    private void calculateCameraAngle(Point3D pos) {
+        double x = target.x-pos.x*100;//TODO:need to include offset
+        double y = target.y-pos.y*100;
+        double z = target.z-pos.z*100;
         double r = Math.sqrt(x*x + y*y + z*z);
         theta = (x==0?0:Math.atan(y/x));
         phi = (r==0?0:(Math.PI/2)-Math.acos(z/r));
-        theta = .1;
-        phi = -2;
+        theta = 0;
+        phi = -.3;
     }
 
     private void calculateProjectionCoefficinets() {

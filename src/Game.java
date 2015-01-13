@@ -44,9 +44,9 @@ public class Game {
         maze.addWalls(Wall.square(new Point(16, 5), new Point(20, 7)));
         maze.addWalls(Wall.square(new Point(22, 5), new Point(25, 7)));
         maze.addWalls(Wall.square(new Point(2, 9), new Point(5, 10)));
-        maze.addWalls(Wall.sidewaysT(new Point(7, 16), new Point(8, 9), new Point(11 ,12)));
-        maze.addWalls(Wall.sidewaysT(new Point(20, 9), new Point(19, 16), new Point(15, 12)));
-        maze.addWalls(Wall.T(new Point(10, 9), new Point(17, 10), new Point(14, 12)));
+        maze.addWalls(Wall.sidewaysT(new Point(7, 16), new Point(8, 9), new Point(11, 12)));
+        maze.addWalls(Wall.sidewaysT(new Point(20, 9), new Point(19, 16), new Point(16, 12)));
+        maze.addWalls(Wall.T(new Point(10, 9), new Point(17, 10), new Point(14, 13)));
         maze.addWalls(Wall.square(new Point(22, 9), new Point(25, 10)));
         //ghost house
         maze.addWalls(Wall.square(new Point(10, 15), new Point(17, 19)));
@@ -64,11 +64,15 @@ public class Game {
         maze.addWalls(Wall.T(new Point(11, 31), new Point(2, 30), new Point(8, 27)));
         maze.addWalls(Wall.T(new Point(25, 31), new Point(17, 30), new Point(20, 27)));
 
+        //vert cols are 6 and 21
+        maze.addDots(Dot.line(new Point(1, 4), new Point(12, 4)));
+        maze.addDots(Dot.line(new Point(15, 4), new Point(26, 4)));
+        maze.addDots(Dot.line(new Point(6, 5), new Point(6, 29)));
+        maze.addDots(Dot.line(new Point(21, 5), new Point(21, 29)));
+        maze.addDots(Dot.line(new Point(1, 32), new Point(26, 32)));
+        maze.addDots(Dot.line(new Point(7, 26), new Point(12, 26)));
+        maze.addDots(Dot.line(new Point(15, 26), new Point(20, 26)));
 
-        maze.addDot(1, 2);
-        maze.addDot(1, 33);
-        maze.addDot(26, 2);
-        maze.addDot(26, 33);
         maze.addGhosts(new Point(13, 13));
         maze.addWave(7, Ghost.Mode.SCATTER);
         maze.addWave(20, Ghost.Mode.CHASE);

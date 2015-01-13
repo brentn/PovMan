@@ -32,10 +32,11 @@ public abstract class Ghost extends Consumable implements IModel {
         if (this.mode==mode) return;
         this.mode=mode;
         direction = reverse();
+        System.out.println("Mode change:"+Mode.values()[mode.ordinal()]);
     }
 
     public void reset() {
-        model.setPos(home);
+        model.setTile(home);
         alive=true;
     }
 
@@ -47,9 +48,10 @@ public abstract class Ghost extends Consumable implements IModel {
 
     public void move(Maze maze) {
         if (model.pastCenterOfTile(direction)) {
-            Set<Maze.Direction> exits = maze.getExitsFrom(model.getPos());
+            Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
             exits.remove(reverse());
             if (exits.size() > 1) {
+                System.out.println("CHOICE of "+exits.size());
                 updateChaseTarget(maze);
                 chooseBestRoute(exits);
             } else { //only 1 exit
@@ -63,7 +65,7 @@ public abstract class Ghost extends Consumable implements IModel {
             model.move(speed, direction);
         }
         // check if ghost and man are touching
-        if (maze.manAt(model.getPos())) {
+        if (maze.manAt(model.getTile())) {
             if (mode==Mode.FRIGHTENED) {
                 maze.killGhost(this.consume());
             } else {
@@ -75,9 +77,10 @@ public abstract class Ghost extends Consumable implements IModel {
     protected abstract void updateChaseTarget(Maze maze);
 
     private void chooseBestRoute(Set<Maze.Direction> exits) {
-        double shortestDistance = 10000;
-        int x = model.getPos().x;
-        int y = model.getPos().y;
+        double shortestDistance = Double.MAX_VALUE;
+        Maze.Direction shortestDirection = null;
+        int x = model.getTile().x;
+        int y = model.getTile().y;
         for (Maze.Direction exit : exits) {
             Point tile=null;
             switch (exit) {
@@ -89,8 +92,13 @@ public abstract class Ghost extends Consumable implements IModel {
             double distance = distanceToTarget(tile);
             if (distance < shortestDistance) {
                 shortestDistance = distance;
-                direction = exit;
+                shortestDirection = exit;
             }
+        }
+        if (direction != shortestDirection) {
+            direction = shortestDirection;
+            model.reorient(direction);
+            System.out.println("changed direction to:"+Maze.Direction.values()[direction.ordinal()]);
         }
     }
 

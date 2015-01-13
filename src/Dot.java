@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by brent on 08/01/15.
@@ -30,5 +32,19 @@ public class Dot extends Consumable implements IModel {
     @Override
     public Model getModel() {
         return model;
+    }
+
+    public static Collection<Dot> line(Point a, Point b) {
+        Collection<Dot> dots = new HashSet<Dot>();
+        if (a.x==b.x) {
+            for (int y=a.y; y < b.y; y++) {
+                dots.add(new Dot(a.x, y));
+            }
+        } else {
+            for (int x=a.x; x < b.x; x++) {
+                dots.add(new Dot(x, a.y));
+            }
+        }
+        return dots;
     }
 }

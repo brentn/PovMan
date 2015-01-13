@@ -24,13 +24,22 @@ public class ImageModel extends Model {
         this.size = size; //percentage of tile
     }
 
-    public Point getPos() {
+    public Point getTile() {
         return tile;
     }
-
-    public void setPos(Point tile) {
+    public void setTile(Point tile) {
         this.tile = tile;
-        this.offset = new Point(0, 0);
+    }
+
+    public Point getPos() {
+        int x = tile.x*100+offset.x;
+        int y = tile.y*100+offset.y;
+        return new Point(x, y);
+    }
+
+    public Point getOffset() {return offset;}
+    public void setOffset(int x, int y) {
+        this.offset = new Point(x, y);
     }
 
     public void move(int speed, Maze.Direction direction) {
@@ -67,10 +76,10 @@ public class ImageModel extends Model {
 
     public boolean pastCenterOfTile(Maze.Direction direction) {
         switch (direction) {
-            case LEFT: return offset.x >= 50;
-            case RIGHT: return offset.x <= 50;
-            case UP: return offset.y <=50;
-            case DOWN: return offset.y >=50;
+            case LEFT: return offset.x < 50;
+            case RIGHT: return offset.x > 50;
+            case UP: return offset.y < 50;
+            case DOWN: return offset.y > 50;
         }
         return false;
     }
@@ -92,26 +101,28 @@ public class ImageModel extends Model {
     @Override
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
-        float cameraDistance=10;
-        int x = tile.x*100 - camera.target.x*100  + offset.x;
-        int y = tile.y*100 - camera.target.y*100 + offset.y;
-        int z = camera.target.z*100 + size.z;
+        int x = tile.x*100 + offset.x - 50 - camera.target.x;
+        int y = tile.y*100 + offset.y - 50 - camera.target.y;
+        int z = camera.target.z*100 - size.z;
         // compute orthographic projection
         float x1 = camera.cosT*x + camera.sinT*y;
         float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;
+        float dx = camera.cosT*(x+size.x) + camera.sinT*(y+size.y) - x1;
+        int width = (int)(dx/camera.DISTANCE+.5);
 
         // the 0.5 is to round off when converting to int
         Point point = new Point(
-                (int)(x1/cameraDistance + 0.5),
-                (int)(y1/cameraDistance + 0.5)
+                (int)(camera.getSize().width/2 +  x1/camera.DISTANCE  + 0.5),
+                (int)(camera.getSize().height/2 - y1/camera.DISTANCE + 0.5)
         );
         // draw 2d image
         if (image==null) {
-        screen.setColor(Color.white);
-        screen.fillOval(camera.getSize().width/2 + point.x,
-                camera.getSize().height/2 - point.y,
-                (int)(size.x/cameraDistance),
-                (int)(size.y/cameraDistance));
+            if (size.x>100) {
+                screen.setColor(Color.yellow);
+            } else {
+                screen.setColor(Color.white);
+            }
+            screen.fillOval(point.x-(width/2), point.y - (width/2),width ,width);
         }
     }
 }

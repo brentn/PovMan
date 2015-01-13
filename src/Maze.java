@@ -35,9 +35,9 @@ public class Maze {
     public void addGhosts(Point home) {
         blinky = new Blinky(home);
         ghosts.add(blinky);
-        ghosts.add(new Pinky(home));
-        ghosts.add(new Inky(home));
-        ghosts.add(new Clyde(home));
+//        ghosts.add(new Pinky(home));
+//        ghosts.add(new Inky(home));
+//        ghosts.add(new Clyde(home));
     }
 
     public void addWave(Integer duration, Ghost.Mode mode) {
@@ -61,6 +61,9 @@ public class Maze {
     }
     public void addDot(int x, int y) {
         dots.add(new Dot(x, y));
+    }
+    public void addDots(Collection<Dot> new_dots) {
+        dots.addAll(new_dots);
     }
 
     public void setStartPosition(Point pos, Direction dir) {
@@ -149,6 +152,7 @@ public class Maze {
             while (man.isAlive()) {
                 man.move(this);
                 moveGhosts();
+                camera.follow(man);
                 camera.capture(this);
             }
             resetGhosts();

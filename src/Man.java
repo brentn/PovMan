@@ -17,7 +17,6 @@ public class Man implements IModel {
     private Point initial_tile;
     private Maze.Direction initial_direction;
 
-    private Point offset; //by % within the tile
     private Maze.Direction direction;
 
     public Man(Point start, Maze.Direction dir) {
@@ -40,15 +39,19 @@ public class Man implements IModel {
     public void move(Maze maze) {
         if (canMoveForward(maze)) {
             model.move(SPEED, direction);
-            eat(maze.dotAt(model.getPos()));
+            eat(maze.dotAt(model.getTile()));
         } else {
-            offset.setLocation(50, 50); //reorient to the tile center
+            model.setOffset(50, 50); //reorient to the tile center
             direction = Maze.Direction.values()[new Random().nextInt(4)]; //pick a random direction
         }
     }
 
+    public Point getPos() {
+        return model.getPos();
+    }
+
     public Point getTileAhead(int distance) {
-        Point tile = model.getPos();
+        Point tile = model.getTile();
         if (distance==0) return tile;
         switch (direction) {
             case LEFT: return new Point(tile.x-distance, tile.y);
@@ -62,7 +65,8 @@ public class Man implements IModel {
     public Maze.Direction getDirection() { return direction; }
 
     private boolean canMoveForward(Maze maze) {
-        Point tile = model.getPos();
+        Point tile = model.getTile();
+        Point offset = model.getOffset();
         switch (direction) {
             case RIGHT:
                 if (offset.x+SPEED < 50) return true;
@@ -95,8 +99,8 @@ public class Man implements IModel {
 
     public void recessutate() {
         if (! alive) {
-            model.setPos(initial_tile);
-            offset = new Point(50,50);
+            model.setTile(initial_tile);
+            model.setOffset(50,50);
             direction = initial_direction;
             if (lives > 0) {
                 lives --;
