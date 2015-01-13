@@ -1,4 +1,6 @@
+import javax.sound.sampled.*;
 import java.awt.*;
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -8,6 +10,8 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class Maze {
     public static enum Direction {RIGHT, DOWN, LEFT, UP}
+
+    private static final File START_SOUND = new File("resources/sounds/start.wav");
 
     private Point size;
     private Collection<Wall> walls;
@@ -20,8 +24,11 @@ public class Maze {
     private long modeTimer;
     private Timer waveTimer = new Timer();
     private Iterator<Wave> currentWave;
+    private boolean play_audio = true;
+    private Clip start_sound;
 
     public Maze(int x, int y) {
+        initializeAudio();
         this.size = new Point(x, y);
         walls = new HashSet<Wall>();
         dots = new HashSet<Dot>();
@@ -146,19 +153,53 @@ public class Maze {
     }
 
     public void run(Camera camera) {
+        final Camera c = camera;
         resetGhosts();
-        if (!man.isAlive()) { man.recessutate();}
+        if (!man.isAlive()) {
+            man.recessutate();
+        }
+        camera.capture(this);
+        if (play_audio) {
+            LineListener listener = new LineListener() {
+                public void update(LineEvent event) {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        play(c);
+                    }
+                }
+            };
+            start_sound.addLineListener(listener);
+            start_sound.start();
+        } else {
+            play(camera);
+        }
+    }
+
+    private void play(Camera camera) {
         while (man.isAlive()) {
             while (man.isAlive()) {
                 man.move(this);
                 moveGhosts();
-                camera.follow(man);
+                if (camera.style== Camera.Style.FOLLOW)
+                    camera.follow(man);
                 camera.capture(this);
             }
             resetGhosts();
             man.recessutate();
         }
     }
+
+    private void initializeAudio() {
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(START_SOUND);
+            AudioFormat format = ais.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            start_sound = (Clip)AudioSystem.getLine(info);
+            start_sound.open(ais);
+        } catch(Exception e) {
+            play_audio =false;
+        }
+    }
+
 
     class Wave {
         int duration;

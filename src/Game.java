@@ -1,11 +1,11 @@
+import javax.sound.sampled.*;
 import java.awt.*;
+import java.io.File;
 
 /**
  * Created by brent on 08/01/15.
  */
 public class Game {
-    private static Point3D CLASSIC_CAMERA_POS = new Point3D(0, 0, 8);
-    private static Point3D CLASSIC_CAMERA_TARGET = new Point3D(14, 18, 1);
 
     private Maze maze;
     private Camera camera;
@@ -14,14 +14,13 @@ public class Game {
     public Game() {
         level = 1;
         createMaze(level);
-        camera = new Camera(CLASSIC_CAMERA_POS, CLASSIC_CAMERA_TARGET);
-        //while (true) {camera.capture(maze); camera.update();}
+        camera = new Camera(new Point3D(maze.getMan().getPos(), 50), Camera.Style.CLASSIC);
         maze.run(camera);
     }
 
     private void createMaze(int level) {
         maze = new Maze(27, 35);
-        maze.setStartPosition(new Point(14, 25), Maze.Direction.RIGHT);
+        maze.setStartPosition(new Point(14, 26), Maze.Direction.RIGHT);
 
         //temporary walls
         maze.addWall(new Point(5, 16), new Point(5, 18));
@@ -53,7 +52,7 @@ public class Game {
         //lower half
         maze.addWalls(Wall.square(new Point(7, 18), new Point(8, 22)));
         maze.addWalls(Wall.square(new Point(19, 18), new Point(20, 22)));
-        maze.addWalls(Wall.T(new Point(10, 21), new Point(17, 22), new Point(14, 24)));
+        maze.addWalls(Wall.T(new Point(10, 21), new Point(17, 22), new Point(14, 25)));
         maze.addWalls(Wall.square(new Point(2, 24), new Point(5, 25)));
         maze.addWalls(Wall.square(new Point(4, 25), new Point(5, 28)));
         maze.addWalls(Wall.square(new Point(7, 24), new Point(11, 25)));
@@ -62,7 +61,7 @@ public class Game {
         maze.addWalls(Wall.square(new Point(22, 25), new Point(23, 28)));
         maze.addWalls(Wall.T(new Point(10, 27), new Point(17, 28), new Point(14, 31)));
         maze.addWalls(Wall.T(new Point(11, 31), new Point(2, 30), new Point(8, 27)));
-        maze.addWalls(Wall.T(new Point(25, 31), new Point(17, 30), new Point(20, 27)));
+        maze.addWalls(Wall.T(new Point(25, 31), new Point(16, 30), new Point(20, 27)));
 
         //vert cols are 6 and 21
         maze.addDots(Dot.line(new Point(1, 4), new Point(12, 4)));

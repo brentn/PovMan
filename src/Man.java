@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by brent on 08/01/15.
@@ -9,7 +11,7 @@ import java.util.Set;
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=10;
+    private static final int SPEED=1;
 
     private boolean alive=false;
     private boolean undecided;
@@ -39,27 +41,32 @@ public class Man implements IModel {
     }
 
     public void move(Maze maze) {
-        if (undecided && model.pastCenterOfTile(direction)) {
-            Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
-            Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
-            exitarray = exits.toArray(exitarray);
-            if (exits.size()>1) {
-                int choice = new Random().nextInt(exits.size());
-                direction = exitarray[choice];
-            } else {
-                direction=exits.iterator().next();
+        if (model.pastCenterOfTile(direction)) {
+            if (undecided) {
+                Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+                if (exits.size() > 1) {
+                    Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
+                    exitarray = exits.toArray(exitarray);
+                    int choice = new Random().nextInt(exits.size());
+                    direction = exitarray[choice];
+                } else {
+                    if (! exits.contains(direction))
+                        direction = exits.iterator().next();
+                }
+                model.reorient(direction);
+                undecided = false;
             }
-            System.out.println(Maze.Direction.values()[direction.ordinal()]);
-            model.reorient(direction);
-            undecided=false;
         } else {
             undecided=true;
         }
+        model.move(SPEED, direction);
+        eat(maze.dotAt(getTile()));
     }
 
     public Point getPos() {
         return model.getPos();
     }
+    public Point getTile() { return model.getTile(); }
 
     public Point getTileAhead(int distance) {
         Point tile = model.getTile();
@@ -118,7 +125,6 @@ public class Man implements IModel {
                 alive = true;
             }
             undecided=false;
-            //TODO: insert pause
         }
     }
 
