@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4f52456d-eadf-4a2d-bcbc-636667604844" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Blinky.java" afterPath="$PROJECT_DIR$/src/Blinky.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Camera.java" afterPath="$PROJECT_DIR$/src/Camera.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Clyde.java" afterPath="$PROJECT_DIR$/src/Clyde.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Dot.java" afterPath="$PROJECT_DIR$/src/Dot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Game.java" afterPath="$PROJECT_DIR$/src/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Ghost.java" afterPath="$PROJECT_DIR$/src/Ghost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ImageModel.java" afterPath="$PROJECT_DIR$/src/ImageModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Inky.java" afterPath="$PROJECT_DIR$/src/Inky.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Man.java" afterPath="$PROJECT_DIR$/src/Man.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Maze.java" afterPath="$PROJECT_DIR$/src/Maze.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Pinky.java" afterPath="$PROJECT_DIR$/src/Pinky.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/WireframeModel.java" afterPath="$PROJECT_DIR$/src/WireframeModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="4f52456d-eadf-4a2d-bcbc-636667604844" name="Default" comment="" />
     <ignored path="PovMan.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -103,7 +89,7 @@
       <file leaf-file-name="WireframeModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/WireframeModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="0" selection-start="2088" selection-end="2088" vertical-scroll-proportion="0.0" vertical-offset="842" max-vertical-offset="1674">
+            <state line="42" column="56" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0" vertical-offset="666" max-vertical-offset="1692">
               <folding />
             </state>
           </provider>
@@ -132,7 +118,7 @@
       <file leaf-file-name="Wall.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Wall.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="5" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="2070">
+            <state line="40" column="5" selection-start="1150" selection-end="1150" vertical-scroll-proportion="0.0" vertical-offset="702" max-vertical-offset="2070">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1632#1633#0" expanded="true" />
@@ -147,22 +133,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Camera.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Camera.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Camera.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="40" selection-start="197" selection-end="197" vertical-scroll-proportion="0.44262296" vertical-offset="0" max-vertical-offset="2484">
+            <state line="8" column="40" selection-start="197" selection-end="197" vertical-scroll-proportion="-4.32" vertical-offset="0" max-vertical-offset="2484">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Man.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Man.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Man.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="30" selection-start="1296" selection-end="1296" vertical-scroll-proportion="-2.16" vertical-offset="810" max-vertical-offset="2304">
+            <state line="40" column="13" selection-start="946" selection-end="946" vertical-scroll-proportion="0.44262296" vertical-offset="576" max-vertical-offset="2502">
               <folding>
-                <element signature="e#3429#3430#0" expanded="true" />
-                <element signature="e#3457#3458#0" expanded="true" />
+                <element signature="e#3890#3891#0" expanded="true" />
+                <element signature="e#3918#3919#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -171,11 +157,11 @@
       <file leaf-file-name="Ghost.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Ghost.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="60" selection-start="1463" selection-end="1463" vertical-scroll-proportion="-4.92" vertical-offset="831" max-vertical-offset="2502">
+            <state line="53" column="0" selection-start="1400" selection-end="1400" vertical-scroll-proportion="-2.88" vertical-offset="882" max-vertical-offset="2574">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#759#760#0" expanded="true" />
-                <element signature="e#775#776#0" expanded="true" />
+                <element signature="e#792#793#0" expanded="true" />
+                <element signature="e#808#809#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -184,7 +170,7 @@
       <file leaf-file-name="Blinky.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Blinky.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="40" selection-start="191" selection-end="191" vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="504">
+            <state line="10" column="15" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="504">
               <folding />
             </state>
           </provider>
@@ -212,7 +198,7 @@
       <file leaf-file-name="ImageModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ImageModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="105" column="37" selection-start="3029" selection-end="3029" vertical-scroll-proportion="-4.16" vertical-offset="1732" max-vertical-offset="2358">
+            <state line="114" column="0" selection-start="3420" selection-end="3420" vertical-scroll-proportion="-8.32" vertical-offset="1790" max-vertical-offset="2340">
               <folding>
                 <element signature="e#804#805#0" expanded="true" />
                 <element signature="e#836#837#0" expanded="true" />
@@ -247,17 +233,17 @@
         <option value="$PROJECT_DIR$/src/Consumable.java" />
         <option value="$PROJECT_DIR$/src/Wall.java" />
         <option value="$PROJECT_DIR$/src/Dot.java" />
-        <option value="$PROJECT_DIR$/src/Blinky.java" />
         <option value="$PROJECT_DIR$/src/Clyde.java" />
         <option value="$PROJECT_DIR$/src/Inky.java" />
         <option value="$PROJECT_DIR$/src/Pinky.java" />
-        <option value="$PROJECT_DIR$/src/Ghost.java" />
         <option value="$PROJECT_DIR$/src/Game.java" />
         <option value="$PROJECT_DIR$/src/Maze.java" />
-        <option value="$PROJECT_DIR$/src/WireframeModel.java" />
-        <option value="$PROJECT_DIR$/src/Man.java" />
-        <option value="$PROJECT_DIR$/src/ImageModel.java" />
         <option value="$PROJECT_DIR$/src/Camera.java" />
+        <option value="$PROJECT_DIR$/src/Blinky.java" />
+        <option value="$PROJECT_DIR$/src/WireframeModel.java" />
+        <option value="$PROJECT_DIR$/src/ImageModel.java" />
+        <option value="$PROJECT_DIR$/src/Ghost.java" />
+        <option value="$PROJECT_DIR$/src/Man.java" />
       </list>
     </option>
   </component>
@@ -694,7 +680,15 @@
       <created>1421103734156</created>
       <updated>1421103734156</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Initial follow-cam">
+      <created>1421122760809</created>
+      <updated>1421122760809</updated>
+    </task>
+    <task id="LOCAL-00008" summary="work on movement">
+      <created>1421162049470</created>
+      <updated>1421162049470</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -767,7 +761,9 @@
     <MESSAGE value="First glimpses of walls" />
     <MESSAGE value="First glimplses of everything" />
     <MESSAGE value="Proper maze defined&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Proper maze defined&#10;" />
+    <MESSAGE value="Initial follow-cam" />
+    <MESSAGE value="work on movement" />
+    <option name="LAST_COMMIT_MESSAGE" value="work on movement" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -951,22 +947,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Wall.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="5" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="2070">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1632#1633#0" expanded="true" />
-            <element signature="e#1660#1661#0" expanded="true" />
-            <element signature="e#1798#1804#0" expanded="true" />
-            <element signature="e#2134#2140#0" expanded="true" />
-            <element signature="e#2429#2435#0" expanded="true" />
-            <element signature="e#2725#2731#0" expanded="true" />
-            <element signature="e#3282#3288#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Clyde.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="40" selection-start="189" selection-end="189" vertical-scroll-proportion="0.29739776" vertical-offset="82" max-vertical-offset="648">
@@ -988,13 +968,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Blinky.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="40" selection-start="191" selection-end="191" vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="504">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Dot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="5" selection-start="825" selection-end="825" vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="972">
@@ -1004,44 +977,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Ghost.java">
+    <entry file="file://$PROJECT_DIR$/src/Camera.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="60" selection-start="1463" selection-end="1463" vertical-scroll-proportion="-4.92" vertical-offset="831" max-vertical-offset="2502">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#759#760#0" expanded="true" />
-            <element signature="e#775#776#0" expanded="true" />
-          </folding>
+        <state line="8" column="40" selection-start="197" selection-end="197" vertical-scroll-proportion="-4.32" vertical-offset="0" max-vertical-offset="2484">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Game.java">
+    <entry file="file://$PROJECT_DIR$/src/Blinky.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="82" selection-start="2158" selection-end="2158" vertical-scroll-proportion="0.0" vertical-offset="711" max-vertical-offset="1782">
+        <state line="10" column="15" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="504">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Wall.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="5" selection-start="1150" selection-end="1150" vertical-scroll-proportion="0.0" vertical-offset="702" max-vertical-offset="2070">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1632#1633#0" expanded="true" />
+            <element signature="e#1660#1661#0" expanded="true" />
+            <element signature="e#1798#1804#0" expanded="true" />
+            <element signature="e#2134#2140#0" expanded="true" />
+            <element signature="e#2429#2435#0" expanded="true" />
+            <element signature="e#2725#2731#0" expanded="true" />
+            <element signature="e#3282#3288#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/WireframeModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="0" selection-start="2088" selection-end="2088" vertical-scroll-proportion="0.0" vertical-offset="842" max-vertical-offset="1674">
+        <state line="42" column="56" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0" vertical-offset="666" max-vertical-offset="1692">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Man.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="30" selection-start="1296" selection-end="1296" vertical-scroll-proportion="-2.16" vertical-offset="810" max-vertical-offset="2304">
-          <folding>
-            <element signature="e#3429#3430#0" expanded="true" />
-            <element signature="e#3457#3458#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ImageModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="37" selection-start="3029" selection-end="3029" vertical-scroll-proportion="-4.16" vertical-offset="1732" max-vertical-offset="2358">
+        <state line="114" column="0" selection-start="3420" selection-end="3420" vertical-scroll-proportion="-8.32" vertical-offset="1790" max-vertical-offset="2340">
           <folding>
             <element signature="e#804#805#0" expanded="true" />
             <element signature="e#836#837#0" expanded="true" />
@@ -1067,10 +1042,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Camera.java">
+    <entry file="file://$PROJECT_DIR$/src/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="40" selection-start="197" selection-end="197" vertical-scroll-proportion="0.44262296" vertical-offset="0" max-vertical-offset="2484">
+        <state line="48" column="82" selection-start="2158" selection-end="2158" vertical-scroll-proportion="0.0" vertical-offset="711" max-vertical-offset="1782">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Ghost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="0" selection-start="1400" selection-end="1400" vertical-scroll-proportion="-2.88" vertical-offset="882" max-vertical-offset="2574">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#792#793#0" expanded="true" />
+            <element signature="e#808#809#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Man.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="13" selection-start="946" selection-end="946" vertical-scroll-proportion="0.44262296" vertical-offset="576" max-vertical-offset="2502">
+          <folding>
+            <element signature="e#3890#3891#0" expanded="true" />
+            <element signature="e#3918#3919#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
