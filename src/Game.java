@@ -69,8 +69,8 @@ public class Game {
         maze.addDots(Dot.line(new Point(6, 5), new Point(6, 29)));
         maze.addDots(Dot.line(new Point(21, 5), new Point(21, 29)));
         maze.addDots(Dot.line(new Point(1, 32), new Point(26, 32)));
-        maze.addDots(Dot.line(new Point(7, 26), new Point(12, 26)));
-        maze.addDots(Dot.line(new Point(15, 26), new Point(20, 26)));
+        maze.addDots(Dot.line(new Point(7, 26), new Point(13, 26)));
+        maze.addDots(Dot.line(new Point(15, 26), new Point(21, 26)));
 
         maze.addGhosts(new Point(13, 13));
         maze.addWave(7, Ghost.Mode.SCATTER);

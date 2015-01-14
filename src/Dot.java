@@ -11,7 +11,7 @@ public class Dot extends Consumable implements IModel {
     private static final int HEIGHT = 0;
 
     private static boolean initialized=false;
-    private static boolean play_audio=false;
+    private static boolean play_audio=true;
     private static Clip chomp_sound;
 
     private Point pos;
@@ -27,11 +27,12 @@ public class Dot extends Consumable implements IModel {
         super(DEFAULT_POINTS);
         this.pos = new Point(x, y);
         createDotModel();
+        if (! initialized) initializeAudio();
     }
 
     @Override
     public int consume() {
-        if (play_audio) chomp_sound.start();
+        play_sound();
         return super.consume();
     }
 
@@ -61,7 +62,11 @@ public class Dot extends Consumable implements IModel {
         return dots;
     }
 
-        private static void initializeAudio() {
+    private static void play_sound() {
+        //if (play_audio) chomp_sound.start();
+    }
+
+    private static void initializeAudio() {
         try {
             initialized = true;
             AudioInputStream ais = AudioSystem.getAudioInputStream(CHOMP_SOUND);

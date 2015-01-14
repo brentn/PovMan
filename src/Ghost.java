@@ -10,7 +10,7 @@ public abstract class Ghost extends Consumable implements IModel {
     public static final int FRIGHTENED_SPEED = 1;
     private static final int POINTS = 200;
 
-    private Point home;
+    protected Point home;
     protected int speed;
     protected boolean undecided;
     protected Maze.Direction direction;
@@ -129,7 +129,7 @@ public abstract class Ghost extends Consumable implements IModel {
         return null;
     }
 
-    private void createGhostModel() {
+    protected void createGhostModel() {
         model = new ImageModel(home, null, new Point3D(80, 80, 100));
     }
 

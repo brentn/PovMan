@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -122,6 +123,8 @@ public class ImageModel extends Model {
                 screen.setColor(Color.white);
             }
             screen.fillOval(point.x-(width/2), point.y - (width/2),width ,width);
+        } else {
+            screen.drawImage(image, point.x-(width/2), point.y - (width/2), width ,width, null);
         }
     }
 }
