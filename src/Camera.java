@@ -67,7 +67,7 @@ public class Camera extends JFrame {
         }
         double amount = Math.abs(theta-trail);
         if (amount >= Math.PI) amount-=Math.PI;
-        amount = amount/20;
+        amount = amount/200;
         if (theta>trail) {
             if ((theta-trail)<Math.PI) {
                 theta -= amount;
@@ -117,8 +117,8 @@ public class Camera extends JFrame {
     }
 
     private Point calculate2DCameraPosition() {
-        int x = target.x-(int)(distance*cosTsinP+0.5);
-        int y = target.y+(int)(distance*sinTsinP+0.5);
+        int x = target.x+(int)(distance*10*sinTsinP);
+        int y = target.y-(int)(distance*10*cosTsinP);
         return new Point(x,y);
     }
 

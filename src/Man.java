@@ -48,8 +48,9 @@ public class Man implements IModel {
                 if (exits.size() > 1) {
                     Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
                     exitarray = exits.toArray(exitarray);
-                    int choice = new Random().nextInt(exits.size());
-                    direction = exitarray[choice];
+                    int choice = new Random().nextInt(exits.size()+4); //add 4 to improve the chances of NOT changing direction
+                    if (choice < exits.size())
+                        direction = exitarray[choice];
                 } else {
                     if (! exits.contains(direction))
                         direction = exits.iterator().next();

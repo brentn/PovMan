@@ -154,6 +154,7 @@ public class Maze {
 
     public void run(Camera camera) {
         final Camera c = camera;
+        precalculateExits();
         resetGhosts();
         if (!man.isAlive()) {
             man.recessutate();
