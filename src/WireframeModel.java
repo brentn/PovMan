@@ -74,7 +74,7 @@ public class WireframeModel  extends Model {
         }
 
         // draw 2d image
-        screen.setColor(Color.black);
+        screen.setColor(new Color(0, 0, 0, 0.7f));
         screen.fillPolygon(xcoords, ycoords, 4);
         screen.setColor(Color.BLUE);
         for (int  j = 0; j < edges.length; ++j ) {

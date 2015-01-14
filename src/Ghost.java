@@ -53,6 +53,8 @@ public abstract class Ghost extends Consumable implements IModel {
             if (undecided) {
                 Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
                 exits.remove(reverse());
+                if (exits.size()==0)
+                    return;
                 if (exits.size() > 1) {
                     updateChaseTarget(maze);
                     chooseBestRoute(exits);

@@ -14,7 +14,7 @@ public class Game {
     public Game() {
         level = 1;
         createMaze(level);
-        camera = new Camera(new Point3D(maze.getMan().getPos(), 50), Camera.Style.FOLLOW);
+        camera = new Camera(new Point3D(maze.getMan().getPos(), 50), Camera.Style.CLASSIC);
         maze.run(camera);
     }
 
@@ -72,7 +72,7 @@ public class Game {
         maze.addDots(Dot.line(new Point(7, 26), new Point(13, 26)));
         maze.addDots(Dot.line(new Point(15, 26), new Point(21, 26)));
 
-        maze.addGhosts(new Point(13, 13));
+        maze.addGhosts(new Point(13, 14));
         maze.addWave(7, Ghost.Mode.SCATTER);
         maze.addWave(20, Ghost.Mode.CHASE);
         maze.addWave(7, Ghost.Mode.SCATTER);

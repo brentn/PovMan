@@ -46,9 +46,9 @@ public class Camera extends JFrame {
     }
 
     private void setFollowOrientation() {
-        theta=0;
+        theta=1;
         phi= -.3;
-        distance=4;
+        distance=2;
         calculateProjectionCoefficinets();
     }
 

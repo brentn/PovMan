@@ -17,6 +17,7 @@ public class Maze {
     private Collection<Wall> walls;
     private Collection<Dot> dots;
     private Collection<Ghost> ghosts;
+    private Set<Direction>[][] exits;
     private Queue<Wave> waves;
     private int doubler;
     private Man man;
@@ -30,6 +31,7 @@ public class Maze {
     public Maze(int x, int y) {
         initializeAudio();
         this.size = new Point(x, y);
+        this.exits = new Set[x][y];
         walls = new HashSet<Wall>();
         dots = new HashSet<Dot>();
         ghosts = new HashSet<Ghost>();
@@ -73,6 +75,25 @@ public class Maze {
         dots.addAll(new_dots);
     }
 
+    private void precalculateExits() {
+        for (int x=0; x<size.x; x++) {
+            for (int y=0; y<size.y; y++) {
+                exits[x][y] = calculateExitsFrom(x, y);
+            }
+        }
+    }
+
+    public Set<Direction> calculateExitsFrom(int x, int y) {
+        if (wallAt(new Point(x, y)))
+            return null;
+        Set<Direction> exits = new HashSet<Direction>();
+        if (! wallAt(new Point(x-1, y))) exits.add(Direction.LEFT);
+        if (! wallAt(new Point(x+1, y))) exits.add(Direction.RIGHT);
+        if (! wallAt(new Point(x, y-1))) exits.add(Direction.UP);
+        if (! wallAt(new Point(x, y+1))) exits.add(Direction.DOWN);
+        return exits;
+    }
+
     public void setStartPosition(Point pos, Direction dir) {
         man.setStartPosition(pos, dir);
     }
@@ -107,13 +128,9 @@ public class Maze {
         doubler = doubler*2;
     }
 
+
     public Set<Direction> getExitsFrom(Point tile) {
-        Set<Direction> exits = new HashSet<Direction>();
-        if (! wallAt(new Point(tile.x-1, tile.y))) exits.add(Direction.LEFT);
-        if (! wallAt(new Point(tile.x+1, tile.y))) exits.add(Direction.RIGHT);
-        if (! wallAt(new Point(tile.x, tile.y-1))) exits.add(Direction.UP);
-        if (! wallAt(new Point(tile.x, tile.y+1))) exits.add(Direction.DOWN);
-        return exits;
+        return exits[tile.x][tile.y];
     }
 
     private void resetGhosts() {

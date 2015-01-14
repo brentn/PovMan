@@ -24,6 +24,9 @@ public class Wall implements IModel {
     }
 
     public boolean contains(Point pos) {
+        if (pos.x==13 && pos.y==13) {
+            start=start;
+        }
         if (isVertical()) {
             if (pos.x != start.x) return false;
             if ((pos.y > start.y) && (pos.y > end.y)) return false;
