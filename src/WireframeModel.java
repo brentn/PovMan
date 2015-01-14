@@ -37,7 +37,6 @@ public class WireframeModel  extends Model {
     @Override
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
-        float distToWall = getDistanceToCenterOfWall(camera.pos);
         Point[] points = new Point[ vertices.length ];
         for (int j=0; j<vertices.length; j++) {
             // the +50 is to center the wall in the tile
@@ -54,8 +53,8 @@ public class WireframeModel  extends Model {
 
             // the 0.5 is to round off when converting to int
             points[j] = new Point(
-                    (int)(camera.getSize().width/2 +  x1/camera.DISTANCE  + 0.5),
-                    (int)(camera.getSize().height/2 - y1/camera.DISTANCE + 0.5)
+                    (int)(camera.getSize().width/2 +  x1/camera.distance  + 0.5),
+                    (int)(camera.getSize().height/2 - y1/camera.distance + 0.5)
             );
         }
 

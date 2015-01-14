@@ -1,13 +1,19 @@
+import javax.sound.sampled.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
 
-/**
- * Created by brent on 08/01/15.
- */
+
 public class Dot extends Consumable implements IModel {
-    private static int DEFAULT_POINTS=100;
-    private static int HEIGHT = 0;
+    private static final File CHOMP_SOUND = new File("resources/sounds/dot.wav");
+    private static final int DEFAULT_POINTS=100;
+    private static final int HEIGHT = 0;
+
+    private static boolean initialized=false;
+    private static boolean play_audio=false;
+    private static Clip chomp_sound;
+
     private Point pos;
     private ImageModel model;
 
@@ -15,11 +21,18 @@ public class Dot extends Consumable implements IModel {
         super(DEFAULT_POINTS);
         this.pos = pos;
         createDotModel();
+        if (! initialized) initializeAudio();
     }
     public Dot(int x, int y) {
         super(DEFAULT_POINTS);
         this.pos = new Point(x, y);
         createDotModel();
+    }
+
+    @Override
+    public int consume() {
+        if (play_audio) chomp_sound.start();
+        return super.consume();
     }
 
     public Point getPos() { return pos; }
@@ -46,5 +59,18 @@ public class Dot extends Consumable implements IModel {
             }
         }
         return dots;
+    }
+
+        private static void initializeAudio() {
+        try {
+            initialized = true;
+            AudioInputStream ais = AudioSystem.getAudioInputStream(CHOMP_SOUND);
+            AudioFormat format = ais.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            chomp_sound = (Clip) AudioSystem.getLine(info);
+            chomp_sound.open(ais);
+        } catch(Exception e) {
+            play_audio =false;
+        }
     }
 }

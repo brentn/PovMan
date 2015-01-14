@@ -6,24 +6,45 @@ import java.awt.image.BufferedImage;
  * Created by brent on 08/01/15.
  */
 public class Camera extends JFrame {
-    public static final float DISTANCE=5;
 
-    public Point3D pos, target;
+    public static enum Style {CLASSIC, FOLLOW}
+
+    public Point3D target;
+    protected Style style;
+    protected float distance;
     private double theta, phi;
     public float sinT, sinP, cosT, cosP;
     public float sinTcosP, cosTcosP, cosTsinP, sinTsinP;
     private Draw viewport;
     public BufferedImage image = null;
 
-    public Camera(Point3D pos, Point3D target) {
+    public Camera(Point3D target, Style style) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 500);
         this.setVisible(true);
         viewport = new Draw();
         this.add(viewport);
-        this.pos = pos;
         this.target = target;
-        calculateCameraAngle(pos);
+        this.style=style;
+        switch (style) {
+            case CLASSIC:setClassicOrientation();
+                break;
+            case FOLLOW:setFollowOrientation();
+                break;
+        }
+    }
+
+    private void setClassicOrientation() {
+        phi=-Math.PI/2;
+        theta=0;
+        distance=10;
+        calculateProjectionCoefficinets();
+    }
+
+    private void setFollowOrientation() {
+        theta=0;
+        phi= -.3;
+        distance=4;
         calculateProjectionCoefficinets();
     }
 

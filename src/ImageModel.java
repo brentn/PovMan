@@ -107,12 +107,12 @@ public class ImageModel extends Model {
         // compute orthographic projection
         float x1 = camera.cosT*x + camera.sinT*y;
         float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;
-        int width = (int)(size.x/camera.DISTANCE+.5);
+        int width = (int)(size.x/camera.distance+.5);
 
         // the 0.5 is to round off when converting to int
         Point point = new Point(
-                (int)(camera.getSize().width/2 +  x1/camera.DISTANCE  + 0.5),
-                (int)(camera.getSize().height/2 - y1/camera.DISTANCE + 0.5)
+                (int)(camera.getSize().width/2 +  x1/camera.distance  + 0.5),
+                (int)(camera.getSize().height/2 - y1/camera.distance + 0.5)
         );
         // draw 2d image
         if (image==null) {
