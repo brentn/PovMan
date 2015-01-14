@@ -100,6 +100,13 @@ public class ImageModel extends Model {
     }
 
     @Override
+    public void calculateDistance(Point from) {
+        int dx = getPos().x-from.x;
+        int dy = getPos().y-from.y;
+        distance = dx*dx+dy*dy;
+    }
+
+    @Override
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
         int x = tile.x*100 + offset.x - camera.target.x;
@@ -127,4 +134,5 @@ public class ImageModel extends Model {
             screen.drawImage(image, point.x-(width/2), point.y - (width/2), width ,width, null);
         }
     }
+
 }

@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * Created by brent on 08/01/15.
@@ -83,7 +87,21 @@ public class Camera extends JFrame {
     }
 
     public void capture(Maze maze) {
-        //TODO:sort all objects from far to near
+        Point pos = calculateCameraPosition();
+
+        // sort all objects from far to near
+        Set<IModel> objects = new HashSet<IModel>();
+        DistanceComparator comparator = new DistanceComparator();
+        PriorityQueue<Model> models = new PriorityQueue<Model>(100, comparator);
+        objects.addAll(maze.getWalls());
+        objects.addAll(maze.getDots());
+        objects.addAll(maze.getGhosts());
+        objects.add(maze.getMan());
+        for (IModel object : objects) {
+            object.getModel().calculateDistance(pos);
+            models.add(object.getModel());
+        }
+
         //TODO:eliminate models outside field of view
         this.image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
         this.image.createGraphics();
@@ -91,29 +109,11 @@ public class Camera extends JFrame {
         viewport.paintComponent(screen);
         screen.setColor(Color.black);
         screen.fillRect(0, 0, this.getWidth(), this.getHeight());
-        //Draw walls
-        for (Wall wall : maze.getWalls()) {
-            wall.getModel().drawAsViewedBy(this);
-        }
-        //Draw dots
-        for (Dot dot : maze.getDots()) {
-            if (! dot.hasBeenConsumed()) {
-                dot.getModel().drawAsViewedBy(this);
-            }
+        for (Model item : models) {
+            item.drawAsViewedBy(this);
         }
         viewport.updateImage(image);
         viewport.repaint(0,0,400,500);
-        //Draw ghosts
-        for (Ghost ghost : maze.getGhosts()) {
-            if (ghost.isAlive()) {
-                ghost.getModel().drawAsViewedBy(this);
-            }
-        }
-        //Draw man
-        Man man = maze.getMan();
-        if (man.isAlive()) {
-            man.getModel().drawAsViewedBy(this);
-        }
     }
 
     private void calculateCameraAngle(Point3D pos) {
@@ -150,6 +150,16 @@ public class Camera extends JFrame {
             if (buffer!=null) {
                 g.drawImage(buffer, 0, 0, this);
             }
+        }
+    }
+
+    class DistanceComparator implements Comparator<Model> {
+
+        @Override
+        public int compare(Model model, Model model2) {
+            if (model.getDistance() < model2.getDistance()) return -1;
+            if (model.getDistance() > model2.getDistance()) return 1;
+            return 0;
         }
     }
 }

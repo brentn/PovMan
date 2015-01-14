@@ -35,6 +35,20 @@ public class WireframeModel  extends Model {
     }
 
     @Override
+    public void calculateDistance(Point from) {
+        int x = 0, y=0;
+        for (Point3D vertex : vertices) {
+            x+=vertex.x;
+            y+=vertex.y;
+        }
+        x = x/vertices.length;
+        y = y/vertices.length;
+        int dx = x-from.x;
+        int dy = y-from.y;
+        distance = dx*dx+dy*dy;
+    }
+
+    @Override
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
         Point[] points = new Point[ vertices.length ];
@@ -69,19 +83,4 @@ public class WireframeModel  extends Model {
         }
     }
 
-    private float getDistanceToCenterOfWall(Point3D origin) {
-        int x=0, y=0, z=0; //center of object
-        int dx, dy, dz; //distance between object and camera
-        int n=vertices.length;
-        for (Point3D point : vertices) {
-            x+=point.x;
-            y+=point.y;
-            z+=point.z;
-        }
-        Point3D center = new Point3D(x/n, y/n, z/n);
-        dx = 1*(origin.x-center.x);
-        dy = 1*(origin.y-center.y);
-        dz = 1*(origin.z-center.z);
-        return (float)Math.sqrt(dx*dx + dy*dy + dz*dz);
-    }
 }
