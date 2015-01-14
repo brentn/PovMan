@@ -14,7 +14,7 @@ public class Game {
     public Game() {
         level = 1;
         createMaze(level);
-        camera = new Camera(new Point3D(maze.getMan().getPos(), 50), Camera.Style.CLASSIC);
+        camera = new Camera(new Point3D(maze.getMan().getPos(), 50), Camera.Style.FOLLOW);
         maze.run(camera);
     }
 

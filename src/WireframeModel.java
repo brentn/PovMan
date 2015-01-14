@@ -52,6 +52,8 @@ public class WireframeModel  extends Model {
     public void drawAsViewedBy(Camera camera) {
         Graphics screen = camera.image.getGraphics();
         Point[] points = new Point[ vertices.length ];
+        int[] xcoords = new int[4];
+        int[] ycoords = new int[4];
         for (int j=0; j<vertices.length; j++) {
             // the +50 is to center the wall in the tile
             int x0 = vertices[j].x*100 +50 - camera.target.x;
@@ -66,13 +68,14 @@ public class WireframeModel  extends Model {
             //y1 = y1*3f/(z1+3f+1.5f);
 
             // the 0.5 is to round off when converting to int
-            points[j] = new Point(
-                    (int)(camera.getSize().width/2 +  x1/camera.distance  + 0.5),
-                    (int)(camera.getSize().height/2 - y1/camera.distance + 0.5)
-            );
+            xcoords[j] = (int)(camera.getSize().width/2 +  x1/camera.distance  + 0.5);
+            ycoords[j] = (int)(camera.getSize().height/2 - y1/camera.distance + 0.5);
+            points[j] = new Point(xcoords[j], ycoords[j]);
         }
 
         // draw 2d image
+        screen.setColor(Color.black);
+        screen.fillPolygon(xcoords, ycoords, 4);
         screen.setColor(Color.BLUE);
         for (int  j = 0; j < edges.length; ++j ) {
 //            System.out.println(points[edges[j].start] + "-" + points[edges[j].end]);

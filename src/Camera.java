@@ -87,7 +87,7 @@ public class Camera extends JFrame {
     }
 
     public void capture(Maze maze) {
-        Point pos = calculateCameraPosition();
+        Point pos = calculate2DCameraPosition();
 
         // sort all objects from far to near
         Set<IModel> objects = new HashSet<IModel>();
@@ -114,6 +114,12 @@ public class Camera extends JFrame {
         }
         viewport.updateImage(image);
         viewport.repaint(0,0,400,500);
+    }
+
+    private Point calculate2DCameraPosition() {
+        int x = target.x-(int)(distance*cosTsinP+0.5);
+        int y = target.y+(int)(distance*sinTsinP+0.5);
+        return new Point(x,y);
     }
 
     private void calculateCameraAngle(Point3D pos) {
