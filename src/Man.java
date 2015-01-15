@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=10;
+    private static final int SPEED=1;
     private static final String MAN_IMAGE = "resources/images/man.png";
 
     private boolean alive=false;
@@ -152,7 +152,7 @@ public class Man implements IModel {
 
     private void createManModel() {
         Image image = Toolkit.getDefaultToolkit().getImage(MAN_IMAGE);
-        model = new ImageModel(initial_tile, image, new Point3D(120,120,120));
+        model = new ImageModel(initial_tile, image, new Point3D(150,150,150));
     }
 
     @Override

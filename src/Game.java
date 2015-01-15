@@ -19,7 +19,7 @@ public class Game {
     }
 
     private void createMaze(int level) {
-        maze = new Maze(27, 35);
+        maze = new Maze(28, 36);
         maze.setStartPosition(new Point(14, 26), Maze.Direction.RIGHT);
 
         //temporary walls

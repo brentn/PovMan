@@ -33,13 +33,6 @@ public class Dot extends Consumable implements IModel {
         if (! initialized) initializeAudio();
     }
 
-    @Override
-    public int consume() {
-        int result=super.consume();
-        play_sound();
-        return result;
-    }
-
     public Point getPos() { return pos; }
 
     private void createDotModel() {
@@ -64,14 +57,6 @@ public class Dot extends Consumable implements IModel {
             }
         }
         return dots;
-    }
-
-    private static void play_sound() {
-        if (play_audio)
-            if (chomp_sound.isRunning())
-                chomp_sound.stop();
-            chomp_sound.setFramePosition(0);
-            chomp_sound.start();
     }
 
     private static void initializeAudio() {

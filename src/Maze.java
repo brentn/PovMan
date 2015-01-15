@@ -1,4 +1,3 @@
-import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
 import java.util.*;
@@ -15,7 +14,7 @@ public class Maze {
 
     private Point size;
     private Collection<Wall> walls;
-    private boolean[][] isPath;
+    private boolean[][] isWall;
     private Collection<Dot> dots;
     private Dot[][] dotAt;
     private Collection<Ghost> ghosts;
@@ -32,7 +31,7 @@ public class Maze {
     public Maze(int x, int y) {
         this.size = new Point(x, y);
         this.walls = new HashSet<Wall>();
-        this.isPath =  new boolean[x][y];
+        this.isWall =  new boolean[x][y];
         this.dots = new HashSet<Dot>();
         this.dotAt = new Dot[x][y];
         this.ghosts = new HashSet<Ghost>();
@@ -63,25 +62,25 @@ public class Maze {
     private void toggleIsPath(Wall wall) {
         Point start = wall.getStart();
         Point end = wall.getEnd();
-        for (int x=start.x; x<end.x; x++) {
-            for (int y=start.y; y<end.y; y++) {
-                isPath[x][y]=false;
+        for (int x=start.x; x<=end.x; x++) {
+            for (int y=start.y; y<=end.y; y++) {
+                isWall[x][y]=true;
             }
         }
     }
     public boolean wallAt(Point pos) {
-        return (!isPath[pos.x][pos.y]);
+        return (!isWall[pos.x][pos.y]);
     }
     public Set<Direction> getExitsFrom(Point tile) {
         int x = tile.x;
         int y = tile.y;
-        if (! isPath[x][y])
+        if (isWall[x][y])
             return null;
         Set<Direction> result = new HashSet<Direction>();
-        if (isPath[x-1][y]) result.add(Direction.LEFT);
-        if (isPath[x+1][y]) result.add(Direction.RIGHT);
-        if (isPath[x][y-1]) result.add(Direction.UP);
-        if (isPath[x][y+1]) result.add(Direction.DOWN);
+        if (! isWall[x-1][y]) result.add(Direction.LEFT);
+        if (! isWall[x+1][y]) result.add(Direction.RIGHT);
+        if (! isWall[x][y-1]) result.add(Direction.UP);
+        if (! isWall[x][y+1]) result.add(Direction.DOWN);
         return result;
     }
 
@@ -109,6 +108,7 @@ public class Maze {
     }
     public void remove(Dot dot) {
         Point pos = dot.getPos();
+        dots.remove(dot);
         dotAt[pos.x][pos.y] = null;
     }
 
@@ -169,33 +169,14 @@ public class Maze {
         man.die();
     }
 
-    public void initialize() {
+    public void run(Camera camera) {
         resetGhosts();
         if (! man.isAlive()) man.recessutate();
-        start_sound.after(run);
-    }
-
-    public void run(Camera camera) {
-        final Camera c = camera;
         camera.capture(this);
-        start_sound.after(start_gameplay());
-        start_sound().play();
-        if (play_audio) {
-            LineListener listener = new LineListener() {
-                public void update(LineEvent event) {
-                    if (event.getType() == LineEvent.Type.STOP) {
-                        play(c);
-                    }
-                }
-            };
-            start_sound.addLineListener(listener);
-            start_sound.start();
-        } else {
-            play(camera);
-        }
+        play(camera);
     }
 
-    private void start_gameplay(Camera camera) {
+    private void play(Camera camera) {
         while (man.isAlive()) {
             while (man.isAlive()) {
                 man.move(this);

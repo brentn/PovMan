@@ -19,7 +19,7 @@ public class Wall implements IModel {
         createWall(new Point(startx,starty), new Point(endx,endy));
     }
     private void createWall(Point start, Point end) {
-        if ((start.x < end.x) || (start.y < end.y))  {
+        if ((start.x > end.x) || (start.y > end.y))  {
             this.start = end;
             this.end = start;
         } else {

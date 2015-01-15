@@ -52,7 +52,10 @@ public abstract class Ghost extends Consumable implements IModel {
         if (model.pastCenterOfTile(direction)) {
             if (undecided) {
                 Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
-                exits.remove(reverse());
+                Maze.Direction reverse = reverse();
+                for (Maze.Direction d : exits) {System.out.print(d + ",");}
+                if (exits.contains(reverse)) { exits.remove(reverse); }
+                //System.out.println("removed " +reverse + " ");
                 if (exits.size()==0)
                     return;
                 if (exits.size() > 1) {
@@ -63,6 +66,7 @@ public abstract class Ghost extends Consumable implements IModel {
                     model.reorient(direction);
                 }
                 undecided = false;
+                //System.out.println("change direction " + direction);
             }
         } else {
             undecided=true;
