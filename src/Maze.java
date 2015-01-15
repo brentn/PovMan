@@ -32,8 +32,6 @@ public class Maze {
         this.size = new Point(x, y);
         this.walls = new HashSet<Wall>();
         this.isWall =  new boolean[x][y];
-        this.dots = new HashSet<Dot>();
-        this.dotAt = new Dot[x][y];
         this.ghosts = new HashSet<Ghost>();
         this.waves = new ArrayBlockingQueue<Wave>(20);
         this.currentWave = waves.iterator();
@@ -87,6 +85,11 @@ public class Maze {
     // DOTS
     public Collection<Dot> getDots() {
         return dots;
+    }
+    private void resetDots() {
+        dots = new HashSet<Dot>();
+        dotAt = new Dot[size.x][size.y];
+        dots.addAll(Dot.fill(isWall));
     }
     public void addDot(Dot dot) {
         dots.add(dot);
@@ -170,6 +173,7 @@ public class Maze {
     }
 
     public void run(Camera camera) {
+        resetDots();
         resetGhosts();
         if (! man.isAlive()) man.recessutate();
         camera.capture(this);

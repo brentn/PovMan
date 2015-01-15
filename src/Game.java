@@ -63,14 +63,6 @@ public class Game {
         maze.addWalls(Wall.T(new Point(11, 31), new Point(2, 30), new Point(8, 27)));
         maze.addWalls(Wall.T(new Point(25, 31), new Point(16, 30), new Point(20, 27)));
 
-        //vert cols are 6 and 21
-        maze.addDots(Dot.line(new Point(1, 4), new Point(12, 4)));
-        maze.addDots(Dot.line(new Point(15, 4), new Point(26, 4)));
-        maze.addDots(Dot.line(new Point(6, 5), new Point(6, 29)));
-        maze.addDots(Dot.line(new Point(21, 5), new Point(21, 29)));
-        maze.addDots(Dot.line(new Point(1, 32), new Point(26, 32)));
-        maze.addDots(Dot.line(new Point(7, 26), new Point(13, 26)));
-        maze.addDots(Dot.line(new Point(15, 26), new Point(21, 26)));
 
         maze.addGhosts(new Point(13, 14));
         maze.addWave(7, Ghost.Mode.SCATTER);

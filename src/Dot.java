@@ -59,6 +59,18 @@ public class Dot extends Consumable implements IModel {
         return dots;
     }
 
+    public static Collection<Dot> fill(boolean[][] wallAt) {
+        Collection<Dot> dots = new HashSet<Dot>();
+        for (int x=0; x<wallAt.length; x++) {
+            for (int y=0; y<wallAt[x].length; y++) {
+                if (! wallAt[x][y]) {
+                    dots.add(new Dot(x, y));
+                }
+            }
+        }
+        return dots;
+    }
+
     private static void initializeAudio() {
         try {
             initialized = true;
