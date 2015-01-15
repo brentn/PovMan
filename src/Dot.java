@@ -1,9 +1,6 @@
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -45,24 +42,24 @@ public class Dot extends Consumable implements IModel {
         return model;
     }
 
-    public static Collection<Dot> line(Point a, Point b) {
+    public static Collection<Dot> line(int startx, int starty, int endx, int endy) {
         Collection<Dot> dots = new HashSet<Dot>();
-        if (a.x==b.x) {
-            for (int y=a.y; y <= b.y; y++) {
-                dots.add(new Dot(a.x, y));
+        if (startx==endx) {
+            for (int y=starty; y <= endy; y++) {
+                dots.add(new Dot(startx, y));
             }
         } else {
-            for (int x=a.x; x <= b.x; x++) {
-                dots.add(new Dot(x, a.y));
+            for (int x=startx; x <= endx; x++) {
+                dots.add(new Dot(x, starty));
             }
         }
         return dots;
     }
 
-    public static Collection<Dot> fill(boolean[][] wallAt) {
+    public static Collection<Dot> fill(int startx, int starty, int endx, int endy, boolean[][] wallAt) {
         Collection<Dot> dots = new HashSet<Dot>();
-        for (int x=0; x<wallAt.length; x++) {
-            for (int y=0; y<wallAt[x].length; y++) {
+        for (int x=startx; x<=endx; x++) {
+            for (int y=starty; y<=endy; y++) {
                 if (! wallAt[x][y]) {
                     dots.add(new Dot(x, y));
                 }

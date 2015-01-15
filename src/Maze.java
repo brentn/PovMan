@@ -32,16 +32,19 @@ public class Maze {
         this.size = new Point(x, y);
         this.walls = new HashSet<Wall>();
         this.isWall =  new boolean[x][y];
+        this.dots = new HashSet<Dot>();
+        this.dotAt = new Dot[size.x][size.y];
         this.ghosts = new HashSet<Ghost>();
         this.waves = new ArrayBlockingQueue<Wave>(20);
         this.currentWave = waves.iterator();
-        this.man = new Man(new Point((int)(x/2), (int)(y/2)), Direction.RIGHT);
+        this.man = new Man(new Point((x/2), (y/2)), Direction.RIGHT);
         this.doubler=1;
         this.start_sound = new Sound(START_SOUND_FILE);
     }
 
     // WALLS
     public Collection<Wall> getWalls() {return walls;}
+    public boolean[][] getWallMask() { return isWall; }
     public void addWall(Wall wall) {
         addNewWall(wall);
     }
@@ -86,14 +89,11 @@ public class Maze {
     public Collection<Dot> getDots() {
         return dots;
     }
-    private void resetDots() {
-        dots = new HashSet<Dot>();
-        dotAt = new Dot[size.x][size.y];
-        dots.addAll(Dot.fill(isWall));
-    }
     public void addDot(Dot dot) {
-        dots.add(dot);
-        dotAt[dot.getPos().x][dot.getPos().y]=dot;
+        if (dotAt[dot.getPos().x][dot.getPos().y]==null) {
+            dots.add(dot);
+            dotAt[dot.getPos().x][dot.getPos().y] = dot;
+        }
     }
     public void addDot(Point pos) {
         addDot(new Dot(pos));
@@ -109,10 +109,18 @@ public class Maze {
     public Dot dotAt(Point pos) {
         return dotAt[pos.x][pos.y];
     }
-    public void remove(Dot dot) {
+    public void removeDot(Dot dot) {
         Point pos = dot.getPos();
         dots.remove(dot);
         dotAt[pos.x][pos.y] = null;
+    }
+    public void clearDots(int startx, int starty, int endx, int endy) {
+        for (int x=startx; x<=endx; x++) {
+            for (int y=starty; y<=endy; y++) {
+                dots.remove(dotAt[x][y]);
+                dotAt[x][y]=null;
+            }
+        }
     }
 
     // GHOSTS
@@ -173,7 +181,6 @@ public class Maze {
     }
 
     public void run(Camera camera) {
-        resetDots();
         resetGhosts();
         if (! man.isAlive()) man.recessutate();
         camera.capture(this);

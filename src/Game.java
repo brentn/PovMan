@@ -1,10 +1,6 @@
-import javax.sound.sampled.*;
 import java.awt.*;
-import java.io.File;
 
-/**
- * Created by brent on 08/01/15.
- */
+
 public class Game {
 
     private Maze maze;
@@ -63,6 +59,15 @@ public class Game {
         maze.addWalls(Wall.T(new Point(11, 31), new Point(2, 30), new Point(8, 27)));
         maze.addWalls(Wall.T(new Point(25, 31), new Point(16, 30), new Point(20, 27)));
 
+        maze.addDots(Dot.fill(6,13,21,21, maze.getWallMask()));
+        maze.addDots(Dot.fill(0,3,27,12, maze.getWallMask()));
+        maze.addDots(Dot.fill(0,22,27,33, maze.getWallMask()));
+        maze.clearDots(10,15, 17,19);
+        maze.clearDots(2,5,5,7);
+        maze.clearDots(7,5,11,7);
+        maze.clearDots(16,5,20,7);
+        maze.clearDots(22,5,25,7);
+        maze.removeDot(maze.dotAt(new Point(14, 26)));
 
         maze.addGhosts(new Point(13, 14));
         maze.addWave(7, Ghost.Mode.SCATTER);

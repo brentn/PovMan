@@ -1,12 +1,7 @@
 import java.awt.*;
 import java.util.Random;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
-/**
- * Created by brent on 08/01/15.
- */
 
 public class Man implements IModel {
 
@@ -67,7 +62,7 @@ public class Man implements IModel {
         Dot dot = maze.dotAt(getTile());
         if (dot!=null) {
             eat(dot);
-            maze.remove(dot);
+            maze.removeDot(dot);
         }
     }
 
@@ -90,29 +85,29 @@ public class Man implements IModel {
 
     public Maze.Direction getDirection() { return direction; }
 
-    private boolean canMoveForward(Maze maze) {
-        Point tile = model.getTile();
-        Point offset = model.getOffset();
-        switch (direction) {
-            case RIGHT:
-                if (offset.x+SPEED < 50) return true;
-                if (maze.wallAt(new Point(tile.x+1, tile.y))) return false;
-                break;
-            case LEFT:
-                if (offset.x-SPEED > 50) return true;
-                if (maze.wallAt(new Point(tile.x-1, tile.y))) return false;
-                break;
-            case UP:
-                if (offset.y-SPEED > 50) return true;
-                if (maze.wallAt(new Point(tile.x, tile.y-1))) return false;
-                break;
-            case DOWN:
-                if (offset.y+SPEED < 50) return true;
-                if (maze.wallAt(new Point(tile.x, tile.y+1))) return false;
-                break;
-        }
-        return true;
-    }
+//    private boolean canMoveForward(Maze maze) {
+//        Point tile = model.getTile();
+//        Point offset = model.getOffset();
+//        switch (direction) {
+//            case RIGHT:
+//                if (offset.x+SPEED < 50) return true;
+//                if (maze.wallAt(new Point(tile.x+1, tile.y))) return false;
+//                break;
+//            case LEFT:
+//                if (offset.x-SPEED > 50) return true;
+//                if (maze.wallAt(new Point(tile.x-1, tile.y))) return false;
+//                break;
+//            case UP:
+//                if (offset.y-SPEED > 50) return true;
+//                if (maze.wallAt(new Point(tile.x, tile.y-1))) return false;
+//                break;
+//            case DOWN:
+//                if (offset.y+SPEED < 50) return true;
+//                if (maze.wallAt(new Point(tile.x, tile.y+1))) return false;
+//                break;
+//        }
+//        return true;
+//    }
 
     private Maze.Direction reverse() {
         switch(direction) {
