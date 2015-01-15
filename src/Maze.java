@@ -11,7 +11,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class Maze {
     public static enum Direction {RIGHT, DOWN, LEFT, UP}
 
-    private static final File START_SOUND = new File("resources/sounds/start.wav");
+    private static final File START_SOUND_FILE = new File("resources/sounds/start.wav");
 
     private Point size;
     private Collection<Wall> walls;
@@ -27,10 +27,9 @@ public class Maze {
     private Timer waveTimer = new Timer();
     private Iterator<Wave> currentWave;
     private boolean play_audio = true;
-    private Clip start_sound;
+    private Sound start_sound;
 
     public Maze(int x, int y) {
-        initializeAudio();
         this.size = new Point(x, y);
         this.walls = new HashSet<Wall>();
         this.isPath =  new boolean[x][y];
@@ -41,6 +40,7 @@ public class Maze {
         this.currentWave = waves.iterator();
         this.man = new Man(new Point((int)(x/2), (int)(y/2)), Direction.RIGHT);
         this.doubler=1;
+        this.start_sound = new Sound(START_SOUND_FILE);
     }
 
     // WALLS
@@ -169,13 +169,17 @@ public class Maze {
         man.die();
     }
 
+    public void initialize() {
+        resetGhosts();
+        if (! man.isAlive()) man.recessutate();
+        start_sound.after(run);
+    }
+
     public void run(Camera camera) {
         final Camera c = camera;
-        resetGhosts();
-        if (!man.isAlive()) {
-            man.recessutate();
-        }
         camera.capture(this);
+        start_sound.after(start_gameplay());
+        start_sound().play();
         if (play_audio) {
             LineListener listener = new LineListener() {
                 public void update(LineEvent event) {
@@ -191,7 +195,7 @@ public class Maze {
         }
     }
 
-    private void play(Camera camera) {
+    private void start_gameplay(Camera camera) {
         while (man.isAlive()) {
             while (man.isAlive()) {
                 man.move(this);
@@ -205,17 +209,6 @@ public class Maze {
         }
     }
 
-    private void initializeAudio() {
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(START_SOUND);
-            AudioFormat format = ais.getFormat();
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
-            start_sound = (Clip)AudioSystem.getLine(info);
-            start_sound.open(ais);
-        } catch(Exception e) {
-            play_audio =false;
-        }
-    }
 
 
     class Wave {
