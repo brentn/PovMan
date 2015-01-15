@@ -10,8 +10,11 @@ public class Consumable {
     }
 
     public int consume() {
-        consumed=true;
-        return points;
+        if (!consumed) {
+            consumed=true;
+            return points;
+        }
+        return 0;
     }
 
     public boolean hasBeenConsumed() { return consumed; }

@@ -15,9 +15,10 @@ public class Maze {
 
     private Point size;
     private Collection<Wall> walls;
+    private boolean[][] isPath;
     private Collection<Dot> dots;
+    private Dot[][] dotAt;
     private Collection<Ghost> ghosts;
-    private Set<Direction>[][] exits;
     private Queue<Wave> waves;
     private int doubler;
     private Man man;
@@ -31,16 +32,88 @@ public class Maze {
     public Maze(int x, int y) {
         initializeAudio();
         this.size = new Point(x, y);
-        this.exits = new Set[x][y];
-        walls = new HashSet<Wall>();
-        dots = new HashSet<Dot>();
-        ghosts = new HashSet<Ghost>();
-        waves = new ArrayBlockingQueue<Wave>(20);
-        currentWave = waves.iterator();
-        man = new Man(new Point((int)(x/2), (int)(y/2)), Direction.RIGHT);
-        doubler=1;
+        this.walls = new HashSet<Wall>();
+        this.isPath =  new boolean[x][y];
+        this.dots = new HashSet<Dot>();
+        this.dotAt = new Dot[x][y];
+        this.ghosts = new HashSet<Ghost>();
+        this.waves = new ArrayBlockingQueue<Wave>(20);
+        this.currentWave = waves.iterator();
+        this.man = new Man(new Point((int)(x/2), (int)(y/2)), Direction.RIGHT);
+        this.doubler=1;
     }
 
+    // WALLS
+    public Collection<Wall> getWalls() {return walls;}
+    public void addWall(Wall wall) {
+        addNewWall(wall);
+    }
+    public void addWall(Point start, Point end) {
+        addNewWall(new Wall(start, end));
+    }
+    public void addWalls(Collection<Wall> new_walls) {
+        for (Wall wall : new_walls) {
+            addNewWall(wall);
+        }
+    }
+    private void addNewWall(Wall wall) {
+        walls.add(wall);
+        toggleIsPath(wall);
+    }
+    private void toggleIsPath(Wall wall) {
+        Point start = wall.getStart();
+        Point end = wall.getEnd();
+        for (int x=start.x; x<end.x; x++) {
+            for (int y=start.y; y<end.y; y++) {
+                isPath[x][y]=false;
+            }
+        }
+    }
+    public boolean wallAt(Point pos) {
+        return (!isPath[pos.x][pos.y]);
+    }
+    public Set<Direction> getExitsFrom(Point tile) {
+        int x = tile.x;
+        int y = tile.y;
+        if (! isPath[x][y])
+            return null;
+        Set<Direction> result = new HashSet<Direction>();
+        if (isPath[x-1][y]) result.add(Direction.LEFT);
+        if (isPath[x+1][y]) result.add(Direction.RIGHT);
+        if (isPath[x][y-1]) result.add(Direction.UP);
+        if (isPath[x][y+1]) result.add(Direction.DOWN);
+        return result;
+    }
+
+    // DOTS
+    public Collection<Dot> getDots() {
+        return dots;
+    }
+    public void addDot(Dot dot) {
+        dots.add(dot);
+        dotAt[dot.getPos().x][dot.getPos().y]=dot;
+    }
+    public void addDot(Point pos) {
+        addDot(new Dot(pos));
+    }
+    public void addDot(int x, int y) {
+        addDot(new Dot(x, y));
+    }
+    public void addDots(Collection<Dot> new_dots) {
+        for (Dot dot : new_dots) {
+            addDot(dot);
+        }
+    }
+    public Dot dotAt(Point pos) {
+        return dotAt[pos.x][pos.y];
+    }
+    public void remove(Dot dot) {
+        Point pos = dot.getPos();
+        dotAt[pos.x][pos.y] = null;
+    }
+
+    // GHOSTS
+    public Collection<Ghost> getGhosts() { return ghosts; }
     public void addGhosts(Point home) {
         blinky = new Blinky(home);
         ghosts.add(blinky);
@@ -48,91 +121,7 @@ public class Maze {
 //        ghosts.add(new Inky(home));
 //        ghosts.add(new Clyde(home));
     }
-
-    public void addWave(Integer duration, Ghost.Mode mode) {
-        waves.add(new Wave(duration, mode));
-    }
-
-    public void addWall(Wall wall) {
-        walls.add(wall);
-    }
-    public void addWall(Point start, Point end) {
-        walls.add(new Wall(start, end));
-    }
-    public void addWalls(Collection<Wall> new_walls) {
-        walls.addAll(new_walls);
-    }
-    public void addDot(Dot dot) {
-        dots.add(dot);
-    }
-    public void addDot(Point pos) {
-        dots.add(new Dot(pos));
-    }
-    public void addDot(int x, int y) {
-        dots.add(new Dot(x, y));
-    }
-    public void addDots(Collection<Dot> new_dots) {
-        dots.addAll(new_dots);
-    }
-
-    private void precalculateExits() {
-        for (int x=0; x<size.x; x++) {
-            for (int y=0; y<size.y; y++) {
-                exits[x][y] = calculateExitsFrom(x, y);
-            }
-        }
-    }
-
-    public Set<Direction> calculateExitsFrom(int x, int y) {
-        if (wallAt(new Point(x, y)))
-            return null;
-        Set<Direction> exits = new HashSet<Direction>();
-        if (! wallAt(new Point(x-1, y))) exits.add(Direction.LEFT);
-        if (! wallAt(new Point(x+1, y))) exits.add(Direction.RIGHT);
-        if (! wallAt(new Point(x, y-1))) exits.add(Direction.UP);
-        if (! wallAt(new Point(x, y+1))) exits.add(Direction.DOWN);
-        return exits;
-    }
-
-    public void setStartPosition(Point pos, Direction dir) {
-        man.setStartPosition(pos, dir);
-    }
-
-    public Dot dotAt(Point pos) {
-        for (Dot dot : dots) {
-            if (dot.getPos().equals(pos)) return dot;
-        }
-        return null;
-    }
-
-    public boolean wallAt(Point pos) {
-        for (Wall wall : walls) {
-            if (wall.contains(pos)) return true;
-        }
-        return false;
-    }
-
-    public Man getMan() { return man; }
     public Blinky getBlinky() {return blinky;}
-
-    public boolean manAt(Point pos) {
-        return man.getTileAhead(0).equals(pos);
-    }
-
-    public void killMan() {
-        man.die();
-    }
-
-    public void killGhost(int points) {
-        man.addPoints(points * doubler);
-        doubler = doubler*2;
-    }
-
-
-    public Set<Direction> getExitsFrom(Point tile) {
-        return exits[tile.x][tile.y];
-    }
-
     private void resetGhosts() {
         currentWave = waves.iterator();
         waveTimer.cancel();
@@ -142,19 +131,15 @@ public class Maze {
             ghost.reset();
         }
     }
-
     private void moveGhosts() {
         for (Ghost ghost : ghosts) {
             ghost.move(this);
         }
     }
-
-    public Collection<Wall> getWalls() {return walls;}
-
-    public Collection<Dot> getDots() {return dots;}
-
-    public Collection<Ghost> getGhosts() { return ghosts; }
-
+    public void killGhost(int points) {
+        man.addPoints(points * doubler);
+        doubler = doubler*2;
+    }
     private void getNextWave() {
         if (! currentWave.hasNext()) return;
         Wave wave = currentWave.next();
@@ -168,10 +153,24 @@ public class Maze {
             }, wave.duration*1000);
         }
     }
+    public void addWave(Integer duration, Ghost.Mode mode) {
+        waves.add(new Wave(duration, mode));
+    }
+
+    // MAN
+    public void setStartPosition(Point pos, Direction dir) {
+        man.setStartPosition(pos, dir);
+    }
+    public Man getMan() { return man; }
+    public boolean manAt(Point pos) {
+        return man.getTileAhead(0).equals(pos);
+    }
+    public void killMan() {
+        man.die();
+    }
 
     public void run(Camera camera) {
         final Camera c = camera;
-        precalculateExits();
         resetGhosts();
         if (!man.isAlive()) {
             man.recessutate();

@@ -94,7 +94,7 @@ public class Camera extends JFrame {
         DistanceComparator comparator = new DistanceComparator();
         PriorityQueue<Model> models = new PriorityQueue<Model>(100, comparator);
         objects.addAll(maze.getWalls());
-        objects.addAll(maze.getDots());
+        objects.addAll(maze.getDotAt());
         objects.addAll(maze.getGhosts());
         objects.add(maze.getMan());
         for (IModel object : objects) {

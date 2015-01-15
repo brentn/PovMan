@@ -13,33 +13,39 @@ public class Wall implements IModel {
     private WireframeModel model;
 
     public Wall(Point start, Point end) {
-        this.start = start;
-        this.end = end;
-        createWallModel();
+        createWall(start, end);
     }
     public Wall(int startx, int starty, int endx, int endy) {
-        this.start = new Point(startx, starty);
-        this.end = new Point(endx, endy);
+        createWall(new Point(startx,starty), new Point(endx,endy));
+    }
+    private void createWall(Point start, Point end) {
+        if ((start.x < end.x) || (start.y < end.y))  {
+            this.start = end;
+            this.end = start;
+        } else {
+            this.start = start;
+            this.end = end;
+        }
         createWallModel();
     }
 
-    public boolean contains(Point pos) {
-        if (pos.x==13 && pos.y==13) {
-            start=start;
-        }
-        if (isVertical()) {
-            if (pos.x != start.x) return false;
-            if ((pos.y > start.y) && (pos.y > end.y)) return false;
-            if ((pos.y < start.y) && (pos.y < end.y)) return false;
-        }  else {
-            if (pos.y != start.y) return false;
-            if ((pos.x > start.x) && (pos.x > end.x)) return false;
-            if ((pos.x < start.x) && (pos.x < end.x)) return false;
-        }
-        return true;
-    }
+    public Point getStart() { return start;}
+    public Point getEnd() { return end; }
 
-    private boolean isVertical() { return start.x == end.x; }
+//    public boolean contains(Point pos) {
+//        if (isVertical()) {
+//            if (pos.x != start.x) return false;
+//            if ((pos.y > start.y) && (pos.y > end.y)) return false;
+//            if ((pos.y < start.y) && (pos.y < end.y)) return false;
+//        }  else {
+//            if (pos.y != start.y) return false;
+//            if ((pos.x > start.x) && (pos.x > end.x)) return false;
+//            if ((pos.x < start.x) && (pos.x < end.x)) return false;
+//        }
+//        return true;
+//    }
+
+    public boolean isVertical() { return start.x == end.x; }
 
     private void createWallModel(){
         model = new WireframeModel();

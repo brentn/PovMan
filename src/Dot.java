@@ -1,6 +1,9 @@
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -32,8 +35,9 @@ public class Dot extends Consumable implements IModel {
 
     @Override
     public int consume() {
+        int result=super.consume();
         play_sound();
-        return super.consume();
+        return result;
     }
 
     public Point getPos() { return pos; }
@@ -51,11 +55,11 @@ public class Dot extends Consumable implements IModel {
     public static Collection<Dot> line(Point a, Point b) {
         Collection<Dot> dots = new HashSet<Dot>();
         if (a.x==b.x) {
-            for (int y=a.y; y < b.y; y++) {
+            for (int y=a.y; y <= b.y; y++) {
                 dots.add(new Dot(a.x, y));
             }
         } else {
-            for (int x=a.x; x < b.x; x++) {
+            for (int x=a.x; x <= b.x; x++) {
                 dots.add(new Dot(x, a.y));
             }
         }
@@ -63,7 +67,11 @@ public class Dot extends Consumable implements IModel {
     }
 
     private static void play_sound() {
-        //if (play_audio) chomp_sound.start();
+        if (play_audio)
+            if (chomp_sound.isRunning())
+                chomp_sound.stop();
+            chomp_sound.setFramePosition(0);
+            chomp_sound.start();
     }
 
     private static void initializeAudio() {
@@ -73,7 +81,7 @@ public class Dot extends Consumable implements IModel {
             AudioFormat format = ais.getFormat();
             DataLine.Info info = new DataLine.Info(Clip.class, format);
             chomp_sound = (Clip) AudioSystem.getLine(info);
-            chomp_sound.open(ais);
+            play_audio=false;
         } catch(Exception e) {
             play_audio =false;
         }

@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=1;
+    private static final int SPEED=10;
     private static final String MAN_IMAGE = "resources/images/man.png";
 
     private boolean alive=false;
@@ -64,7 +64,11 @@ public class Man implements IModel {
             undecided=true;
         }
         model.move(SPEED, direction);
-        eat(maze.dotAt(getTile()));
+        Dot dot = maze.dotAt(getTile());
+        if (dot!=null) {
+            eat(dot);
+            maze.remove(dot);
+        }
     }
 
     public Point getPos() {
