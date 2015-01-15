@@ -45,15 +45,12 @@ public class Man implements IModel {
         if (model.pastCenterOfTile(direction)) {
             if (undecided) {
                 Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+                boolean reversable = (new Random().nextInt(10) > 7); //chance of reversing direction
+                if (! reversable) exits.remove(reverse());
                 if (exits.size() > 1) {
                     Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
                     exitarray = exits.toArray(exitarray);
-                    int choice;
-                    if (exits.contains(direction)) {
-                        choice = new Random().nextInt(exits.size() + 4); //add 4 to improve the chances of NOT changing direction
-                    } else {
-                        choice = new Random().nextInt(exits.size());
-                    }
+                    int choice  = new Random().nextInt(exits.size());
                     if (choice < exits.size())
                         direction = exitarray[choice];
                 } else {
@@ -111,6 +108,16 @@ public class Man implements IModel {
                 break;
         }
         return true;
+    }
+
+    private Maze.Direction reverse() {
+        switch(direction) {
+            case LEFT: return Maze.Direction.RIGHT;
+            case RIGHT: return Maze.Direction.LEFT;
+            case UP: return Maze.Direction.DOWN;
+            case DOWN: return Maze.Direction.UP;
+        }
+        return null;
     }
 
     public void eat(Consumable item) {
