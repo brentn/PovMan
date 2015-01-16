@@ -49,25 +49,25 @@ public class ImageModel extends Model {
         switch (direction) {
             case RIGHT: x += speed;
                 if (x >=100) {
-                    tile.setLocation(tile.x+1, tile.y);
+                    tile = new Point(tile.x+1, tile.y);
                     x-=100;
                 }
                 break;
             case LEFT:  x -= speed;
                 if (x <=0) {
-                    tile.setLocation(tile.x-1, tile.y);
+                    tile = new Point(tile.x-1, tile.y);
                     x +=100;
                 }
                 break;
             case UP: y -= speed;
                 if (y <=0) {
-                    tile.setLocation(tile.x, tile.y-1);
+                    tile = new Point(tile.x, tile.y-1);
                     y +=100;
                 }
                 break;
             case DOWN: y += speed;
                 if (y >=100) {
-                    tile.setLocation(tile.x, tile.y+1);
+                    tile = new Point(tile.x, tile.y+1);
                     y -=100;
                 }
                 break;

@@ -10,7 +10,8 @@ public class Game {
     public Game() {
         level = 1;
         createMaze(level);
-        camera = new Camera(new Point3D(maze.getMan().getPos(), 50), Camera.Style.CLASSIC);
+        camera = new Camera(new Point3D(maze.getMan().getPos(), 50),
+                Camera.Style.CLASSIC);
         maze.run(camera);
     }
 
@@ -62,12 +63,13 @@ public class Game {
         maze.addDots(Dot.fill(6,13,21,21, maze.getWallMask()));
         maze.addDots(Dot.fill(0,3,27,12, maze.getWallMask()));
         maze.addDots(Dot.fill(0,22,27,33, maze.getWallMask()));
-        maze.clearDots(10,15, 17,19);
+        maze.clearDots(10, 15, 17, 19);
         maze.clearDots(2,5,5,7);
         maze.clearDots(7,5,11,7);
         maze.clearDots(16,5,20,7);
         maze.clearDots(22,5,25,7);
-        maze.removeDot(maze.dotAt(new Point(14, 26)));
+        maze.clearDots(7,12,20,22);
+        maze.clearDots(13,26,14,26);
 
         maze.addGhosts(new Point(13, 14));
         maze.addWave(7, Ghost.Mode.SCATTER);

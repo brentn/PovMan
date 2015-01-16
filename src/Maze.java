@@ -22,8 +22,8 @@ public class Maze {
     private int doubler;
     private Man man;
     private Blinky blinky;
-    private long modeTimer;
     private Timer waveTimer = new Timer();
+    private Timer mazeTimer = new Timer();
     private Iterator<Wave> currentWave;
     private boolean play_audio = true;
     private Sound start_sound;
@@ -70,6 +70,7 @@ public class Maze {
         }
     }
     public boolean wallAt(Point pos) {
+        if (pos==null) return false;
         return (!isWall[pos.x][pos.y]);
     }
     public Set<Direction> getExitsFrom(Point tile) {
@@ -126,11 +127,11 @@ public class Maze {
     // GHOSTS
     public Collection<Ghost> getGhosts() { return ghosts; }
     public void addGhosts(Point home) {
-        blinky = new Blinky(home);
+        blinky = new Blinky(new Point(home));
         ghosts.add(blinky);
-//        ghosts.add(new Pinky(home));
-//        ghosts.add(new Inky(home));
-//        ghosts.add(new Clyde(home));
+        ghosts.add(new Pinky(new Point(home)));
+        ghosts.add(new Inky(home));
+        ghosts.add(new Clyde(home));
     }
     public Blinky getBlinky() {return blinky;}
     private void resetGhosts() {
@@ -154,15 +155,17 @@ public class Maze {
     private void getNextWave() {
         if (! currentWave.hasNext()) return;
         Wave wave = currentWave.next();
+        System.out.println(wave.mode);
         for (Ghost ghost : ghosts) {
             ghost.setMode(wave.mode);
-            waveTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    getNextWave();
-                }
-            }, wave.duration*1000);
         }
+        waveTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getNextWave();
+            }
+        }, wave.duration*1000);
+
     }
     public void addWave(Integer duration, Ghost.Mode mode) {
         waves.add(new Wave(duration, mode));
@@ -180,11 +183,28 @@ public class Maze {
         man.die();
     }
 
-    public void run(Camera camera) {
+    public void run(final Camera camera) {
         resetGhosts();
         if (! man.isAlive()) man.recessutate();
         camera.capture(this);
-        play(camera);
+        Runnable play = new Runnable() {
+            @Override
+            public void run() {
+                do {
+                    while (man.isAlive()) {
+                        man.move(Maze.this);
+                        moveGhosts();
+                        if (camera.style== Camera.Style.FOLLOW)
+                            camera.follow(man);
+                        camera.capture(Maze.this);
+                    }
+                    resetGhosts();
+                    man.recessutate();
+                } while (man.isAlive());
+            }
+        };
+        start_sound.whenFinished(play);
+        start_sound.play();
     }
 
     private void play(Camera camera) {

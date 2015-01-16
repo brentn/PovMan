@@ -12,6 +12,17 @@ public class Sound {
         initialize(sound_file);
     }
 
+    public void whenFinished(final Runnable action) {
+        clip.addLineListener(new LineListener() {
+            @Override
+            public void update(LineEvent lineEvent) {
+                if (lineEvent.getType() == LineEvent.Type.STOP) {
+                    action.run();
+                }
+            }
+        });
+    }
+
     public void play() { if (play_audio) clip.start(); }
 
     private void initialize(File file) {

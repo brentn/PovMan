@@ -24,7 +24,7 @@ public class Camera extends JFrame {
 
     public Camera(Point3D target, Style style) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(400, 500);
+        this.setSize(400, 400);
         this.setVisible(true);
         viewport = new Draw();
         this.add(viewport);
@@ -113,7 +113,7 @@ public class Camera extends JFrame {
             item.drawAsViewedBy(this);
         }
         viewport.updateImage(image);
-        viewport.repaint(0,0,400,500);
+        viewport.repaint(0,0,400,400);
     }
 
     private Point calculate2DCameraPosition() {

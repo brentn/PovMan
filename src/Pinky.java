@@ -4,12 +4,12 @@ import java.awt.*;
  * Created by brent on 09/01/15.
  */
 public class Pinky extends Ghost {
-    private static final String PINKY_IMAGE = "resources/images/blinky.png";
+    private static final String PINKY_IMAGE = "resources/images/pinky.png";
 
     public Pinky(Point home) {
         super(home);
         scatter_target = new Point(0, 1);
-        speed=1;
+        speed=11;
     }
 
     @Override

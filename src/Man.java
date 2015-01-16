@@ -1,13 +1,17 @@
 import java.awt.*;
+import java.io.File;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=1;
+    private static final int SPEED=13;
     private static final String MAN_IMAGE = "resources/images/man.png";
+    private static final File CHOMP_SOUND_FILE = new File("resources/sounds/dot.wav");
 
     private boolean alive=false;
     private boolean undecided;
@@ -16,6 +20,9 @@ public class Man implements IModel {
     private ImageModel model;
     private Point initial_tile;
     private Maze.Direction initial_direction;
+    private Timer timer = new Timer();
+    private boolean recessutating=false;
+    private Sound chomp_sound = new Sound(CHOMP_SOUND_FILE);
 
     private Maze.Direction direction;
 
@@ -122,22 +129,32 @@ public class Man implements IModel {
     public void eat(Consumable item) {
         if (item==null) return;
         points += item.consume();
+        //chomp_sound.play();
     }
 
     public void die() {
         alive=false;
     }
 
+    public boolean hasMoreLives() {return lives>0;}
+
     public void recessutate() {
-        if (! alive) {
-            model.setTile(initial_tile);
-            model.setOffset(50,50);
-            direction = initial_direction;
+        if (! (alive || recessutating)) {
+            recessutating=true;
             if (lives > 0) {
-                lives --;
-                alive = true;
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        model.setTile(initial_tile);
+                        model.setOffset(0,50);
+                        direction = initial_direction;
+                        undecided=false;
+                        lives--;
+                        alive=true;
+                        recessutating=false;
+                    }
+                }, 2000);
             }
-            undecided=false;
         }
     }
 

@@ -33,7 +33,7 @@ public abstract class Ghost extends Consumable implements IModel {
         if (this.mode==mode) return;
         this.mode=mode;
         direction = reverse();
-        System.out.println("Mode change:"+Mode.values()[mode.ordinal()]);
+        undecided = true;
     }
 
     public void reset() {
@@ -53,9 +53,7 @@ public abstract class Ghost extends Consumable implements IModel {
             if (undecided) {
                 Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
                 Maze.Direction reverse = reverse();
-                for (Maze.Direction d : exits) {System.out.print(d + ",");}
                 if (exits.contains(reverse)) { exits.remove(reverse); }
-                //System.out.println("removed " +reverse + " ");
                 if (exits.size()==0)
                     return;
                 if (exits.size() > 1) {
@@ -66,7 +64,6 @@ public abstract class Ghost extends Consumable implements IModel {
                     model.reorient(direction);
                 }
                 undecided = false;
-                //System.out.println("change direction " + direction);
             }
         } else {
             undecided=true;
@@ -86,6 +83,18 @@ public abstract class Ghost extends Consumable implements IModel {
         }
     }
 
+    private Point nextTile() {
+        if (! model.pastCenterOfTile(direction)) return null;
+        Point tile=model.getTile();
+        switch (direction) {
+            case LEFT: return new Point(tile.x-1, tile.y);
+            case RIGHT: return new Point(tile.x+1, tile.y);
+            case UP: return new Point(tile.x, tile.y-1);
+            case DOWN: return new Point(tile.x, tile.y+1);
+        }
+        return null;
+    }
+
     protected abstract void updateChaseTarget(Maze maze);
 
     private void chooseBestRoute(Set<Maze.Direction> exits) {
@@ -96,10 +105,10 @@ public abstract class Ghost extends Consumable implements IModel {
         for (Maze.Direction exit : exits) {
             Point tile=null;
             switch (exit) {
-                case LEFT: tile=new Point(x-1, y);
-                case RIGHT: tile=new Point(x+1, y);
-                case UP: tile=new Point(x, y-1);
-                case DOWN: tile=new Point(x, y+1);
+                case LEFT: tile=new Point(x-1, y); break;
+                case RIGHT: tile=new Point(x+1, y); break;
+                case UP: tile=new Point(x, y-1); break;
+                case DOWN: tile=new Point(x, y+1); break;
             }
             double distance = distanceToTarget(tile);
             if (distance < shortestDistance) {
@@ -116,8 +125,8 @@ public abstract class Ghost extends Consumable implements IModel {
     private double distanceToTarget(Point p1) {
         Point p2=null;
         switch (mode) {
-            case SCATTER: p2 = scatter_target;
-            case CHASE: p2 = chase_target;
+            case SCATTER: p2 = scatter_target; break;
+            case CHASE: p2 = chase_target; break;
         }
         if (p2==null) return Double.MAX_VALUE;
         double a = Math.abs(p1.x-p2.x);
