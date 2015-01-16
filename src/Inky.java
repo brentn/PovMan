@@ -9,7 +9,7 @@ public class Inky extends Ghost {
     public Inky(Point home) {
         super(home);
         scatter_target = new Point(27, 34);
-        speed=13;
+        speed=1;
     }
 
     @Override

@@ -7,9 +7,21 @@ import java.io.File;
 public class Sound {
     private boolean play_audio=false;
     private Clip clip;
+    AudioInputStream ais;
+    AudioFormat format;
+    DataLine.Info info;
 
     public Sound(File sound_file) {
-        initialize(sound_file);
+        try {
+            ais = AudioSystem.getAudioInputStream(sound_file);
+            format = ais.getFormat();
+            info = new DataLine.Info(Clip.class, format);
+            clip = (Clip)AudioSystem.getLine(info);
+            clip.open(ais);
+        } catch(Exception e) {
+            play_audio =false;
+        }
+        play_audio=true;
     }
 
     public void whenFinished(final Runnable action) {
@@ -23,18 +35,16 @@ public class Sound {
         });
     }
 
-    public void play() { if (play_audio) clip.start(); }
+    public void play() {
+        if (play_audio) clip.start();
+    }
+
+    public void loop(int times) {
+        if (play_audio) {
+            clip.loop(times);
+        }
+    }
 
     private void initialize(File file) {
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-            AudioFormat format = ais.getFormat();
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
-            clip = (Clip)AudioSystem.getLine(info);
-            clip.open(ais);
-        } catch(Exception e) {
-            play_audio =false;
-        }
-        play_audio=true;
     }
 }

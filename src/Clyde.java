@@ -9,7 +9,7 @@ public class Clyde extends Ghost {
     public Clyde(Point home) {
         super(home);
         scatter_target = new Point(0, 34);
-        speed=9;
+        speed=1;
     }
 
     public Point getPos() {

@@ -111,7 +111,7 @@ public class ImageModel extends Model {
         Graphics screen = camera.image.getGraphics();
         int x = tile.x*100 + offset.x - camera.target.x;
         int y = tile.y*100 + offset.y - camera.target.y;
-        int z = camera.target.z*100 - size.z;
+        int z = camera.target.z*100 + size.z;
         // compute orthographic projection
         float x1 = camera.cosT*x + camera.sinT*y;
         float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;

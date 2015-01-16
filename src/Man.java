@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=13;
+    private static final int SPEED=1;
     private static final String MAN_IMAGE = "resources/images/man.png";
     private static final File CHOMP_SOUND_FILE = new File("resources/sounds/dot.wav");
 
@@ -130,7 +130,7 @@ public class Man implements IModel {
     public void eat(Consumable item) {
         if (item==null) return;
         points += item.consume();
-        //chomp_sound.play();
+        chomp_sound.loop(1);
     }
 
     public void die() {
