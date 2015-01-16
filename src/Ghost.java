@@ -49,36 +49,38 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     public void move(Maze maze) {
-        if (model.pastCenterOfTile(direction)) {
-            if (undecided) {
-                Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
-                Maze.Direction reverse = reverse();
-                if (exits.contains(reverse)) { exits.remove(reverse); }
-                if (exits.size()==0)
-                    return;
-                if (exits.size() > 1) {
-                    updateChaseTarget(maze);
-                    chooseBestRoute(exits);
-                } else { //only 1 exit
-                    direction = exits.iterator().next();
-                    model.reorient(direction);
+        if (! maze.isPaused()) {
+            if (model.pastCenterOfTile(direction)) {
+                if (undecided) {
+                    Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+                    Maze.Direction reverse = reverse();
+                    if (exits.contains(reverse)) { exits.remove(reverse); }
+                    if (exits.size()==0)
+                        return;
+                    if (exits.size() > 1) {
+                        updateChaseTarget(maze);
+                        chooseBestRoute(exits);
+                    } else { //only 1 exit
+                        direction = exits.iterator().next();
+                        model.reorient(direction);
+                    }
+                    undecided = false;
                 }
-                undecided = false;
-            }
-        } else {
-            undecided=true;
-        }
-        if (mode==Mode.FRIGHTENED) {
-            model.move(FRIGHTENED_SPEED, direction);
-        } else {
-            model.move(speed, direction);
-        }
-        // check if ghost and man are touching
-        if (maze.manAt(model.getTile())) {
-            if (mode==Mode.FRIGHTENED) {
-                maze.killGhost(this.consume());
             } else {
-                maze.killMan();
+                undecided=true;
+            }
+            if (mode==Mode.FRIGHTENED) {
+                model.move(FRIGHTENED_SPEED, direction);
+            } else {
+                model.move(speed, direction);
+            }
+            // check if ghost and man are touching
+            if (maze.manAt(model.getTile())) {
+                if (mode==Mode.FRIGHTENED) {
+                    maze.killGhost(this.consume());
+                } else {
+                    maze.killMan();
+                }
             }
         }
     }

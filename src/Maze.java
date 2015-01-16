@@ -26,6 +26,7 @@ public class Maze {
     private Timer mazeTimer = new Timer();
     private Iterator<Wave> currentWave;
     private boolean play_audio = true;
+    private boolean paused =  true;
     private Sound start_sound;
 
     public Maze(int x, int y) {
@@ -40,7 +41,16 @@ public class Maze {
         this.man = new Man(new Point((x/2), (y/2)), Direction.RIGHT);
         this.doubler=1;
         this.start_sound = new Sound(START_SOUND_FILE);
+        Runnable unpause = new Runnable() {
+            @Override
+            public void run() {
+                paused=false;
+            }
+        };
+        start_sound.whenFinished(unpause);
     }
+
+    public boolean isPaused() { return paused; }
 
     // WALLS
     public Collection<Wall> getWalls() {return walls;}
@@ -185,42 +195,29 @@ public class Maze {
 
     public void run(final Camera camera) {
         resetGhosts();
-        if (! man.isAlive()) man.recessutate();
+        man.recessutate();
         camera.capture(this);
-        Runnable play = new Runnable() {
-            @Override
-            public void run() {
-                do {
-                    while (man.isAlive()) {
-                        man.move(Maze.this);
-                        moveGhosts();
-                        if (camera.style== Camera.Style.FOLLOW)
-                            camera.follow(man);
-                        camera.capture(Maze.this);
-                    }
-                    resetGhosts();
-                    man.recessutate();
-                } while (man.isAlive());
-            }
-        };
-        start_sound.whenFinished(play);
+        paused=true;
         start_sound.play();
-    }
-
-    private void play(Camera camera) {
-        while (man.isAlive()) {
+        do {
             while (man.isAlive()) {
-                man.move(this);
+                man.move(Maze.this);
                 moveGhosts();
                 if (camera.style== Camera.Style.FOLLOW)
                     camera.follow(man);
-                camera.capture(this);
+                camera.capture(Maze.this);
             }
             resetGhosts();
             man.recessutate();
-        }
+            paused=true;
+            mazeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    paused=false;
+                }
+            }, 2000);
+        } while (man.isAlive());
     }
-
 
 
     class Wave {

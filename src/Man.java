@@ -21,7 +21,6 @@ public class Man implements IModel {
     private Point initial_tile;
     private Maze.Direction initial_direction;
     private Timer timer = new Timer();
-    private boolean recessutating=false;
     private Sound chomp_sound = new Sound(CHOMP_SOUND_FILE);
 
     private Maze.Direction direction;
@@ -44,32 +43,34 @@ public class Man implements IModel {
     }
 
     public void move(Maze maze) {
-        if (model.pastCenterOfTile(direction)) {
-            if (undecided) {
-                Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
-                boolean reversable = (new Random().nextInt(10) > 7); //chance of reversing direction
-                if (! reversable) exits.remove(reverse());
-                if (exits.size() > 1) {
-                    Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
-                    exitarray = exits.toArray(exitarray);
-                    int choice  = new Random().nextInt(exits.size());
-                    if (choice < exits.size())
-                        direction = exitarray[choice];
-                } else {
-                    if (! exits.contains(direction))
-                        direction = exits.iterator().next();
+        if (! maze.isPaused()) {
+            if (model.pastCenterOfTile(direction)) {
+                if (undecided) {
+                    Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+                    boolean reversable = (new Random().nextInt(10) > 7); //chance of reversing direction
+                    if (! reversable) exits.remove(reverse());
+                    if (exits.size() > 1) {
+                        Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
+                        exitarray = exits.toArray(exitarray);
+                        int choice  = new Random().nextInt(exits.size());
+                        if (choice < exits.size())
+                            direction = exitarray[choice];
+                    } else {
+                        if (! exits.contains(direction))
+                            direction = exits.iterator().next();
+                    }
+                    model.reorient(direction);
+                    undecided = false;
                 }
-                model.reorient(direction);
-                undecided = false;
+            } else {
+                undecided=true;
             }
-        } else {
-            undecided=true;
-        }
-        model.move(SPEED, direction);
-        Dot dot = maze.dotAt(getTile());
-        if (dot!=null) {
-            eat(dot);
-            maze.removeDot(dot);
+            model.move(SPEED, direction);
+            Dot dot = maze.dotAt(getTile());
+            if (dot!=null) {
+                eat(dot);
+                maze.removeDot(dot);
+            }
         }
     }
 
@@ -139,21 +140,14 @@ public class Man implements IModel {
     public boolean hasMoreLives() {return lives>0;}
 
     public void recessutate() {
-        if (! (alive || recessutating)) {
-            recessutating=true;
+        if (! alive) {
             if (lives > 0) {
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        model.setTile(initial_tile);
-                        model.setOffset(0,50);
-                        direction = initial_direction;
-                        undecided=false;
-                        lives--;
-                        alive=true;
-                        recessutating=false;
-                    }
-                }, 2000);
+                model.setTile(initial_tile);
+                model.setOffset(0,50);
+                direction = initial_direction;
+                undecided=false;
+                lives--;
+                alive=true;
             }
         }
     }
