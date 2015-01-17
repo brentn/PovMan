@@ -11,6 +11,7 @@ public class Maze {
     public static enum Direction {RIGHT, DOWN, LEFT, UP}
 
     private static final File START_SOUND_FILE = new File("resources/sounds/start.wav");
+    private static final File SIREN_SOUND_FILE = new File("resources/sounds/siren.wav");
 
     private Point size;
     private Collection<Wall> walls;
@@ -27,7 +28,8 @@ public class Maze {
     private Iterator<Wave> currentWave;
     private boolean play_audio = true;
     private boolean paused =  true;
-    private Sound start_sound;
+    private Sound start_sound =new Sound(START_SOUND_FILE);
+    private Sound siren_sound = new Sound(SIREN_SOUND_FILE);
 
     public Maze(int x, int y) {
         this.size = new Point(x, y);
@@ -40,7 +42,6 @@ public class Maze {
         this.currentWave = waves.iterator();
         this.man = new Man(new Point((x/2), (y/2)), Direction.RIGHT);
         this.doubler=1;
-        this.start_sound = new Sound(START_SOUND_FILE);
         Runnable unpause = new Runnable() {
             @Override
             public void run() {
@@ -190,7 +191,13 @@ public class Maze {
         return man.getTileAhead(0).equals(pos);
     }
     public void killMan() {
+        paused=true;
         man.die();
+    }
+
+    private void play_siren_sound() {
+        if (! paused) siren_sound.loop();
+        else siren_sound.stop();
     }
 
     public void run(final Camera camera) {
@@ -201,6 +208,7 @@ public class Maze {
         start_sound.play();
         do {
             while (man.isAlive()) {
+                play_siren_sound();
                 man.move(Maze.this);
                 moveGhosts();
                 if (camera.style== Camera.Style.FOLLOW)
@@ -215,7 +223,7 @@ public class Maze {
                 public void run() {
                     paused=false;
                 }
-            }, 2000);
+            }, 3000);
         } while (man.isAlive());
     }
 

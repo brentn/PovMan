@@ -12,6 +12,7 @@ public class Man implements IModel {
     private static final int SPEED=1;
     private static final String MAN_IMAGE = "resources/images/man.png";
     private static final File CHOMP_SOUND_FILE = new File("resources/sounds/dot.wav");
+    private static final File DIE_SOUND_FILE = new File("resources/sounds/die.wav");
 
     private boolean alive=false;
     private boolean undecided;
@@ -22,6 +23,7 @@ public class Man implements IModel {
     private Maze.Direction initial_direction;
     private Timer timer = new Timer();
     private Sound chomp_sound = new Sound(CHOMP_SOUND_FILE);
+    private Sound die_sound = new Sound(DIE_SOUND_FILE);
 
     private Maze.Direction direction;
 
@@ -135,6 +137,7 @@ public class Man implements IModel {
 
     public void die() {
         alive=false;
+        die_sound.play();
     }
 
     public boolean hasMoreLives() {return lives>0;}

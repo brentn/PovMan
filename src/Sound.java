@@ -39,6 +39,16 @@ public class Sound {
         if (play_audio) clip.start();
     }
 
+    public void stop() {
+        if (play_audio) clip.stop();
+    }
+
+    public void loop() {
+        if (play_audio) {
+            clip.loop(-1);
+        }
+    }
+
     public void loop(int times) {
         if (play_audio) {
             clip.loop(times);
