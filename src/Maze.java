@@ -12,6 +12,7 @@ public class Maze {
 
     private static final File START_SOUND_FILE = new File("resources/sounds/start.wav");
     private static final File SIREN_SOUND_FILE = new File("resources/sounds/siren.wav");
+    private static final File DIE_SOUND_FILE = new File("resources/sounds/die.wav");
 
     private Point size;
     private Collection<Wall> walls;
@@ -20,16 +21,21 @@ public class Maze {
     private Dot[][] dotAt;
     private Collection<Ghost> ghosts;
     private Queue<Wave> waves;
-    private int doubler;
     private Man man;
     private Blinky blinky;
     private Timer waveTimer = new Timer();
     private Timer mazeTimer = new Timer();
     private Iterator<Wave> currentWave;
-    private boolean play_audio = true;
     private boolean paused =  true;
+    private Runnable unpause = new Runnable() {
+        @Override
+        public void run() {
+            paused=false;
+        }
+    };
     private Sound start_sound =new Sound(START_SOUND_FILE);
     private Sound siren_sound = new Sound(SIREN_SOUND_FILE);
+    private Sound die_sound = new Sound(DIE_SOUND_FILE);
 
     public Maze(int x, int y) {
         this.size = new Point(x, y);
@@ -41,17 +47,12 @@ public class Maze {
         this.waves = new ArrayBlockingQueue<Wave>(20);
         this.currentWave = waves.iterator();
         this.man = new Man(new Point((x/2), (y/2)), Direction.RIGHT);
-        this.doubler=1;
-        Runnable unpause = new Runnable() {
-            @Override
-            public void run() {
-                paused=false;
-            }
-        };
         start_sound.whenFinished(unpause);
+        die_sound.whenFinished(unpause);
     }
 
     public boolean isPaused() { return paused; }
+
 
     // WALLS
     public Collection<Wall> getWalls() {return walls;}
@@ -154,14 +155,8 @@ public class Maze {
             ghost.reset();
         }
     }
-    private void moveGhosts() {
-        for (Ghost ghost : ghosts) {
-            ghost.move(this);
-        }
-    }
-    public void killGhost(int points) {
-        man.addPoints(points * doubler);
-        doubler = doubler*2;
+    public void killGhost(Ghost ghost) {
+        man.addPoints(ghost.kill());
     }
     private void getNextWave() {
         if (! currentWave.hasNext()) return;
@@ -187,44 +182,52 @@ public class Maze {
         man.setStartPosition(pos, dir);
     }
     public Man getMan() { return man; }
+    public void resetMan() {
+        man.recessutate();
+    }
     public boolean manAt(Point pos) {
         return man.getTileAhead(0).equals(pos);
     }
     public void killMan() {
         paused=true;
+        siren_sound.stop();
         man.die();
+        mazeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                man.recessutate();
+                if (man.isAlive() )
+                    paused=false;
+                else
+                    stop();
+            }
+        }, 5000);
     }
 
-    private void play_siren_sound() {
-        if (! paused) siren_sound.loop();
-        else siren_sound.stop();
-    }
-
-    public void run(final Camera camera) {
-        resetGhosts();
-        man.recessutate();
-        camera.capture(this);
+    public void start(final Camera camera) {
         paused=true;
-        start_sound.play();
-        do {
-            while (man.isAlive()) {
-                play_siren_sound();
-                man.move(Maze.this);
-                moveGhosts();
-                if (camera.style== Camera.Style.FOLLOW)
+        resetMan();
+        resetGhosts();
+        camera.capture(this);
+        mazeTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (!paused) siren_sound.play();
+                man.update(Maze.this);
+                for (Ghost ghost : ghosts) {
+                    ghost.update(Maze.this);
+                }
+                if (camera.style == Camera.Style.FOLLOW)
                     camera.follow(man);
                 camera.capture(Maze.this);
             }
-            resetGhosts();
-            man.recessutate();
-            paused=true;
-            mazeTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    paused=false;
-                }
-            }, 3000);
-        } while (man.isAlive());
+        },40,40);
+        start_sound.play();
+    }
+
+    private void stop() {
+        waveTimer.cancel();
+        mazeTimer.cancel();
     }
 
 

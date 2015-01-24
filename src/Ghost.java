@@ -7,7 +7,7 @@ import java.util.Set;
 public abstract class Ghost extends Consumable implements IModel {
 
     public static enum Mode {CHASE, SCATTER, FRIGHTENED}
-    public static final int FRIGHTENED_SPEED = 1;
+    public static final int FRIGHTENED_SPEED = 50;
     private static final int POINTS = 200;
 
     protected Point home;
@@ -42,13 +42,12 @@ public abstract class Ghost extends Consumable implements IModel {
         alive=true;
     }
 
-    @Override
-    public int consume() {
+    public int kill() {
         alive=false;
-        return super.consume();
+        return consume();
     }
 
-    public void move(Maze maze) {
+    public void update(Maze maze) {
         if (! maze.isPaused()) {
             if (model.pastCenterOfTile(direction)) {
                 if (undecided) {
@@ -77,7 +76,7 @@ public abstract class Ghost extends Consumable implements IModel {
             // check if ghost and man are touching
             if (maze.manAt(model.getTile())) {
                 if (mode==Mode.FRIGHTENED) {
-                    maze.killGhost(this.consume());
+                    maze.killGhost(this);
                 } else {
                     maze.killMan();
                 }

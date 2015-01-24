@@ -9,7 +9,7 @@ public class Pinky extends Ghost {
     public Pinky(Point home) {
         super(home);
         scatter_target = new Point(0, 1);
-        speed=1;
+        speed=75;
     }
 
     @Override

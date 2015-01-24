@@ -12,7 +12,7 @@ public class Game {
         createMaze(level);
         camera = new Camera(new Point3D(maze.getMan().getPos(), 50),
                 Camera.Style.CLASSIC);
-        maze.run(camera);
+        maze.start(camera);
     }
 
     private void createMaze(int level) {

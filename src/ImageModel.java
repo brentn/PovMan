@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class ImageModel extends Model {
     private Point tile;
     private Point offset;
+    private long last_tick;
     private Point3D size;
     private Image image;
 
@@ -16,6 +17,7 @@ public class ImageModel extends Model {
         this.offset = new Point(50, 50); //percentage of tile
         this.image = image;
         this.size = new Point3D(100,100,100); //percentage of tile
+        this.last_tick=0;
     }
 
     public ImageModel(Point tile, Image image, Point3D size) {
@@ -44,28 +46,35 @@ public class ImageModel extends Model {
     }
 
     public void move(int speed, Maze.Direction direction) {
+        if (last_tick==0) {
+            last_tick=System.currentTimeMillis();
+            return;
+        }
+        long elapsed_time = last_tick-System.currentTimeMillis();
+        last_tick=System.currentTimeMillis();
+        int distance = Math.round(elapsed_time*speed / 500f);
         int x = offset.x;
         int y = offset.y;
         switch (direction) {
-            case RIGHT: x += speed;
+            case RIGHT: x += distance;
                 if (x >=100) {
                     tile = new Point(tile.x+1, tile.y);
                     x-=100;
                 }
                 break;
-            case LEFT:  x -= speed;
+            case LEFT:  x -= distance;
                 if (x <=0) {
                     tile = new Point(tile.x-1, tile.y);
                     x +=100;
                 }
                 break;
-            case UP: y -= speed;
+            case UP: y -= distance;
                 if (y <=0) {
                     tile = new Point(tile.x, tile.y-1);
                     y +=100;
                 }
                 break;
-            case DOWN: y += speed;
+            case DOWN: y += distance;
                 if (y >=100) {
                     tile = new Point(tile.x, tile.y+1);
                     y -=100;
