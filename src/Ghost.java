@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Set;
 public abstract class Ghost extends Consumable implements IModel {
 
     public static enum Mode {CHASE, SCATTER, FRIGHTENED}
+    private static final String FRIGHTENED_IMAGE = "resources/images/frightened.png";
     public static final int FRIGHTENED_SPEED = 50;
     private static final int POINTS = 200;
 
@@ -17,13 +20,16 @@ public abstract class Ghost extends Consumable implements IModel {
     protected boolean alive=false;
     protected Point chase_target;
     protected Point scatter_target;
+    protected Mode lastmode;
     protected Mode mode = Mode.SCATTER;
+    private Image frightened;
     protected ImageModel model;
 
     public Ghost(Point home) {
         super(POINTS);
         this.home = home;
         this.direction = Maze.Direction.LEFT;
+        this.frightened = Toolkit.getDefaultToolkit().getImage(FRIGHTENED_IMAGE);
         createGhostModel();
     }
 
@@ -53,6 +59,10 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     public void update(Maze maze) {
+        if (maze.getMan().isEmpowered()) {
+            lastmode=mode;
+            mode = Mode.FRIGHTENED;
+        }
         if (! maze.isPaused()) {
             if (model.pastCenterOfTile(direction)) {
                 if (undecided) {
@@ -62,8 +72,17 @@ public abstract class Ghost extends Consumable implements IModel {
                     if (exits.size()==0)
                         return;
                     if (exits.size() > 1) {
-                        updateChaseTarget(maze);
-                        chooseBestRoute(exits);
+                        if (mode==Mode.FRIGHTENED) { //if frightened, movement is random
+                            int item = new Random().nextInt(exits.size());
+                            int i=0;
+                            for (Maze.Direction d : exits) {
+                                if (i==item) direction=d;
+                                i++;
+                            }
+                        } else {
+                            updateChaseTarget(maze);
+                            chooseBestRoute(exits);
+                        }
                     } else { //only 1 exit
                         direction = exits.iterator().next();
                         model.reorient(direction);
@@ -74,8 +93,10 @@ public abstract class Ghost extends Consumable implements IModel {
                 undecided=true;
             }
             if (mode==Mode.FRIGHTENED) {
+                model.swapImage(frightened);
                 model.move(FRIGHTENED_SPEED, direction);
             } else {
+                model.restoreImage();
                 model.move(speed, direction);
             }
             // check if ghost and man are touching

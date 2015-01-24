@@ -6,11 +6,11 @@ import java.util.HashSet;
 
 
 public class Dot extends Consumable implements IModel {
-    private static final int DEFAULT_POINTS=10;
-    private static final int HEIGHT = 50;
+    protected static int DEFAULT_POINTS=10;
+    protected static int HEIGHT = 50;
 
-    private Point pos;
-    private ImageModel model;
+    protected Point pos;
+    protected ImageModel model;
 
     public Dot(Point pos) {
         super(DEFAULT_POINTS);
@@ -27,7 +27,7 @@ public class Dot extends Consumable implements IModel {
 
     private void createDotModel() {
         Point3D pos3d = new Point3D(pos, HEIGHT);
-        model = new ImageModel(pos3d, null, new Point3D(25,25,25));
+        model = new ImageModel(pos3d, null, new Point3D(20,20,20));
     }
 
     @Override

@@ -11,7 +11,11 @@ import java.util.Set;
  */
 public class Camera extends JFrame {
 
-    public static enum Style {CLASSIC, FOLLOW}
+    public static enum Style {CLASSIC, FOLLOW, THREED}
+
+    public static final float NEAR = 5000;  // distance from eye to near plane
+    public static final float NEARTOOBJ = 5000f;  // distance from near plane to center of object
+    public static final float SCALE = 2.5f;
 
     public Point3D target;
     protected Style style;
@@ -35,12 +39,13 @@ public class Camera extends JFrame {
                 break;
             case FOLLOW:setFollowOrientation();
                 break;
+            case THREED:set3DOrientation();
         }
     }
 
     private void setClassicOrientation() {
-        phi=-Math.PI/2;
         theta=0;
+        phi=-Math.PI/2;
         distance=10;
         calculateProjectionCoefficinets();
     }
@@ -49,6 +54,13 @@ public class Camera extends JFrame {
         theta=1;
         phi= -.8; //.3
         distance=4;
+        calculateProjectionCoefficinets();
+    }
+
+    private void set3DOrientation() {
+        theta=.2; //.2
+        phi=-.7;
+        distance=8;
         calculateProjectionCoefficinets();
     }
 

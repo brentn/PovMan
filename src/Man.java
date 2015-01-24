@@ -15,6 +15,7 @@ public class Man implements IModel {
     private static final File DIE_SOUND_FILE = new File("resources/sounds/die.wav");
 
     private boolean alive=false;
+    private boolean empowered=false;
     private boolean undecided;
     private long points=0;
     private int lives;
@@ -38,6 +39,7 @@ public class Man implements IModel {
         this.points += points;
     }
     public long getPoints() {return points;}
+    public boolean isEmpowered() {return empowered;}
 
     public void setStartPosition(Point pos, Maze.Direction dir) {
         this.initial_tile = pos;
@@ -108,7 +110,18 @@ public class Man implements IModel {
     public void eat(Consumable item) {
         if (item==null) return;
         points += item.consume();
-        chomp_sound.loop(2);
+        if (item instanceof PowerPill) {
+            empowered=true;
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    empowered=false;
+                }
+            }, ((PowerPill)item).getDuration()*1000);
+        } else {
+            chomp_sound.loop(2);
+        }
     }
 
     public void die() {

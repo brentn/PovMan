@@ -11,7 +11,7 @@ public class Game {
         level = 1;
         createMaze(level);
         camera = new Camera(new Point3D(maze.getMan().getPos(), 50),
-                Camera.Style.CLASSIC);
+                Camera.Style.THREED);
         maze.start(camera);
     }
 
@@ -70,6 +70,17 @@ public class Game {
         maze.clearDots(22,5,25,7);
         maze.clearDots(7,12,20,22);
         maze.clearDots(13,26,14,26);
+
+        maze.clearDots(1,6,1,6);
+        maze.addDot(new PowerPill(1, 6, 15));
+        maze.clearDots(26,6,26,6);
+        maze.addDot(new PowerPill(26, 6, 15));
+        maze.clearDots(1,26, 1, 26);
+        maze.addDot(new PowerPill(1, 26, 15));
+        maze.clearDots(26, 26, 26, 26);
+        maze.addDot(new PowerPill(26, 26, 15));
+        maze.clearDots(17,26,17,26);
+        maze.addDot(new PowerPill(17, 26, 15));
 
         maze.addGhosts(new Point(13, 14));
         maze.addWave(7, Ghost.Mode.SCATTER);

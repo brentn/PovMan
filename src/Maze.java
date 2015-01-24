@@ -157,6 +157,7 @@ public class Maze {
     }
     public void killGhost(Ghost ghost) {
         man.addPoints(ghost.kill());
+        ghost.alive=false;
     }
     private void getNextWave() {
         if (! currentWave.hasNext()) return;

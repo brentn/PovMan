@@ -50,6 +50,7 @@ public class WireframeModel  extends Model {
 
     @Override
     public void drawAsViewedBy(Camera camera) {
+
         Graphics screen = camera.image.getGraphics();
         Point[] points = new Point[ vertices.length ];
         int[] xcoords = new int[4];
@@ -66,7 +67,9 @@ public class WireframeModel  extends Model {
             // calculate perspective
             //x1 = x1*3f/(z1+3f+1.5f);
             //y1 = y1*3f/(z1+3f+1.5f);
-
+            float SCALE = camera.NEAR/(z1+camera.NEAR+camera.NEARTOOBJ)*camera.SCALE;
+            x1 = x1/SCALE;
+            y1 = y1/SCALE;
             // the 0.5 is to round off when converting to int
             xcoords[j] = (int)(camera.getSize().width/2 +  x1/camera.distance  + 0.5);
             ycoords[j] = (int)(camera.getSize().height/2 - y1/camera.distance + 0.5);
