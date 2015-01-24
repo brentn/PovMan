@@ -37,6 +37,7 @@ public class Man implements IModel {
     public void addPoints(int points) {
         this.points += points;
     }
+    public long getPoints() {return points;}
 
     public void setStartPosition(Point pos, Maze.Direction dir) {
         this.initial_tile = pos;
@@ -44,7 +45,7 @@ public class Man implements IModel {
     }
 
     public void update(Maze maze) {
-        if (maze.isPaused()) {
+        if (! maze.isPaused()) {
             if (model.pastCenterOfTile(direction)) {
                 if (undecided) {
                     Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
@@ -107,7 +108,7 @@ public class Man implements IModel {
     public void eat(Consumable item) {
         if (item==null) return;
         points += item.consume();
-        chomp_sound.loop(1);
+        chomp_sound.loop(2);
     }
 
     public void die() {
@@ -116,6 +117,7 @@ public class Man implements IModel {
     }
 
     public boolean hasMoreLives() {return lives>0;}
+    public int lives() {return lives;}
 
     public void recessutate() {
         if (! alive) {

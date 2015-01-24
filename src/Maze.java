@@ -48,7 +48,6 @@ public class Maze {
         this.currentWave = waves.iterator();
         this.man = new Man(new Point((x/2), (y/2)), Direction.RIGHT);
         start_sound.whenFinished(unpause);
-        die_sound.whenFinished(unpause);
     }
 
     public boolean isPaused() { return paused; }
@@ -85,12 +84,13 @@ public class Maze {
         if (pos==null) return false;
         return (!isWall[pos.x][pos.y]);
     }
+
     public Set<Direction> getExitsFrom(Point tile) {
         int x = tile.x;
         int y = tile.y;
-        if (isWall[x][y])
-            return null;
         Set<Direction> result = new HashSet<Direction>();
+        if (isWall[x][y])
+            return result;
         if (! isWall[x-1][y]) result.add(Direction.LEFT);
         if (! isWall[x+1][y]) result.add(Direction.RIGHT);
         if (! isWall[x][y-1]) result.add(Direction.UP);
@@ -141,9 +141,9 @@ public class Maze {
     public void addGhosts(Point home) {
         blinky = new Blinky(new Point(home));
         ghosts.add(blinky);
-        ghosts.add(new Pinky(new Point(home)));
-        ghosts.add(new Inky(home));
-        ghosts.add(new Clyde(home));
+        ghosts.add(new Pinky(new Point(home.x-1,home.y)));
+        ghosts.add(new Inky(new Point(home.x+2, home.y)));
+        ghosts.add(new Clyde(new Point(home.x+1, home.y)));
     }
     public Blinky getBlinky() {return blinky;}
     private void resetGhosts() {
@@ -182,6 +182,7 @@ public class Maze {
         man.setStartPosition(pos, dir);
     }
     public Man getMan() { return man; }
+    public String getScore() { return "Score: "+man.getPoints();}
     public void resetMan() {
         man.recessutate();
     }
@@ -196,10 +197,14 @@ public class Maze {
             @Override
             public void run() {
                 man.recessutate();
-                if (man.isAlive() )
-                    paused=false;
-                else
-                    stop();
+                if (man.isAlive()) resetGhosts();
+            }
+        }, 3000);
+        mazeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (man.isAlive()) paused=false;
+                else stop();
             }
         }, 5000);
     }
@@ -212,16 +217,17 @@ public class Maze {
         mazeTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!paused) siren_sound.play();
-                man.update(Maze.this);
-                for (Ghost ghost : ghosts) {
-                    ghost.update(Maze.this);
-                }
-                if (camera.style == Camera.Style.FOLLOW)
-                    camera.follow(man);
-                camera.capture(Maze.this);
+            if (!paused)
+                siren_sound.loop();
+            man.update(Maze.this);
+            for (Ghost ghost : ghosts) {
+                ghost.update(Maze.this);
             }
-        },40,40);
+            if (camera.style == Camera.Style.FOLLOW)
+                camera.follow(man);
+            camera.capture(Maze.this);
+            }
+        },0,40);
         start_sound.play();
     }
 

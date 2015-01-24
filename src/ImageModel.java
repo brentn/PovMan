@@ -25,6 +25,7 @@ public class ImageModel extends Model {
         this.offset = new Point(50, 50); //percentage of tile
         this.image = image;
         this.size = size; //percentage of tile
+        this.last_tick=0;
     }
 
     public Point getTile() {
@@ -50,9 +51,10 @@ public class ImageModel extends Model {
             last_tick=System.currentTimeMillis();
             return;
         }
-        long elapsed_time = last_tick-System.currentTimeMillis();
+        long elapsed_time = System.currentTimeMillis()-last_tick;
         last_tick=System.currentTimeMillis();
-        int distance = Math.round(elapsed_time*speed / 500f);
+        int distance = Math.round(elapsed_time*speed / 200f);
+        if (distance>50) distance=50;
         int x = offset.x;
         int y = offset.y;
         switch (direction) {
@@ -117,14 +119,16 @@ public class ImageModel extends Model {
 
     @Override
     public void drawAsViewedBy(Camera camera) {
+        int ELEVATION=50; //percent
+        if (image != null) ELEVATION = size.z/2;
         Graphics screen = camera.image.getGraphics();
         int x = tile.x*100 + offset.x - camera.target.x;
         int y = tile.y*100 + offset.y - camera.target.y;
-        int z = camera.target.z*100 + size.z;
+        int z = ELEVATION - size.z/2 + camera.target.z;
         // compute orthographic projection
         float x1 = camera.cosT*x + camera.sinT*y;
         float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;
-        int width = (int)(size.x/camera.distance+.5);
+        int width = (int)(size.x/camera.distance);
 
         // the 0.5 is to round off when converting to int
         Point point = new Point(
@@ -133,11 +137,7 @@ public class ImageModel extends Model {
         );
         // draw 2d image
         if (image==null) {
-            if (size.x>100) {
-                screen.setColor(Color.yellow);
-            } else {
-                screen.setColor(Color.white);
-            }
+            screen.setColor(Color.white);
             screen.fillOval(point.x-(width/2), point.y - (width/2),width ,width);
         } else {
             screen.drawImage(image, point.x-(width/2), point.y - (width/2), width ,width, null);

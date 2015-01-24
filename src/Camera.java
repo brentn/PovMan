@@ -47,8 +47,8 @@ public class Camera extends JFrame {
 
     private void setFollowOrientation() {
         theta=1;
-        phi= -.3;
-        distance=2;
+        phi= -.8; //.3
+        distance=4;
         calculateProjectionCoefficinets();
     }
 
@@ -67,7 +67,7 @@ public class Camera extends JFrame {
         }
         double amount = Math.abs(theta-trail);
         if (amount >= Math.PI) amount-=Math.PI;
-        amount = amount/200;
+        amount = amount/50;
         if (theta>trail) {
             if ((theta-trail)<Math.PI) {
                 theta -= amount;
@@ -111,6 +111,22 @@ public class Camera extends JFrame {
         screen.fillRect(0, 0, this.getWidth(), this.getHeight());
         for (Model item : models) {
             item.drawAsViewedBy(this);
+        }
+//        //draw ghost targets
+//        for (Ghost ghost : maze.getGhosts()) {
+//            Point tile=null;
+//            if (ghost.mode== Ghost.Mode.CHASE) tile=ghost.chase_target;
+//            if (ghost.mode== Ghost.Mode.SCATTER) tile=ghost.scatter_target;
+//            if (tile != null) {
+//                ImageModel target = new ImageModel(tile, null);
+//                target.drawAsViewedBy(this);
+//            }
+//        }
+        screen.setColor(Color.white);
+        screen.drawString(maze.getScore(), 50, 20);
+        screen.setColor(Color.yellow);
+        for (int i=0; i<maze.getMan().lives(); i++) {
+            screen.fillOval(330-(i*15), 10, 12, 12);
         }
         viewport.updateImage(image);
         viewport.repaint(0,0,400,400);

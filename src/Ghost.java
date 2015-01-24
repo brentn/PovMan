@@ -38,6 +38,11 @@ public abstract class Ghost extends Consumable implements IModel {
 
     public void reset() {
         model.setTile(home);
+        if (direction == Maze.Direction.UP)
+            direction = Maze.Direction.RIGHT;
+        else if (direction == Maze.Direction.DOWN)
+            direction = Maze.Direction.LEFT;
+        model.setOffset(50, 50);
         undecided=true;
         alive=true;
     }
@@ -146,7 +151,7 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     protected void createGhostModel() {
-        model = new ImageModel(home, null, new Point3D(80, 80, 100));
+        model = new ImageModel(home, null, new Point3D(150, 150, 150));
     }
 
     @Override
