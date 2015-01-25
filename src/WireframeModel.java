@@ -1,8 +1,5 @@
 import java.awt.*;
 
-/**
- * Created by brent on 09/01/15.
- */
 public class WireframeModel  extends Model {
     private Point3D[] vertices;
     private Edge[] edges;
@@ -67,7 +64,7 @@ public class WireframeModel  extends Model {
             // calculate perspective
             //x1 = x1*3f/(z1+3f+1.5f);
             //y1 = y1*3f/(z1+3f+1.5f);
-            float SCALE = camera.NEAR/(z1+camera.NEAR+camera.NEARTOOBJ)*camera.SCALE;
+            float SCALE = Camera.NEAR/(z1+Camera.NEAR+Camera.NEARTOOBJ)*Camera.SCALE;
             x1 = x1/SCALE;
             y1 = y1/SCALE;
             // the 0.5 is to round off when converting to int
@@ -80,11 +77,11 @@ public class WireframeModel  extends Model {
         screen.setColor(new Color(0, 0, 0, 0.7f));
         screen.fillPolygon(xcoords, ycoords, 4);
         screen.setColor(Color.BLUE);
-        for (int  j = 0; j < edges.length; ++j ) {
+        for (Edge edge : edges) {
 //            System.out.println(points[edges[j].start] + "-" + points[edges[j].end]);
             screen.drawLine(
-                    points[edges[j].start].x, points[edges[j].start].y,
-                    points[edges[j].end].x, points[edges[j].end].y
+                    points[edge.start].x, points[edge.start].y,
+                    points[edge.end].x, points[edge.end].y
             );
         }
     }

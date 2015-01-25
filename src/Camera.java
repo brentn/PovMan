@@ -1,14 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-/**
- * Created by brent on 08/01/15.
- */
 public class Camera extends JFrame {
 
     public static enum Style {CLASSIC, FOLLOW, THREED}
@@ -25,22 +24,50 @@ public class Camera extends JFrame {
     public float sinTcosP, cosTcosP, cosTsinP, sinTsinP;
     private Draw viewport;
     public BufferedImage image = null;
+    private Set<Integer> possible_keys = new HashSet<Integer>();
+    private Set<Integer> pressed_keys = new HashSet<Integer>();
 
     public Camera(Point3D target, Style style) {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(400, 400);
         this.setVisible(true);
         viewport = new Draw();
         this.add(viewport);
         this.target = target;
-        this.style=style;
+        this.style = style;
         switch (style) {
-            case CLASSIC:setClassicOrientation();
+            case CLASSIC:
+                setClassicOrientation();
                 break;
-            case FOLLOW:setFollowOrientation();
+            case FOLLOW:
+                setFollowOrientation();
                 break;
-            case THREED:set3DOrientation();
+            case THREED:
+                set3DOrientation();
         }
+        this.possible_keys.add(KeyEvent.VK_UP);
+        this.possible_keys.add(KeyEvent.VK_DOWN);
+        this.possible_keys.add(KeyEvent.VK_LEFT);
+        this.possible_keys.add(KeyEvent.VK_RIGHT);
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (possible_keys.contains(e.getKeyCode())) {
+                    pressed_keys.add(e.getKeyCode());
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (possible_keys.contains(e.getKeyCode())) {
+                    pressed_keys.remove(e.getKeyCode());
+                }
+            }
+        });
     }
 
     private void setClassicOrientation() {
@@ -63,6 +90,8 @@ public class Camera extends JFrame {
         distance=8;
         calculateProjectionCoefficinets();
     }
+
+    public Set<Integer> getPressed_keys() {return pressed_keys;}
 
     public void follow(Man man) {
         target = new Point3D(man.getPos(), 1);

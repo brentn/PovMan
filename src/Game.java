@@ -11,11 +11,13 @@ public class Game {
         level = 1;
         createMaze(level);
         camera = new Camera(new Point3D(maze.getMan().getPos(), 50),
-                Camera.Style.THREED);
+                Camera.Style.FOLLOW);
         maze.start(camera);
     }
 
     private void createMaze(int level) {
+        final int FRIGHT_DURATION=10; //seconds
+
         maze = new Maze(28, 36);
         maze.setStartPosition(new Point(14, 26), Maze.Direction.RIGHT);
 
@@ -72,15 +74,13 @@ public class Game {
         maze.clearDots(13,26,14,26);
 
         maze.clearDots(1,6,1,6);
-        maze.addDot(new PowerPill(1, 6, 15));
+        maze.addDot(new PowerPill(1, 6, FRIGHT_DURATION));
         maze.clearDots(26,6,26,6);
-        maze.addDot(new PowerPill(26, 6, 15));
+        maze.addDot(new PowerPill(26, 6, FRIGHT_DURATION));
         maze.clearDots(1,26, 1, 26);
-        maze.addDot(new PowerPill(1, 26, 15));
+        maze.addDot(new PowerPill(1, 26, FRIGHT_DURATION));
         maze.clearDots(26, 26, 26, 26);
-        maze.addDot(new PowerPill(26, 26, 15));
-        maze.clearDots(17,26,17,26);
-        maze.addDot(new PowerPill(17, 26, 15));
+        maze.addDot(new PowerPill(26, 26, FRIGHT_DURATION));
 
         maze.addGhosts(new Point(13, 14));
         maze.addWave(7, Ghost.Mode.SCATTER);

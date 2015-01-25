@@ -1,10 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-/**
- * Created by brent on 09/01/15.
- */
 public class ImageModel extends Model {
     private Point tile;
     private Point offset;
@@ -33,6 +28,9 @@ public class ImageModel extends Model {
     }
     public void setTile(Point tile) {
         this.tile = tile;
+    }
+    public void swapImage(Image image) {
+        this.image = image;
     }
 
     public Point getPos() {
@@ -130,7 +128,7 @@ public class ImageModel extends Model {
         float y1 = -camera.sinTsinP*x + camera.cosP*z + camera.cosTsinP*y;
         float z1 = camera.cosTcosP*y - camera.sinTcosP*x - camera.sinP*z;
         int width = (int)(size.x/camera.distance);
-        float SCALE = camera.NEAR/(z1+camera.NEAR+camera.NEARTOOBJ)*camera.SCALE;
+        float SCALE = Camera.NEAR/(z1+Camera.NEAR+Camera.NEARTOOBJ)*Camera.SCALE;
         x1 = x1/SCALE;
         y1 = y1/SCALE;
 

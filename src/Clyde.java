@@ -1,10 +1,8 @@
 import java.awt.*;
 
-/**
- * Created by brent on 09/01/15.
- */
 public class Clyde extends Ghost {
     private static final String CLYDE_IMAGE = "resources/images/clyde.png";
+    private Image image;
 
     public Clyde(Point home) {
         super(home);
@@ -29,10 +27,14 @@ public class Clyde extends Ghost {
         }
     }
 
+    protected void restoreImage() {
+        model.swapImage(image);
+    }
+
     @Override
     protected void createGhostModel() {
         super.createGhostModel();
-        Image image = Toolkit.getDefaultToolkit().getImage(CLYDE_IMAGE);
+        image = Toolkit.getDefaultToolkit().getImage(CLYDE_IMAGE);
         model = new ImageModel(home, image, new Point3D(100, 100, 100));
     }
 }

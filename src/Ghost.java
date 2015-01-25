@@ -1,15 +1,14 @@
 import java.awt.*;
-import java.util.Collections;
+import java.io.File;
 import java.util.Random;
 import java.util.Set;
 
-/**
- * Created by brent on 09/01/15.
- */
 public abstract class Ghost extends Consumable implements IModel {
 
     public static enum Mode {CHASE, SCATTER, FRIGHTENED}
     private static final String FRIGHTENED_IMAGE = "resources/images/frightened.png";
+    private static final String EYES_IMAGE = "resources/images/eyes.png";
+    private static final File DIE_SOUND_FILE = new File("resources/sounds/kill.wav");
     public static final int FRIGHTENED_SPEED = 50;
     private static final int POINTS = 200;
 
@@ -24,6 +23,7 @@ public abstract class Ghost extends Consumable implements IModel {
     protected Mode mode = Mode.SCATTER;
     private Image frightened;
     protected ImageModel model;
+    private Sound die_sound = new Sound(DIE_SOUND_FILE);
 
     public Ghost(Point home) {
         super(POINTS);
@@ -54,8 +54,18 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     public int kill() {
+        if (alive) {
+            alive = false;
+            return consume();
+        }
+        return 0;
+    }
+
+    public void retreat() {
+        die_sound.play();
+        //model.swapImage(eyes_image);
+        reset();
         alive=false;
-        return consume();
     }
 
     public void update(Maze maze) {
@@ -63,7 +73,7 @@ public abstract class Ghost extends Consumable implements IModel {
             lastmode=mode;
             mode = Mode.FRIGHTENED;
         }
-        if (! maze.isPaused()) {
+        if (alive && ! maze.isPaused()) {
             if (model.pastCenterOfTile(direction)) {
                 if (undecided) {
                     Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
@@ -96,7 +106,7 @@ public abstract class Ghost extends Consumable implements IModel {
                 model.swapImage(frightened);
                 model.move(FRIGHTENED_SPEED, direction);
             } else {
-                model.restoreImage();
+                restoreImage();
                 model.move(speed, direction);
             }
             // check if ghost and man are touching
@@ -109,6 +119,8 @@ public abstract class Ghost extends Consumable implements IModel {
             }
         }
     }
+
+    protected abstract void restoreImage();
 
     private Point nextTile() {
         if (! model.pastCenterOfTile(direction)) return null;

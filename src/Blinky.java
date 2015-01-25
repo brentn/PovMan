@@ -1,11 +1,8 @@
-import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by brent on 09/01/15.
- */
 public class Blinky extends Ghost {
     private static final String BLINKY_IMAGE = "resources/images/blinky.png";
+    private Image image;
 
     public Blinky(Point home) {
         super(home);
@@ -22,10 +19,14 @@ public class Blinky extends Ghost {
         chase_target = maze.getMan().getTile();
     }
 
+    protected void restoreImage() {
+        model.swapImage(image);
+    }
+
     @Override
     protected void createGhostModel() {
         super.createGhostModel();
-        Image image = Toolkit.getDefaultToolkit().getImage(BLINKY_IMAGE);
+        image = Toolkit.getDefaultToolkit().getImage(BLINKY_IMAGE);
         model = new ImageModel(home, image, new Point3D(100, 100, 100));
     }
 }

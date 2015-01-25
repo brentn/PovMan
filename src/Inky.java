@@ -1,10 +1,8 @@
 import java.awt.*;
 
-/**
- * Created by brent on 09/01/15.
- */
 public class Inky extends Ghost {
     private static final String INKY_IMAGE = "resources/images/inky.png";
+    private Image image;
 
     public Inky(Point home) {
         super(home);
@@ -21,10 +19,14 @@ public class Inky extends Ghost {
         chase_target = new Point (p2.x+dx, p2.y+dy);
     }
 
+    protected void restoreImage() {
+        model.swapImage(image);
+    }
+
     @Override
     protected void createGhostModel() {
         super.createGhostModel();
-        Image image = Toolkit.getDefaultToolkit().getImage(INKY_IMAGE);
+        image = Toolkit.getDefaultToolkit().getImage(INKY_IMAGE);
         model = new ImageModel(home, image, new Point3D(100, 100, 100));
     }
 }

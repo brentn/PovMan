@@ -1,10 +1,8 @@
 import java.awt.*;
 
-/**
- * Created by brent on 09/01/15.
- */
 public class Pinky extends Ghost {
     private static final String PINKY_IMAGE = "resources/images/pinky.png";
+    private Image image;
 
     public Pinky(Point home) {
         super(home);
@@ -17,9 +15,13 @@ public class Pinky extends Ghost {
         chase_target = maze.getMan().getTileAhead(4);
     }
 
+    protected void restoreImage() {
+        model.swapImage(image);
+    }
+
     protected void createGhostModel() {
         super.createGhostModel();
-        Image image = Toolkit.getDefaultToolkit().getImage(PINKY_IMAGE);
+        image = Toolkit.getDefaultToolkit().getImage(PINKY_IMAGE);
         model = new ImageModel(home, image, new Point3D(100, 100, 100));
     }
 }

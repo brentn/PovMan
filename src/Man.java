@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Random;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class Man implements IModel {
     private boolean empowered=false;
     private boolean undecided;
     private long points=0;
+    private int doubler=1;
     private int lives;
     private ImageModel model;
     private Point initial_tile;
@@ -38,12 +40,39 @@ public class Man implements IModel {
     public void addPoints(int points) {
         this.points += points;
     }
+    public void addDoubledPoints(int points) {this.points += points*doubler;}
+    public void increaseDoubler() {if (doubler<4) doubler = doubler*2;}
     public long getPoints() {return points;}
     public boolean isEmpowered() {return empowered;}
 
     public void setStartPosition(Point pos, Maze.Direction dir) {
         this.initial_tile = pos;
         this.initial_direction = dir;
+    }
+
+    public void control(Maze maze, Set<Integer> pressed_keys) {
+        if ( alive && !maze.isPaused()) {
+            Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+            if (pressed_keys.contains(KeyEvent.VK_UP) && exits.contains(Maze.Direction.UP))
+                direction = Maze.Direction.UP;
+            else if (pressed_keys.contains(KeyEvent.VK_RIGHT) && exits.contains(Maze.Direction.RIGHT))
+                direction = Maze.Direction.RIGHT;
+            else if (pressed_keys.contains(KeyEvent.VK_DOWN) && exits.contains(Maze.Direction.DOWN))
+                direction = Maze.Direction.DOWN;
+            else if (pressed_keys.contains(KeyEvent.VK_LEFT) && exits.contains(Maze.Direction.LEFT))
+                direction = Maze.Direction.LEFT;
+            else if (!exits.contains(direction))
+                direction = Maze.Direction.NONE;
+            if (direction != Maze.Direction.NONE) {
+                model.reorient(direction);
+                model.move(SPEED, direction);
+                Dot dot = maze.dotAt(getTile());
+                if (dot != null) {
+                    eat(dot);
+                    maze.removeDot(dot);
+                }
+            }
+        }
     }
 
     public void update(Maze maze) {
@@ -91,6 +120,7 @@ public class Man implements IModel {
             case RIGHT: return new Point(tile.x+distance, tile.y);
             case UP: return new Point(tile.x, tile.y-distance);
             case DOWN: return new Point(tile.x, tile.y+distance);
+            case NONE: return new Point(tile.x, tile.y);
         }
         return null;
     }
@@ -112,6 +142,7 @@ public class Man implements IModel {
         points += item.consume();
         if (item instanceof PowerPill) {
             empowered=true;
+            doubler=1;
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override

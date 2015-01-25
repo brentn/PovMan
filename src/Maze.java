@@ -8,7 +8,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * For fun
  */
 public class Maze {
-    public static enum Direction {RIGHT, DOWN, LEFT, UP}
+    public static enum Direction {RIGHT, DOWN, LEFT, UP, NONE}
 
     private static final File START_SOUND_FILE = new File("resources/sounds/start.wav");
     private static final File SIREN_SOUND_FILE = new File("resources/sounds/siren.wav");
@@ -157,7 +157,15 @@ public class Maze {
     }
     public void killGhost(Ghost ghost) {
         man.addPoints(ghost.kill());
+        man.increaseDoubler();
         ghost.alive=false;
+        ghost.retreat();
+    }
+    public void resetDeadGhosts() {
+        for (Ghost ghost : ghosts) {
+            if (!ghost.isAlive())
+                ghost.reset();
+        }
     }
     private void getNextWave() {
         if (! currentWave.hasNext()) return;
@@ -220,7 +228,8 @@ public class Maze {
             public void run() {
             if (!paused)
                 siren_sound.loop();
-            man.update(Maze.this);
+            man.control(Maze.this, camera.getPressed_keys());
+            //man.update(Maze.this);
             for (Ghost ghost : ghosts) {
                 ghost.update(Maze.this);
             }
