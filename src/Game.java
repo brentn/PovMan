@@ -11,7 +11,7 @@ public class Game {
         level = 1;
         createMaze(level);
         camera = new Camera(new Point3D(maze.getMan().getPos(), 50),
-                Camera.Style.FOLLOW);
+                Camera.Style.THREED);
         maze.start(camera);
     }
 
@@ -20,10 +20,6 @@ public class Game {
 
         maze = new Maze(28, 36);
         maze.setStartPosition(new Point(14, 26), Maze.Direction.RIGHT);
-
-        //temporary walls
-        maze.addWall(new Point(5, 16), new Point(5, 18));
-        maze.addWall(new Point(22, 16), new Point(22, 18));
 
         //outer walls
         maze.addWalls(Wall.U(new Point(0, 12), new Point(27, 3)));

@@ -10,7 +10,7 @@ import java.util.TimerTask;
 public class Man implements IModel {
 
     private static final int INITIAL_LIVES=3;
-    private static final int SPEED=85;
+    private static final int SPEED=80;
     private static final String MAN_IMAGE = "resources/images/man.png";
     private static final File CHOMP_SOUND_FILE = new File("resources/sounds/dot.wav");
     private static final File DIE_SOUND_FILE = new File("resources/sounds/die.wav");
@@ -66,6 +66,11 @@ public class Man implements IModel {
             if (direction != Maze.Direction.NONE) {
                 model.reorient(direction);
                 model.move(SPEED, direction);
+                Point tile = model.getTile();
+                if (tile.x >= (maze.width()-1))
+                    model.setTile(new Point(1, tile.y));
+                if (tile.x <= 0)
+                    model.setTile(new Point(maze.width()-2, tile.y));
                 Dot dot = maze.dotAt(getTile());
                 if (dot != null) {
                     eat(dot);
@@ -75,37 +80,37 @@ public class Man implements IModel {
         }
     }
 
-    public void update(Maze maze) {
-        if (! maze.isPaused()) {
-            if (model.pastCenterOfTile(direction)) {
-                if (undecided) {
-                    Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
-                    boolean reversable = (new Random().nextInt(10) > 7); //chance of reversing direction
-                    if (!reversable) exits.remove(reverse());
-                    if (exits.size() > 1) {
-                        Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
-                        exitarray = exits.toArray(exitarray);
-                        int choice = new Random().nextInt(exits.size());
-                        if (choice < exits.size())
-                            direction = exitarray[choice];
-                    } else {
-                        if (!exits.contains(direction))
-                            direction = exits.iterator().next();
-                    }
-                    model.reorient(direction);
-                    undecided = false;
-                }
-            } else {
-                undecided = true;
-            }
-            model.move(SPEED, direction);
-            Dot dot = maze.dotAt(getTile());
-            if (dot != null) {
-                eat(dot);
-                maze.removeDot(dot);
-            }
-        }
-    }
+//    public void update(Maze maze) {
+//        if (! maze.isPaused()) {
+//            if (model.pastCenterOfTile(direction)) {
+//                if (undecided) {
+//                    Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
+//                    boolean reversable = (new Random().nextInt(10) > 7); //chance of reversing direction
+//                    if (!reversable) exits.remove(reverse());
+//                    if (exits.size() > 1) {
+//                        Maze.Direction[] exitarray = new Maze.Direction[exits.size()];
+//                        exitarray = exits.toArray(exitarray);
+//                        int choice = new Random().nextInt(exits.size());
+//                        if (choice < exits.size())
+//                            direction = exitarray[choice];
+//                    } else {
+//                        if (!exits.contains(direction))
+//                            direction = exits.iterator().next();
+//                    }
+//                    model.reorient(direction);
+//                    undecided = false;
+//                }
+//            } else {
+//                undecided = true;
+//            }
+//            model.move(SPEED, direction);
+//            Dot dot = maze.dotAt(getTile());
+//            if (dot != null) {
+//                eat(dot);
+//                maze.removeDot(dot);
+//            }
+//        }
+//    }
 
     public Point getPos() {
         return model.getPos();

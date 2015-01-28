@@ -51,6 +51,7 @@ public class Maze {
     }
 
     public boolean isPaused() { return paused; }
+    public int width() {return size.x;}
 
 
     // WALLS
@@ -91,8 +92,8 @@ public class Maze {
         Set<Direction> result = new HashSet<Direction>();
         if (isWall[x][y])
             return result;
-        if (! isWall[x-1][y]) result.add(Direction.LEFT);
-        if (! isWall[x+1][y]) result.add(Direction.RIGHT);
+        if ((x==0) || (! isWall[x-1][y])) result.add(Direction.LEFT);
+        if ((x+1)==width() || (! isWall[x+1][y])) result.add(Direction.RIGHT);
         if (! isWall[x][y-1]) result.add(Direction.UP);
         if (! isWall[x][y+1]) result.add(Direction.DOWN);
         return result;
@@ -156,7 +157,9 @@ public class Maze {
         }
     }
     public void killGhost(Ghost ghost) {
-        man.addPoints(ghost.kill());
+        int points = ghost.kill();
+        ghost.showPoints(points);
+        man.addPoints(points);
         man.increaseDoubler();
         ghost.alive=false;
         ghost.retreat();

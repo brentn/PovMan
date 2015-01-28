@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class Ghost extends Consumable implements IModel {
 
@@ -10,6 +13,7 @@ public abstract class Ghost extends Consumable implements IModel {
     private static final String EYES_IMAGE = "resources/images/eyes.png";
     private static final File DIE_SOUND_FILE = new File("resources/sounds/kill.wav");
     public static final int FRIGHTENED_SPEED = 50;
+    public static final int TUNNEL_SPEED = 40;
     private static final int POINTS = 200;
 
     protected Point home;
@@ -23,6 +27,8 @@ public abstract class Ghost extends Consumable implements IModel {
     protected Mode mode = Mode.SCATTER;
     private Image frightened;
     protected ImageModel model;
+    private Timer timer;
+    private boolean flashing=false;
     private Sound die_sound = new Sound(DIE_SOUND_FILE);
 
     public Ghost(Point home) {
@@ -30,6 +36,7 @@ public abstract class Ghost extends Consumable implements IModel {
         this.home = home;
         this.direction = Maze.Direction.LEFT;
         this.frightened = Toolkit.getDefaultToolkit().getImage(FRIGHTENED_IMAGE);
+        timer=new Timer();
         createGhostModel();
     }
 
@@ -70,8 +77,14 @@ public abstract class Ghost extends Consumable implements IModel {
 
     public void update(Maze maze) {
         if (maze.getMan().isEmpowered()) {
-            lastmode=mode;
-            mode = Mode.FRIGHTENED;
+            if (mode != Mode.FRIGHTENED) {
+                lastmode = mode;
+                setMode(Mode.FRIGHTENED);
+                model.swapImage(frightened);
+            }
+        } else {
+            if (mode==Mode.FRIGHTENED  && !flashing)
+                flash();
         }
         if (alive && ! maze.isPaused()) {
             if (model.pastCenterOfTile(direction)) {
@@ -102,13 +115,20 @@ public abstract class Ghost extends Consumable implements IModel {
             } else {
                 undecided=true;
             }
-            if (mode==Mode.FRIGHTENED) {
-                model.swapImage(frightened);
-                model.move(FRIGHTENED_SPEED, direction);
+            if (inTunnel()) {
+                model.move(TUNNEL_SPEED, direction);
             } else {
-                restoreImage();
-                model.move(speed, direction);
+                if (mode == Mode.FRIGHTENED) {
+                    model.move(FRIGHTENED_SPEED, direction);
+                } else {
+                    model.move(speed, direction);
+                }
             }
+            Point tile = model.getTile();
+            if (tile.x >= (maze.width()-1))
+                model.setTile(new Point(1, tile.y));
+            if (tile.x <= 0)
+                model.setTile(new Point(maze.width()-2, tile.y));
             // check if ghost and man are touching
             if (maze.manAt(model.getTile())) {
                 if (mode==Mode.FRIGHTENED) {
@@ -118,6 +138,41 @@ public abstract class Ghost extends Consumable implements IModel {
                 }
             }
         }
+    }
+
+    private boolean inTunnel() {
+        if (model.getTile().y != 16) return false;
+        if ((model.getTile().x < 22) && (model.getTile().x > 5)) return false;
+        return true;
+    }
+
+    public void showPoints(int points) {
+
+    }
+
+    public void flash() {
+        flashing=true;
+        for (int i=0; i<6; i=i+2) {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    model.swapImage(frightened);
+                }
+            }, 250*i);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    restoreImage();
+                }
+            }, 250*i+250);
+        }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                flashing=false;
+                alive=true;
+            }
+        }, 1500);
     }
 
     protected abstract void restoreImage();

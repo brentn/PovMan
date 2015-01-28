@@ -12,9 +12,11 @@ public class Camera extends JFrame {
 
     public static enum Style {CLASSIC, FOLLOW, THREED}
 
+    public static final int SCREEN_WIDTH = 800;
+    public static final int SCREEN_HEIGHT = 1200;
     public static final float NEAR = 5000;  // distance from eye to near plane
     public static final float NEARTOOBJ = 5000f;  // distance from near plane to center of object
-    public static final float SCALE = 2.5f;
+    public static final float SCALE = 1f;
 
     public Point3D target;
     protected Style style;
@@ -29,7 +31,7 @@ public class Camera extends JFrame {
 
     public Camera(Point3D target, Style style) {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(400, 400);
+        this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.setVisible(true);
         viewport = new Draw();
         this.add(viewport);
@@ -80,7 +82,7 @@ public class Camera extends JFrame {
     private void setFollowOrientation() {
         theta=1;
         phi= -.8; //.3
-        distance=4;
+        distance=2;
         calculateProjectionCoefficinets();
     }
 
@@ -108,7 +110,7 @@ public class Camera extends JFrame {
         }
         double amount = Math.abs(theta-trail);
         if (amount >= Math.PI) amount-=Math.PI;
-        amount = amount/50;
+        amount = amount/20;
         if (theta>trail) {
             if ((theta-trail)<Math.PI) {
                 theta -= amount;
@@ -170,7 +172,7 @@ public class Camera extends JFrame {
             screen.fillOval(330-(i*15), 10, 12, 12);
         }
         viewport.updateImage(image);
-        viewport.repaint(0,0,400,400);
+        viewport.repaint(0,0, SCREEN_WIDTH ,SCREEN_HEIGHT);
     }
 
     private Point calculate2DCameraPosition() {
