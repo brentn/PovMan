@@ -216,7 +216,7 @@ public class Maze {
             @Override
             public void run() {
                 if (man.isAlive()) paused=false;
-                else stop();
+                else lose();
             }
         }, 5000);
     }
@@ -239,14 +239,22 @@ public class Maze {
             if (camera.style == Camera.Style.FOLLOW)
                 camera.follow(man);
             camera.capture(Maze.this);
+            if (dots.size()==0) win();
             }
         },0,40);
         start_sound.play();
     }
 
-    private void stop() {
+    private void lose() {
         waveTimer.cancel();
         mazeTimer.cancel();
+        siren_sound.stop();
+    }
+
+    private void win() {
+        waveTimer.cancel();
+        mazeTimer.cancel();
+        siren_sound.stop();
     }
 
 

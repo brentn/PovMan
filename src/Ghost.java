@@ -14,6 +14,7 @@ public abstract class Ghost extends Consumable implements IModel {
     private static final File DIE_SOUND_FILE = new File("resources/sounds/kill.wav");
     public static final int FRIGHTENED_SPEED = 50;
     public static final int TUNNEL_SPEED = 40;
+    public static final int RETREAT_SPEED = 200;
     private static final int POINTS = 200;
 
     protected Point home;
@@ -25,7 +26,7 @@ public abstract class Ghost extends Consumable implements IModel {
     protected Point scatter_target;
     protected Mode lastmode;
     protected Mode mode = Mode.SCATTER;
-    private Image frightened;
+    private Image frightened, eyes_image;
     protected ImageModel model;
     private Timer timer;
     private boolean flashing=false;
@@ -36,11 +37,17 @@ public abstract class Ghost extends Consumable implements IModel {
         this.home = home;
         this.direction = Maze.Direction.LEFT;
         this.frightened = Toolkit.getDefaultToolkit().getImage(FRIGHTENED_IMAGE);
+        this.eyes_image = Toolkit.getDefaultToolkit().getImage(EYES_IMAGE);
         timer=new Timer();
         createGhostModel();
     }
 
     public boolean isAlive() { return alive; }
+
+    public boolean isHome() {
+        Point tile = model.getTile();
+        return ((tile.x == home.x) && (tile.y == home.y));
+    }
 
     public void setMode(Mode mode) {
         if (this.mode==mode) return;
@@ -70,8 +77,7 @@ public abstract class Ghost extends Consumable implements IModel {
 
     public void retreat() {
         die_sound.play();
-        //model.swapImage(eyes_image);
-        reset();
+        model.swapImage(eyes_image);
         alive=false;
     }
 
@@ -86,7 +92,7 @@ public abstract class Ghost extends Consumable implements IModel {
             if (mode==Mode.FRIGHTENED  && !flashing)
                 flash();
         }
-        if (alive && ! maze.isPaused()) {
+        if (! maze.isPaused()) {
             if (model.pastCenterOfTile(direction)) {
                 if (undecided) {
                     Set<Maze.Direction> exits = maze.getExitsFrom(model.getTile());
@@ -95,7 +101,7 @@ public abstract class Ghost extends Consumable implements IModel {
                     if (exits.size()==0)
                         return;
                     if (exits.size() > 1) {
-                        if (mode==Mode.FRIGHTENED) { //if frightened, movement is random
+                        if (mode==Mode.FRIGHTENED && alive) { //if frightened, movement is random
                             int item = new Random().nextInt(exits.size());
                             int i=0;
                             for (Maze.Direction d : exits) {
@@ -119,7 +125,11 @@ public abstract class Ghost extends Consumable implements IModel {
                 model.move(TUNNEL_SPEED, direction);
             } else {
                 if (mode == Mode.FRIGHTENED) {
-                    model.move(FRIGHTENED_SPEED, direction);
+                    if (alive) {
+                        model.move(FRIGHTENED_SPEED, direction);
+                    } else {
+                        if (!isHome()) model.move(RETREAT_SPEED, direction);
+                    }
                 } else {
                     model.move(speed, direction);
                 }
@@ -151,20 +161,22 @@ public abstract class Ghost extends Consumable implements IModel {
     }
 
     public void flash() {
-        flashing=true;
-        for (int i=0; i<6; i=i+2) {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    model.swapImage(frightened);
-                }
-            }, 250*i);
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    restoreImage();
-                }
-            }, 250*i+250);
+        if (alive) {
+            flashing = true;
+            for (int i = 0; i < 6; i = i + 2) {
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        model.swapImage(frightened);
+                    }
+                }, 250 * i);
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        restoreImage();
+                    }
+                }, 250 * i + 250);
+            }
         }
         timer.schedule(new TimerTask() {
             @Override
@@ -221,6 +233,7 @@ public abstract class Ghost extends Consumable implements IModel {
         switch (mode) {
             case SCATTER: p2 = scatter_target; break;
             case CHASE: p2 = chase_target; break;
+            case FRIGHTENED: p2 = home; break;
         }
         if (p2==null) return Double.MAX_VALUE;
         double a = Math.abs(p1.x-p2.x);

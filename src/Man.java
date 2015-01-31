@@ -64,17 +64,20 @@ public class Man implements IModel {
             else if (!exits.contains(direction))
                 direction = Maze.Direction.NONE;
             if (direction != Maze.Direction.NONE) {
-                model.reorient(direction);
-                model.move(SPEED, direction);
                 Point tile = model.getTile();
+                //tunnels
                 if (tile.x >= (maze.width()-1))
                     model.setTile(new Point(1, tile.y));
                 if (tile.x <= 0)
                     model.setTile(new Point(maze.width()-2, tile.y));
+                model.reorient(direction);
                 Dot dot = maze.dotAt(getTile());
                 if (dot != null) {
                     eat(dot);
                     maze.removeDot(dot);
+                    model.move(0, direction); //slow down while eating
+                } else {
+                    model.move(SPEED, direction);
                 }
             }
         }
